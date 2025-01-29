@@ -9,6 +9,7 @@
 **Languages**
 - Vue
 - NodeJS
+- CSS/SCSS
 
 # ✨ Design ✨
 [Figma - Sztojka Milán](https://www.figma.com/design/3cn4MyvbE0Tu59KtHSmrFr/Untitled?node-id=0-1&t=pQlUZ96SUX6tvnaB-1)
