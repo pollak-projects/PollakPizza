@@ -16,8 +16,8 @@
 
 ## How to install packages
 **Frontend:**
-- 1. npm init
-- 2. npm install
+- `1. npm init`
+- `2. npm install`
 
 **Backend:**
-- 1. npm install express
+- `1. npm install express`
