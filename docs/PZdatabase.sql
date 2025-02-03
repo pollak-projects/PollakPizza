@@ -1,4 +1,4 @@
-CREATE TABLE pizzak (
+CREATE TABLE pizzas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     price INT
@@ -36,19 +36,19 @@ CREATE TABLE rendeles (
     userPhone VARCHAR(50),
     finalPrice INT,
     FOREIGN KEY (userId) REFERENCES users(id),
-    FOREIGN KEY (pizzaId) REFERENCES pizzak(id),
+    FOREIGN KEY (pizzaId) REFERENCES pizzas(id),
     FOREIGN KEY (sizeId) REFERENCES size(id)
 );
 
-CREATE TABLE rendelesdone (
-    rendelesId INT,
+CREATE TABLE orderDone (
+    orderId INT,
     startDate DATE,
-    FOREIGN KEY (rendelesId) REFERENCES rendeles(id)
+    FOREIGN KEY (orderId) REFERENCES rendeles(id)
 );
 
-CREATE TABLE rendelestops (
-    rendelesId INT,
+CREATE TABLE orderTops (
+    orderId INT,
     toppingId INT,
-    FOREIGN KEY (rendelesId) REFERENCES rendeles(id),
+    FOREIGN KEY (orderId) REFERENCES rendeles(id),
     FOREIGN KEY (toppingId) REFERENCES toppings(id)
 );
