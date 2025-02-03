@@ -1,17 +1,23 @@
-/**
- * router/index.ts
- *
- * Automatic routes for `./src/pages/*.vue`
- */
+import { createRouter, createWebHistory } from 'vue-router'
+import HomePage from '@/pages/index.vue'
+import Login from '@/pages/Login.vue'
 
-// Composables
-import { createRouter, createWebHistory } from 'vue-router/auto'
-import { setupLayouts } from 'virtual:generated-layouts'
-import { routes } from 'vue-router/auto-routes'
+const routes = [
+  {
+    path: '/',
+    name: 'HomePage',
+    component: HomePage,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: setupLayouts(routes),
+  routes,
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
@@ -27,6 +33,13 @@ router.onError((err, to) => {
   } else {
     console.error(err)
   }
+})
+
+// Navigation guard to check for authentication
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('token'); // Check if token exists
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  else next()
 })
 
 router.isReady().then(() => {
