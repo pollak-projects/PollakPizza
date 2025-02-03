@@ -14,21 +14,23 @@ const handleLogin = async () => {
       email: registemail.value,
       password: registpassword.value
     })
+
     console.log('Login successful:', response.data)
-    router.push('/home')  // Itt átirányítunk a főoldalra
+
+    // Token tárolása a localStorage-ban (vagy sessionStorage)
+    localStorage.setItem('token', response.data.token)
+
+    // Átirányítás a főoldalra
+    router.push('/')
   } catch (error) {
     console.error('Login failed:', error.response ? error.response.data : error.message)
   }
 }
 
-
 // Navigate to register page
 const goToRegister = () => {
   router.push('/register')
 }
-
-
-
 </script>
 
 <template>
