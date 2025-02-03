@@ -1,3 +1,4 @@
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -13,17 +14,19 @@ const handleLogin = async () => {
     const response = await axios.post('http://localhost:3061/login', {
       email: registemail.value,
       password: registpassword.value
-    })
+    });
+    localStorage.setItem('token', response.data.token); // Store token
+    router.push({ name: 'HomePage' }); // Redirect to homepage
 
-    console.log('Login successful:', response.data)
-
-    // Token tárolása a localStorage-ban (vagy sessionStorage)
-    localStorage.setItem('token', response.data.token)
-
-    // Átirányítás a főoldalra
-    router.push('/')
+    // Token törlése 1 perc után
+    setTimeout(() => {
+      localStorage.removeItem('token');
+      alert('A token lejárt, kérjük jelentkezz be újra!');
+      router.push({ name: 'Login' }); // Redirect to login page
+    }, 600000); // 6000000 ms = 10 perc
   } catch (error) {
-    console.error('Login failed:', error.response ? error.response.data : error.message)
+    console.error('Login error:', error);
+    alert('Login failed!');
   }
 }
 
