@@ -38,100 +38,99 @@ db.connect((err) => {
 
 // Regisztrációs route
 app.post('/register', async (req, res) => {
-    const { name, email, password, birthdate, address, phonenumber } = req.body;
-  
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email és jelszó szükséges!' });
-    }
-  
-    console.log('Received data:', req.body);  // Debugging: Nyomtasd ki a beérkezett adatokat
-  
-    // Ellenőrizzük, hogy létezik-e már a felhasználó
-    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-      if (err) {
-        console.error('MySQL query error:', err);  // Log the error
-        return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
-      }
-      if (results.length > 0) {
-        return res.status(400).json({ message: 'Ez az email már regisztrálva van!' });
-      }
-  
-      // Jelszó titkosítása
-      try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        console.log('Password hashed:', hashedPassword);  // Debugging: Nyomtasd ki a titkosított jelszót
-  
-        // Új felhasználó hozzáadása az adatbázishoz
-        db.query('INSERT INTO users (name, email, password, birthdate, address, phonenumber) VALUES (?, ?, ?, ?, ?, ?)', 
-          [name, email, hashedPassword, birthdate, address, phonenumber], (err, results) => {
-          if (err) {
-            console.error('MySQL insert error:', err);  // Log the error
-            return res.status(500).json({ message: 'Hiba a felhasználó hozzáadása során.' });
-          }
-          res.status(201).json({ message: 'Sikeres regisztráció!' });
-        });
-      } catch (err) {
-        console.error('Error hashing password:', err);  // Log error if password hashing fails
-        return res.status(500).json({ message: 'Hiba a jelszó titkosítása során.' });
-      }
-    });
-  });
-  
+  const { name, email, password, birthdate, address, phonenumber } = req.body;
 
-  // Bejelentkezési route módosítása
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email és jelszó szükséges!' });
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email és jelszó szükséges!' });
+  }
+
+  console.log('Received data:', req.body);  // Debugging: Nyomtasd ki a beérkezett adatokat
+
+  // Ellenőrizzük, hogy létezik-e már a felhasználó
+  db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+    if (err) {
+      console.error('MySQL query error:', err);  // Log the error
+      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
     }
-  
-    console.log('Received data:', req.body);  // Debugging: Nyomtasd ki a beérkezett adatokat
-  
-    // Ellenőrizzük, hogy létezik-e már a felhasználó
-    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-      if (err) {
-        console.error('MySQL query error:', err);  // Log the error
-        return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
-      }
-      if (results.length > 0) {
-        // Itt bcrypt-ot kellene használni a jelszó összehasonlításához
-        const isMatch = await bcrypt.compare(password, results[0].password);
-        if (isMatch) {
-          // JWT token generálása
-          const payload = { email: results[0].email, id: results[0].id };
-          const token = jwt.sign(payload, 'secret_key', { expiresIn: '1m' });  // A token 10 perc után lejár
-  
-          return res.status(200).json({
-            message: 'Sikeres bejelentkezés!',
-            token,  // A token visszaküldése a kliensnek
-          });
-        } else {
-          return res.status(400).json({ message: 'Hibás jelszó!' });
+    if (results.length > 0) {
+      return res.status(400).json({ message: 'Ez az email már regisztrálva van!' });
+    }
+
+    // Jelszó titkosítása
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log('Password hashed:', hashedPassword);  // Debugging: Nyomtasd ki a titkosított jelszót
+
+      // Új felhasználó hozzáadása az adatbázishoz
+      db.query('INSERT INTO users (name, email, password, birthdate, address, phonenumber) VALUES (?, ?, ?, ?, ?, ?)', 
+        [name, email, hashedPassword, birthdate, address, phonenumber], (err, results) => {
+        if (err) {
+          console.error('MySQL insert error:', err);  // Log the error
+          return res.status(500).json({ message: 'Hiba a felhasználó hozzáadása során.' });
         }
-      }
-      return res.status(400).json({ message: 'Ez az email még nincs regisztrálva!' });
-    });
-  });
-  
-  const authMiddleware = (req, res, next) => {
-    const token = req.headers['authorization'];
-  
-    if (!token) {
-      return res.status(403).json({ message: 'Nincs érvényes token!' });
+        res.status(201).json({ message: 'Sikeres regisztráció!' });
+      });
+    } catch (err) {
+      console.error('Error hashing password:', err);  // Log error if password hashing fails
+      return res.status(500).json({ message: 'Hiba a jelszó titkosítása során.' });
     }
-  
-    // A token érvényesítése
-    jwt.verify(token, 'secret_key', (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ message: 'Hibás token!' });
+  });
+});
+
+// Bejelentkezési route
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email és jelszó szükséges!' });
+  }
+
+  console.log('Received data:', req.body);  // Debugging: Nyomtasd ki a beérkezett adatokat
+
+  // Ellenőrizzük, hogy létezik-e már a felhasználó
+  db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+    if (err) {
+      console.error('MySQL query error:', err);  // Log the error
+      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
+    }
+    if (results.length > 0) {
+      // Itt bcrypt-ot kellene használni a jelszó összehasonlításához
+      const isMatch = await bcrypt.compare(password, results[0].password);
+      if (isMatch) {
+        // JWT token generálása
+        const payload = { email: results[0].email, id: results[0].id };
+        const token = jwt.sign(payload, 'secret_key', { expiresIn: '1m' });  // A token 1 perc után lejár
+        console.log('Generated token:', token);  // Debugging: Nyomtasd ki a generált tokent
+
+        return res.status(200).json({
+          message: 'Sikeres bejelentkezés!',
+          token,  // A token visszaküldése a kliensnek
+        });
+      } else {
+        return res.status(400).json({ message: 'Hibás jelszó!' });
       }
-      req.user = decoded;  // A decoded információ elérhető lesz a következő route-okban
-      next();
-    });
-  };
+    }
+    return res.status(400).json({ message: 'Ez az email még nincs regisztrálva!' });
+  });
+});
 
+const authMiddleware = (req, res, next) => {
+  const token = req.headers['authorization'];
 
+  if (!token) {
+    return res.status(403).json({ message: 'Nincs érvényes token!' });
+  }
+
+  // A token érvényesítése
+  jwt.verify(token, 'secret_key', (err, decoded) => {
+    if (err) {
+      console.error('Token verification error:', err);  // Debugging: Nyomtasd ki a token érvényesítése során kapott hibát
+      return res.status(403).json({ message: 'Hibás token!' });
+    }
+    req.user = decoded;  // A decoded információ elérhető lesz a következő route-okban
+    next();
+  });
+};
 
 // Védett route például a profil lekéréséhez
 app.get('/profile', authMiddleware, (req, res) => {
@@ -146,7 +145,10 @@ app.get('/profile', authMiddleware, (req, res) => {
   });
 });
 
-  
+// Védett route a homepage eléréséhez
+app.get('/homepage', authMiddleware, (req, res) => {
+  res.status(200).json({ message: 'Üdvözlünk a Homepage-en!' });
+});
 
 // Szerver indítása
 const port = 3061;
