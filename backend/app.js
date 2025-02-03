@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 // Express alkalmazás inicializálása
 const app = express();
@@ -77,7 +78,8 @@ app.post('/register', async (req, res) => {
   });
   
 
-  app.post('/login', async (req, res) => {
+  // Bejelentkezési route módosítása
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
   
     if (!email || !password) {
@@ -96,7 +98,14 @@ app.post('/register', async (req, res) => {
         // Itt bcrypt-ot kellene használni a jelszó összehasonlításához
         const isMatch = await bcrypt.compare(password, results[0].password);
         if (isMatch) {
-          return res.status(200).json({ message: 'Sikeres bejelentkezés!' });
+          // JWT token generálása
+          const payload = { email: results[0].email, id: results[0].id };
+          const token = jwt.sign(payload, 'secret_key', { expiresIn: '1m' });  // A token 10 perc után lejár
+  
+          return res.status(200).json({
+            message: 'Sikeres bejelentkezés!',
+            token,  // A token visszaküldése a kliensnek
+          });
         } else {
           return res.status(400).json({ message: 'Hibás jelszó!' });
         }
@@ -104,6 +113,39 @@ app.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Ez az email még nincs regisztrálva!' });
     });
   });
+  
+  const authMiddleware = (req, res, next) => {
+    const token = req.headers['authorization'];
+  
+    if (!token) {
+      return res.status(403).json({ message: 'Nincs érvényes token!' });
+    }
+  
+    // A token érvényesítése
+    jwt.verify(token, 'secret_key', (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ message: 'Hibás token!' });
+      }
+      req.user = decoded;  // A decoded információ elérhető lesz a következő route-okban
+      next();
+    });
+  };
+
+
+
+// Védett route például a profil lekéréséhez
+app.get('/profile', authMiddleware, (req, res) => {
+  // A felhasználó adatainak lekérése a decoded token alapján
+  const userId = req.user.id;
+
+  db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
+    }
+    res.status(200).json(results[0]);
+  });
+});
+
   
 
 // Szerver indítása
