@@ -1,15 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
 // Router
 const router = useRouter();
-const route = useRoute();
 
-// State for managing login status
+// Állapot a token meglétének kezelésére
 const isLoggedIn = ref(false);
 
-// Check if there is a token in localStorage
+// Ellenőrizzük, hogy van-e token a localStorage-ban
 onMounted(() => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -17,21 +16,21 @@ onMounted(() => {
   }
 });
 
-// Login logic
+// Bejelentkezés logika
 const handleLogin = () => {
   router.push("/login");
 };
 
-// Navigate to profile page
+// Profil oldalra navigálás
 const goToProfile = () => {
   router.push("/profile");
 };
 
-// Logout logic
+// Kijelentkezés
 const handleLogout = () => {
   localStorage.removeItem("token");
   isLoggedIn.value = false;
-  router.push("/login");
+  router.push("/login"); // Átirányítás a bejelentkező oldalra
 };
 </script>
 
@@ -44,19 +43,9 @@ const handleLogout = () => {
       </div>
     </div>
     <div class="nav-links">
-      <!-- Use <router-link> for navigation and active class binding -->
-      <router-link to="/" :class="{ active: route.path === '/' }"
-        >Kezdőlap</router-link
-      >
-      <router-link to="/Menu" :class="{ active: route.path === '/Menu' }"
-        >Pizzák</router-link
-      >
-      <router-link
-        to="/Order"
-        :class="{ active: route.path === '/Order' }"
-        class="right"
-        >Rendelés</router-link
-      >
+      <a> Pizzák </a>
+      <a> Kezdőlap </a>
+      <a> Rendelés </a>
     </div>
     <img src="../assets/image/user (2).png" alt="user img" class="profileimg" />
   </nav>
@@ -67,24 +56,20 @@ const handleLogout = () => {
   width: 2%;
   height: 2%;
 }
-
 .pl {
   padding-left: 2dvw;
   font-weight: bold;
   padding-right: 3dvw;
 }
-
 .flex {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .flex p {
   font-size: 30px;
 }
-
-/* Navbar styles */
+/* Stílusok a navbar-hoz */
 .navbar {
   display: flex;
   justify-content: center;
@@ -97,8 +82,8 @@ const handleLogout = () => {
 .nav-links {
   display: flex;
   gap: 15px;
-  padding-left: 38%;
-  padding-right: 2%;
+  padding-right: 43%;
+  padding-left: 28%;
 }
 
 button {
@@ -117,18 +102,5 @@ button:hover {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-}
-
-/* Add styles for active link */
-.nav-links a,
-.nav-links .router-link-active {
-  color: white;
-  text-decoration: none;
-}
-
-.nav-links .active {
-  font-weight: bold;
-  color: #f1f1f1;
-  border-bottom: 2px solid #f1f1f1; /* Example active link styling */
 }
 </style>
