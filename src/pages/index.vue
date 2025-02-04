@@ -1,8 +1,8 @@
 <template>
-  <Navbar/>
-  <HomePage/>
+  <Navbar />
+  <HomePage />
 </template>
 
 <script setup>
-  //
+//
 </script>

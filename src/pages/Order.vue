@@ -1,0 +1,4 @@
+<template>
+  <navbar />
+  <OrderPage />
+</template>

@@ -1,4 +1,4 @@
 <template>
-    <Navbar/>
+
     <registerPage/>
 </template>
