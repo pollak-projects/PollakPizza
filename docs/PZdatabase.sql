@@ -27,7 +27,7 @@ CREATE TABLE users (
     phonenumber VARCHAR(50)
 );
 
-CREATE TABLE rendeles (
+CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     userId INT,
     pizzaId INT,
