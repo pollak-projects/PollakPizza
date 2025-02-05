@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/index.vue'
 import Login from '@/pages/Login.vue'
+import Register from '@/pages/Register.vue'
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     name: 'Login',
     component: Login,
   },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+  }
 ]
 
 const router = createRouter({
@@ -38,7 +44,7 @@ router.onError((err, to) => {
 // Navigation guard to check for authentication
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('token'); // Check if token exists
-  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  if (to.name !== 'Login' && to.name !== 'Register' && !isAuthenticated) next({ name: 'Login' })
   else next()
 })
 
