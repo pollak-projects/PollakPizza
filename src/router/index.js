@@ -3,6 +3,7 @@ import HomePage from '@/pages/index.vue'
 import Login from '@/pages/Login.vue'
 import Register from '@/pages/Register.vue'
 import Menu from '@/pages/Menu.vue'
+import Order from '@/pages/Order.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/menu',
     name: 'Menu',
     component: Menu,
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: Order,
   }
 ]
 
