@@ -58,14 +58,14 @@ const handleLogout = () => {
         >Rendelés</router-link
       >
     </div>
-    <img src="../assets/image/user (2).png" alt="user img" class="profileimg" />
+    <img src="../assets/image/usericon.png" alt="user img" class="profileimg" />
   </nav>
 </template>
 
 <style scoped>
 .profileimg {
-  width: 2%;
-  height: 2%;
+  width: 2dvw;
+  height: 2dvw;
 }
 
 .pl {
