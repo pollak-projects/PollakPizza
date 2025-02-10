@@ -60,12 +60,16 @@ import hawaiiImage from '@/assets/image/hawaii.jpg';
 
   
       <section class="hero">
-        <div class="hero-content">
-          <h2>A legfinomabb pizzák várnak rád!</h2>
-          <p>Válassz a kedvenc pizzáid közül, és rendelj online gyorsan!</p>
-          <button @click="scrollToMenu">Nézd meg a menüt!</button>
-        </div>
-      </section>
+    <div class="hero-content">
+      <div class="text-content">
+        <h2>Pollak Pizza Home</h2>
+        <p>Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br> pizzák otthonra</p>
+        <button @click="scrollToMenu">Rendelj most</button>
+        <button>Irány az étlap</button>
+      </div>
+      <img src="../assets/image/pizzaimg.png" alt="">
+    </div>
+  </section>
   
       <section id="menu" class="menu">
         <h2>Menü</h2>
@@ -114,7 +118,6 @@ import hawaiiImage from '@/assets/image/hawaii.jpg';
     img{
         max-height: 185px;
         border-radius: 30px;
-        border: grey solid 2px;
     }
     .home {
         padding-bottom: 5dvw;
@@ -156,13 +159,28 @@ import hawaiiImage from '@/assets/image/hawaii.jpg';
       display: flex;
       justify-content: center;
       align-items: center;
-      text-align: center;
+      text-align: left;
       color: #fff;
     }
-  
+    .hero-content img {
+    flex: 0 0 auto;
+    margin-left: 20px;
+    width: 40%;
+    height: 40%;
+    }
+    .text-content {
+    flex: 1;
+    }
+    .hero-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    }
     .hero h2 {
       font-size: 36px;
       margin-bottom: 20px;
+      text-align: center;
     }
   
     .hero p {
