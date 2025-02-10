@@ -1,5 +1,4 @@
 <template>
 
     <LoginPage/>
-    <FooterPage/>
 </template>

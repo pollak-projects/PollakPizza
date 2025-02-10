@@ -1,9 +1,7 @@
-<script></script>
-
 <template>
-  <footer class="bg-orange-400 text-brown-700 py-4 text-center flex flex-col items-center px-8">
+  <footer class="bg-orange-400 text-brown-700 py-4 text-center flex flex-col items-center px-8 relative">
     <div class="flex justify-between w-full items-center">
-      <div class="flex gap-8 items-center">
+      <div class="flex gap-8 items-center ml-4">
         <div class="flex-shrink-0">
           <h3 class="font-bold">Elérhetőség:</h3>
           <p>+36 30 123 4567</p>
@@ -13,10 +11,13 @@
           <p>Szerda - Vasárnap | 11:11 - 22:22</p>
         </div>
       </div>
-      <div class="w-full text-center mt-4">
-      <p class="text-sm">Copyright &copy; Vizsgaremek 2024</p>
-    </div>
-      <div class="flex gap-8 items-center">
+
+      <!-- Copyright szöveg középre igazítva, a képernyő közepén -->
+      <div class="copyright-text">
+        <p class="text-sm">Copyright &copy; Vizsgaremek 2024</p>
+      </div>
+
+      <div class="flex gap-8 items-center ml-auto">
         <div>
           <p>Ha a pizzánk levettek a lábadról, akkor kövess be minket:</p>
           <img src="../assets/image/facebook.png" alt="Facebook" class="icon">
@@ -44,15 +45,15 @@ export default {
   display: flex;
 }
 .gap-8 {
-  gap: 2rem; /* Adjust the gap as needed */
+  gap: 2rem;
 }
 .items-center {
   align-items: center;
 }
 .icon {
-  width: 24px; /* Adjust the size as needed */
-  height: 24px; /* Adjust the size as needed */
-  margin-left: 8px; /* Adjust the spacing as needed */
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
 }
 .w-full {
   width: 100%;
@@ -67,6 +68,28 @@ export default {
   white-space: nowrap;
 }
 .ml-8 {
-  margin-left: 2rem; /* Adjust the margin as needed */
+  margin-left: 2rem;
+}
+.ml-4 {
+  margin-left: 1rem;
+}
+.ml-auto {
+  margin-left: auto;
+}
+
+.relative {
+  position: relative;
+}
+
+.copyright-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.icon {
+  cursor: pointer;
 }
 </style>
