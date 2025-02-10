@@ -5,41 +5,71 @@ import axios from "axios";
 
 const registemail = ref("");
 const registpassword = ref("");
+const birthDate = ref(""); // Születési dátum
+const phoneNumber = ref(""); // Telefonszám
+const address = ref(""); // Cím
+const name = ref(""); // Név
+
 const router = useRouter();
+const isLoading = ref(false);
 
 // Handle login logic here
 const handleLogin = async () => {
   try {
+    isLoading.value = true;
     const response = await axios.post("http://localhost:3061/login", {
       email: registemail.value,
       password: registpassword.value,
     });
-    localStorage.setItem("token", response.data.token); // Store token
-    router.push({ name: "HomePage" }); // Redirect to homepage
+    localStorage.setItem("token", response.data.token);
+    router.push({ name: "HomePage" });
 
-    // Token törlése 1 perc után
     setTimeout(() => {
       localStorage.removeItem("token");
       alert("A token lejárt, kérjük jelentkezz be újra!");
-      router.push({ name: "Login" }); // Redirect to login page
-    }, 600000); // 6000000 ms = 10 perc
+      router.push({ name: "Login" });
+    }, 600000); // 600000 ms = 10 perc
   } catch (error) {
     console.error("Login error:", error);
-    alert("Login failed!");
+    alert(
+      `Login failed: ${
+        error.response ? error.response.data.message : error.message
+      }`
+    );
+  } finally {
+    isLoading.value = false;
   }
 };
 
-// Navigate to register page
-const goToRegister = () => {
-  router.push("/register");
+// Handle sign-up logic here
+const handleSignUp = async () => {
+  try {
+    isLoading.value = true; // Set loading to true
+    const response = await axios.post("http://localhost:3061/register", {
+      name: "John Doe", // Töltsd ki a megfelelő adatokat a formból
+      birthDate: "1337-12-30",
+      phone: "+36301234567",
+      email: registemail.value,
+      address: "Szentes, Apponyi tér 1, 6600",
+      password: registpassword.value,
+    });
+
+    // Ha sikerült a regisztráció, pl. egy üzenetet jeleníthetünk meg
+    console.log("Regisztráció sikeres:", response.data);
+    alert("Sikeres regisztráció!");
+
+    // Visszairányítjuk a felhasználót a bejelentkezéshez
+    router.push({ name: "Login" });
+  } catch (error) {
+    console.error("Regisztráció hiba:", error);
+    // Hiba esetén megjeleníthetünk egy üzenetet a felhasználónak
+    alert("Hiba történt a regisztráció során! Kérjük próbálja újra.");
+  } finally {
+    isLoading.value = false; // Set loading to false after operation
+  }
 };
 
-//Betöltés, még nem jó
-function loadIn() {
-  document.getElementById("container").classList.add("loaded");
-}
-
-//Kezelőfelület
+// Handle panel switching logic here
 function signUp() {
   document.getElementById("container").classList.add("right-panel-active");
   document.getElementById("hideDiv").classList.add("hidden");
@@ -51,7 +81,7 @@ function signIn() {
 }
 
 onMounted(() => {
-  loadIn();
+  document.getElementById("container").classList.add("loaded");
 });
 </script>
 
@@ -59,51 +89,68 @@ onMounted(() => {
   <body id="body">
     <div class="container loaded" id="container">
       <div class="form-container sign-up-container">
-        <form action="#">
+        <form @submit.prevent="handleSignUp">
           <h1 class="regH1">REGISZTRÁCIÓ</h1>
-
           <div class="row">
             <div class="col-sm-6">
               <label>Név</label>
-              <input type="text" placeholder="John Doe" />
+              <input type="text" v-model="name" placeholder="John Doe" />
             </div>
 
             <div class="col-sm-6">
               <label>Születési Dátum</label>
-              <input
-                type="text"
-                onfocus="(this.type='date')"
-                placeholder="1337.12.30"
-              />
+              <input type="date" v-model="birthDate" />
             </div>
 
             <div class="col-sm-6">
               <label>Jelszó</label>
-              <input type="password" placeholder="password" />
+              <input
+                type="password"
+                v-model="registpassword"
+                placeholder="password"
+              />
             </div>
 
             <div class="col-sm-6">
               <label>Telefonszám</label>
-              <input type="text" placeholder="+36301234567" />
+              <input type="text" v-model="phoneNumber" placeholder="+36301234567" />
             </div>
           </div>
           <label>Email</label>
-          <input type="email" placeholder="example@pollakpizza.hu" />
+          <input
+            type="email"
+            v-model="registemail"
+            placeholder="example@pollakpizza.hu"
+          />
           <label>Cím</label>
-          <input type="text" placeholder="Szentes, Apponyi tér 1, 6600" />
-          <button class="login">REGISZTRÁCIÓ</button>
+          <input
+            type="text"
+            v-model="address"
+            placeholder="Szentes, Apponyi tér 1, 6600"
+          />
+          <button class="login" type="submit" :disabled="isLoading">
+            REGISZTRÁCIÓ
+          </button>
         </form>
       </div>
 
       <div class="form-container sign-in-container" id="hideDiv">
-        <form action="#">
+        <form action="#" @submit.prevent="handleLogin">
           <h1 class="loginH1">BEJELENTKEZÉS</h1>
           <label>Email</label>
-          <input type="email" placeholder="example@org.com" />
+          <input
+            type="email"
+            v-model="registemail"
+            placeholder="example@org.com"
+          />
           <label>Jelszó</label>
-          <input type="password" placeholder="password" />
+          <input
+            type="password"
+            v-model="registpassword"
+            placeholder="password"
+          />
           <a href="#" class="forgotPassword">Elfelejtette a jelszavát?</a>
-          <button class="login">BEJELENTKEZÉS</button>
+          <button class="login" :disabled="isLoading">BEJELENTKEZÉS</button>
         </form>
       </div>
 
