@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/index.vue'
 import Login from '@/pages/Login.vue'
-import Register from '@/pages/Register.vue'
 import Menu from '@/pages/Menu.vue'
 import Order from '@/pages/Order.vue'
 
@@ -15,11 +14,6 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register,
   },
   {
     path: '/menu',
@@ -42,26 +36,31 @@ const router = createRouter({
 router.onError((err, to) => {
   if (err?.message?.includes?.('Failed to fetch dynamically imported module')) {
     if (!localStorage.getItem('vuetify:dynamic-reload')) {
-      console.log('Reloading page to fix dynamic import error')
-      localStorage.setItem('vuetify:dynamic-reload', 'true')
-      location.assign(to.fullPath)
+      console.log('Reloading page to fix dynamic import error');
+      localStorage.setItem('vuetify:dynamic-reload', 'true');
+      location.assign(to.fullPath); // Újratöltés
     } else {
-      console.error('Dynamic import error, reloading page did not fix it', err)
+      console.error('Dynamic import error, reloading page did not fix it', err);
     }
   } else {
-    console.error(err)
+    console.error(err);
   }
-})
+});
 
 // Navigation guard to check for authentication
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('token'); // Check if token exists
-  if (to.name !== 'Login' && to.name !== 'Register' && !isAuthenticated) next({ name: 'Login' })
-  else next()
-})
+  const isAuthenticated = !!localStorage.getItem('token'); // Autentikáció ellenőrzése
+
+  // Ha nem bejelentkezett és nem a bejelentkező oldalra próbál menni
+  if (to.name !== 'Login' && !isAuthenticated) {
+    next({ name: 'Login' }); // Átirányítás a bejelentkezéshez
+  } else {
+    next(); // Minden más esetben folytatás
+  }
+});
 
 router.isReady().then(() => {
-  localStorage.removeItem('vuetify:dynamic-reload')
-})
+  localStorage.removeItem('vuetify:dynamic-reload');
+});
 
 export default router
