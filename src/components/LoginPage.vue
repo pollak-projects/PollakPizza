@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 
@@ -33,182 +33,391 @@ const handleLogin = async () => {
 const goToRegister = () => {
   router.push("/register");
 };
+
+//Betöltés, még nem jó
+function loadIn() {
+	document.getElementById('container').classList.add('loaded');
+}
+
+//Kezelőfelület
+function signUp() {
+  document.getElementById('container').classList.add("right-panel-active");
+  document.getElementById('hideDiv').classList.add('hidden');
+}
+
+function signIn() {
+  document.getElementById('container').classList.remove("right-panel-active");
+  document.getElementById('hideDiv').classList.remove('hidden');
+}
+
+onMounted(() => {
+	loadIn()
+})
+
 </script>
 
 <template>
-  <div class="container">
-    <div class="login-card">
-      <div class="login-left">
-        <h2 class="title">BEJELENTKEZÉS</h2>
-        <form @submit.prevent="handleLogin">
-          <div class="input-group">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Írja be az emailjét"
-              v-model="registemail"
-            />
-          </div>
-          <div class="input-group">
-            <label for="password">Jelszó</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Írja be jelszavát"
-              v-model="registpassword"
-            />
-          </div>
-          <button type="submit" class="primary-btn">BEJELENTKEZÉS</button>
-        </form>
+<body id="body">
+  <div class="container loaded" id="container">
+	<div class="form-container sign-up-container">
+		<form action="#">
+			<h1 class="regH1">REGISZTRÁCIÓ</h1>
+      
+      <div class="row">
+        
+        <div class="col-sm-6">
+          <label>Név</label>
+			    <input type="text" placeholder="John Doe"/>
+        </div>
+        
+        <div class="col-sm-6">
+          <label>Születési Dátum</label>
+			    <input type="text" onfocus="(this.type='date')"
+ placeholder="1337.12.30"/>
+        </div>
+        
+        <div class="col-sm-6">
+          <label>Jelszó</label>
+			    <input type="password" placeholder="password"/>
+        </div>
+        
+        <div class="col-sm-6">
+          <label>Telefonszám</label>
+          <input type="text" placeholder="+36301234567"/>
+        </div>
+        
       </div>
-      <div class="login-right">
-        <p class="rgtxt">Nincs fiókod?</p>
-        <button @click="goToRegister" class="secondary-btn">
-          REGISZTRÁCIÓ
-        </button>
-      </div>
-    </div>
-  </div>
+      <label>Email</label>
+			<input type="email" placeholder="example@pollakpizza.hu" />
+      <label>Cím</label>
+			<input type="text" placeholder="Szentes, Apponyi tér 1, 6600" />
+			<button class="login">REGISZTRÁCIÓ</button>
+		</form>
+	</div>
+  
+	<div class="form-container sign-in-container" id="hideDiv">
+		<form action="#">
+			<h1 class="loginH1">BEJELENTKEZÉS</h1>
+      <label>Email</label>
+			<input type="email" placeholder="example@org.com" />
+      <label>Jelszó</label>
+			<input type="password" placeholder="password" />
+			<a href="#" class="forgotPassword">Elfelejtette a jelszavát?</a>
+			<button class="login">BEJELENTKEZÉS</button>
+		</form>
+	</div>
+  
+	<div class="overlay-container">
+		<div class="overlay">
+      
+			<div class="overlay-panel overlay-left" id="hideDiv">
+				<h1 class="textDark mg-b-5">Már van fiókod?</h1>
+				<button class="register" id="signIn" @click="signIn()">BEJELENTKEZÉS</button>
+			</div>
+      
+			<div class="overlay-panel overlay-right">
+				<h1 class="textDark mg-b-5">Nincs fiókod?</h1>
+				<button class="register" id="signUp" @click="signUp()">REGISZTRÁCIÓ</button>
+			</div>
+      
+		</div>
+	</div>
+  
+</div>
+</body>
 </template>
 
 <style scoped>
-.title {
-  font-size: 2vw;
-  margin-bottom: 2dvw;
-  color: white;
-  font-weight: bold;
-}
-.rgtxt {
-  font-size: 2dvw;
-  color: rgb(240, 160, 55);
-  font-weight: bold;
-}
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: url("../assets/image/bgimgblr.png") no-repeat center center/cover;
-  position: relative;
-  flex-direction: column;
-  padding: 20px;
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+* {
+	box-sizing: border-box;
+  font-family: "Lato";
+  font-weight: bolder;
 }
 
-.container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: inherit;
-  filter: blur(8px);
-  z-index: -1;
+body {
+	background: url("../assets/image/pizza-oven-dark.jpg");
+  	background-size: cover;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100vh;
+	margin: -20px 0 50px;
 }
 
-.login-card {
-  display: flex;
-  backdrop-filter: blur(10px);
-  border: rgb(245, 159, 38) 3px solid;
-  height: 70%;
-  width: 70%;
-  border-radius: 50px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.login-left,
-.login-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.login-left {
-  background-color: rgba(253, 183, 84, 0.562);
-  color: white;
-}
-.login-left label {
-  font-size: 20px;
-  margin-left: 18px;
-  margin-top: 20px;
-  color: white;
-}
-.login-right {
-  background: radial-gradient(
-    circle,
-    rgb(228, 216, 194) 20%,
-    rgba(248, 200, 120, 0.9) 60%,
-    rgb(240, 160, 55) 100%
-  );
-  color: #d35400;
-}
-::placeholder {
-  color: gray;
-  padding-left: 3px;
-}
-.input-group input {
-  width: 100%;
-  padding: 3px 12px; /* Increased padding */
-  border: none;
-  border-radius: 50px;
-  border: 2px solid white;
-  font-size: 18px; /* Larger font size */
-  box-sizing: border-box; /* Ensure padding doesn't affect width */
-  min-height: 50px; /* Minimum height */
-}
-
-/* Optional: Add focus effects */
-.input-group input:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(245, 159, 38, 0.3);
-  transition: all 0.3s ease;
-}
-
-.primary-btn,
-.secondary-btn {
-  background: rgb(247, 173, 69); /* Halvány arany háttér */
-  color: #f0f0f0;
-  border: none;
-  padding: 10px 38px; /* Nagyobb padding a gomb méretének növeléséhez */
-  font-size: 18px; /* Nagyobb betűméret */
-  border-radius: 200px;
-  cursor: pointer;
-  text-transform: uppercase; /* Szöveg nagybetűssé tétele */
-  font-weight: bold; /* Félkövér szöveg */
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-  width: auto;
-  transition: background-color 0.3s ease; /* Sima átmenet a hover effekthez */
-  box-shadow: 3px 5px 15px rgb(58, 58, 58);
-}
-
-.primary-btn {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.3);
-  color: white;
-  padding: 12px 200px;
+.login {
+  height: 10%;
+  background-color: rgba(255, 236, 210, 0.3);
+  border: 4px solid #FFECD2;
+  color: #FFECD2;
+  width: 50%;
+  font-weight: bolder;
   font-size: 16px;
-  border-radius: 200px;
-  cursor: pointer;
-  margin-top: 3dvw;
-  text-align: center;
-  border: 3px solid white;
+  border-radius: 90px;
+  box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-.primary-btn:hover {
-  background: rgb(236, 163, 53);
+
+.login:hover {
+  background-color: #FFECD2;
+  color: #9B6600;
 }
-.secondary-btn {
-  background-color: rgb(240, 160, 55);
-  color: white;
+
+.register {
+  height: 10%;
+  background-color: #F7AD45;
+  border: 4px solid #F7AD45;
+  border-radius: 90px;
+  color: #FFECD2;
+  font-weight: bolder;
+  font-size: 16px;
+  width: 50%;
+  box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-.secondary-btn:hover {
-  background: rgb(207, 123, 6);
+
+.col-sm-6 {
+  flex: 0 0 auto;
+  width: 50%;
+  padding: 4px;
+}
+
+.row {
+  --bs-gutter-x: 1rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(-1 * var(--bs-gutter-y));
+  margin-right: calc(-.5 * var(--bs-gutter-x));
+  margin-left: calc(-.5 * var(--bs-gutter-x));
+}
+
+.register:hover {
+  background-color: #e19325;
+  border: 4px solid #e19325;
+}
+
+h1 {
+	font-weight: bold;
+	margin: 0;
+  color: #FFF1D7;
+}
+
+.loginH1 {
+  margin-bottom: 30px;
+}
+
+.regH1 {
+  margin-bottom: 30px;
+}
+
+.forgotPassword {
+  margin-top: 50px;
+}
+
+.textDark {
+  color: #F7AD45;
+}
+
+a {
+	color: #FFF1D7;
+	font-size: 14px;
+	text-decoration: none;
+	margin: 15px 0;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+form {
+	background: radial-gradient(circle, rgba(249,164,46,1) 0%, rgba(247,173,69,0.8) 100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 90px;
+	height: 100%;
+	text-align: center;
+}
+
+input {
+  background-color: rgba(255, 255, 255, 0);
+	width: 100%;
+  padding: 12px;
+  border: 2px solid #FFF1D7;
+  border-radius: 25px;
+  color: #FFF1D7;
+  font-weight: bolder;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+input:focus {
+  outline: none;
+  border-color: rgb(209, 209, 209);
+}
+
+input::placeholder{
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: bolder;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%);
+}
+
+label {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 5px;
+  display: flex;
+  color: #FFF1D7;
+  font-weight: bold;
+  align-self: start;
+  flex-direction: start;
+  margin-left: 15px;
+}
+
+.container {
+	background-color: radial-gradient(circle, rgba(249,164,46,1) 0%, rgba(247,173,69,0.8) 100%);
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  	border-radius: 45px;
+	position: relative;
+	overflow: hidden;
+  	/*a kezelofelulet merete itt allithato*/
+	width: 1200px;
+  	height: 600px;
+	max-width: 100%;
+	min-height: 480px;
+	/*Betöltés effekt*/
+	opacity: 0;
+  	transition: opacity 5s ease-in-out;
+}
+
+.form-container {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+	left: 0;
+	width: 50%;
+	z-index: 2;
+}
+
+.container.right-panel-active .sign-in-container {
+	transform: translateX(100%);
+}
+
+.sign-up-container {
+	left: 0;
+	width: 50%;
+	opacity: 0;
+	z-index: 1;
+}
+
+.container.right-panel-active .sign-up-container {
+	transform: translateX(100%);
+	opacity: 1;
+	z-index: 5;
+	animation: show 0.6s;
+}
+
+@keyframes show {
+	0%, 49.99% {
+		opacity: 0;
+		z-index: 1;
+	}
+	
+	50%, 100% {
+		opacity: 1;
+		z-index: 5;
+	}
+}
+
+.overlay-container {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 50%;
+	height: 100%;
+	overflow: hidden;
+	transition: transform 0.6s ease-in-out;
+	z-index: 100;
+}
+
+.container.right-panel-active .overlay-container{
+	transform: translateX(-100%);
+}
+
+.overlay {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 0 0;
+	color: #FFFFFF;
+	position: relative;
+	left: -100%;
+	height: 100%;
+	width: 200%;
+  transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-active .overlay {
+  	transform: translateX(50%);
+}
+
+.overlay-panel {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 40px;
+	text-align: center;
+	top: 0;
+	height: 100%;
+	width: 50%;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+	transform: translateX(-20%);
+	background: radial-gradient(circle, rgba(255,226,171,1) 0%, rgba(255,207,115,1) 100%);
+
+}
+
+.container.right-panel-active .overlay-left {
+	transform: translateX(0);
+}
+
+.overlay-right {
+	right: 0;
+	transform: translateX(0);
+  	background: radial-gradient(circle, rgba(255,226,171,1) 0%, rgba(255,207,115,1) 100%);
+	transition: all 0.6s ease-in-out;
+
+}
+
+.container.right-panel-active .overlay-right {
+	transform: translateX(20%);
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.mg-b-5 {
+  margin: 20px;
+}
+
+.loaded {
+  opacity: 1;
 }
 </style>
