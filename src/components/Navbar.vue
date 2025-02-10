@@ -18,11 +18,6 @@ onMounted(() => {
   }
 });
 
-// Login logic
-const handleLogin = () => {
-  router.push("/login");
-};
-
 // Navigate to profile page
 const goToProfile = () => {
   router.push("/profile");

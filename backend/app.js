@@ -36,7 +36,57 @@ db.connect((err) => {
   console.log('Connected to MySQL database');
 });
 
-// Regisztrációs route
+// JWT middleware
+function authMiddleware(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).send({ error: 'No token provided' });
+  }
+
+  jwt.verify(token, 'your-secret-key', (err, user) => {
+    if (err) {
+      return res.status(401).send({ error: 'Invalid token' });
+    }
+    req.user = user;
+    next();
+  });
+}
+
+// Bejelentkezési route
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email és jelszó szükséges!' });
+  }
+
+  // Ellenőrizzük, hogy létezik-e már a felhasználó
+  db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
+    }
+    if (results.length > 0) {
+      // Bcrypt jelszó összehasonlítás
+      const isMatch = await bcrypt.compare(password, results[0].password);
+      if (isMatch) {
+        // JWT token generálása
+        const payload = { email: results[0].email, id: results[0].id };
+        const token = jwt.sign(payload, 'your-secret-key', { expiresIn: '1h' });
+
+        return res.status(200).json({
+          message: 'Sikeres bejelentkezés!',
+          token,
+        });
+      } else {
+        return res.status(400).json({ message: 'Hibás jelszó!' });
+      }
+    }
+    return res.status(400).json({ message: 'Ez az email még nincs regisztrálva!' });
+  });
+});
+
 app.post('/register', async (req, res) => {
   const { name, email, password, birthdate, address, phonenumber } = req.body;
 
@@ -77,64 +127,8 @@ app.post('/register', async (req, res) => {
   });
 });
 
-// Bejelentkezési route
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email és jelszó szükséges!' });
-  }
-
-  console.log('Received data:', req.body);  // Debugging: Nyomtasd ki a beérkezett adatokat
-
-  // Ellenőrizzük, hogy létezik-e már a felhasználó
-  db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-    if (err) {
-      console.error('MySQL query error:', err);  // Log the error
-      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
-    }
-    if (results.length > 0) {
-      // Itt bcrypt-ot kellene használni a jelszó összehasonlításához
-      const isMatch = await bcrypt.compare(password, results[0].password);
-      if (isMatch) {
-        // JWT token generálása
-        const payload = { email: results[0].email, id: results[0].id };
-        const token = jwt.sign(payload, 'secret_key', { expiresIn: '1m' });  // A token 1 perc után lejár
-        console.log('Generated token:', token);  // Debugging: Nyomtasd ki a generált tokent
-
-        return res.status(200).json({
-          message: 'Sikeres bejelentkezés!',
-          token,  // A token visszaküldése a kliensnek
-        });
-      } else {
-        return res.status(400).json({ message: 'Hibás jelszó!' });
-      }
-    }
-    return res.status(400).json({ message: 'Ez az email még nincs regisztrálva!' });
-  });
-});
-
-const authMiddleware = (req, res, next) => {
-  const token = req.headers['authorization'];
-
-  if (!token) {
-    return res.status(403).json({ message: 'Nincs érvényes token!' });
-  }
-
-  // A token érvényesítése
-  jwt.verify(token, 'secret_key', (err, decoded) => {
-    if (err) {
-      console.error('Token verification error:', err);  // Debugging: Nyomtasd ki a token érvényesítése során kapott hibát
-      return res.status(403).json({ message: 'Hibás token!' });
-    }
-    req.user = decoded;  // A decoded információ elérhető lesz a következő route-okban
-    next();
-  });
-};
-
-// Védett route például a profil lekéréséhez
+// Profil lekérése
 app.get('/profile', authMiddleware, (req, res) => {
-  // A felhasználó adatainak lekérése a decoded token alapján
   const userId = req.user.id;
 
   db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
@@ -145,13 +139,10 @@ app.get('/profile', authMiddleware, (req, res) => {
   });
 });
 
-// Védett route a homepage eléréséhez
-app.get('/homepage', authMiddleware, (req, res) => {
-  res.status(200).json({ message: 'Üdvözlünk a Homepage-en!' });
-});
-
 // Szerver indítása
 const port = 3061;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
+module.exports = authMiddleware;
