@@ -61,13 +61,13 @@ export default {
         <div class="text-content">
           <h2>Pollak Pizza Home</h2>
           <p>
-            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
-            pizzák otthonra
+            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br>
+            pizzák <span class="specialfont"> otthon(r)a </span>
           </p>
-          <button @click="scrollToMenu">Rendelj most</button>
-          <button>Irány az étlap</button>
+          <button @click="scrollToMenu" class="orderbtn">Rendelés most</button>
+          <button class="menubtn">Irány az étlap</button>
         </div>
-        <img src="../assets/image/pizzaimg.png" alt="" />
+        <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
       </div>
     </section>
 
@@ -112,68 +112,59 @@ export default {
 </template>
 
 <style scoped>
+
+.specialfont{
+  background: linear-gradient(to right,#5F8D37,#BB3E00);
+  -webkit-text-fill-color: transparent; 
+  -webkit-background-clip: text; 
+}
+.menubtn{
+  background-color: rgba(247, 173, 69, 0.3);
+  border: #F7AD45 solid 3px;
+  border-radius: 40px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  padding: 0.7dvw 3.3dvw;
+  color: #F7AD45;
+}
+.orderbtn{
+  background-color: #F7AD45;
+  border: #F7AD45 solid 2px;
+  border-radius: 40px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  padding: 0.7dvw 3.3dvw ;
+}
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
 }
 img {
-  max-height: 185px;
   border-radius: 30px;
 }
 .home {
   padding-bottom: 5dvw;
-  background-color: rgb(240, 160, 55);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-}
-
-.header h1 {
-  margin: 0;
-}
-
-.header nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-
-.header nav ul li {
-  margin-right: 10px;
-}
-
-.header nav ul li a {
-  color: #fff;
-  text-decoration: none;
 }
 
 .hero {
   background-size: cover;
   background-position: center;
-  height: 400px;
-  padding-left: 30%;
+  height: 30dvw;
   display: flex;
+  padding-left: 22dvw;
   align-items: center;
-  text-align: left;
-  color: #fff;
+  background: radial-gradient(
+    circle,
+    rgb(255, 255, 255) 0%,
+    rgb(255, 231, 152) 40%
+  );
 }
-.hero-content img {
-  flex: 0 0 auto;
-  margin-left: 20px;
-  width: 40%;
-  height: 40%;
+.hero img {
+  height: 40dvw; 
+  max-height: 500px; 
+  border-radius: 30px;
+  padding-left: 3dvw;
 }
-.text-content {
-  flex: 1;
-}
+
 .hero-content {
   display: flex;
   flex-direction: row;
@@ -181,27 +172,29 @@ img {
   justify-content: space-between;
 }
 .hero h2 {
-  font-size: 36px;
-  margin-bottom: 20px;
-  text-align: center;
+  font-size: 70px;
+  color: #9B6600;
 }
 
 .hero p {
   font-size: 18px;
-  margin-bottom: 40px;
+  margin-bottom: 2dvw;
+  padding-left: 2.5dvw;
+  color: #9B6600;
+  font-weight: bold;
 }
 
 .hero button {
-  padding: 10px 20px;
   font-size: 18px;
-  background-color: #333;
-  color: #fff;
-  border: none;
   cursor: pointer;
+  margin: 5px;
+  font-weight: bold;
+  margin-left: 2dvw;
 }
 
 .menu {
   text-align: center;
+  padding: 20px;
 }
 
 .menu h2 {
@@ -251,6 +244,7 @@ img {
 
 .order {
   text-align: center;
+  padding: 20px;
 }
 
 .order h2 {
@@ -292,42 +286,5 @@ img {
 
 .order form button:active {
   background-color: #777;
-}
-
-.order form button:disabled {
-  background-color: #999;
-  cursor: not-allowed;
-}
-
-.order form button:disabled:hover {
-  background-color: #999;
-}
-
-.order form button:disabled:active {
-  background-color: #999;
-}
-
-.order form button:disabled:focus {
-  background-color: #999;
-}
-
-.order form button:disabled:active {
-  background-color: #999;
-}
-
-.order form button:disabled:focus {
-  background-color: #999;
-}
-
-.order form button:disabled:active {
-  background-color: #999;
-}
-
-.order form button:disabled:focus {
-  background-color: #999;
-}
-
-.order form button:disabled:active {
-  background-color: #999;
 }
 </style>
