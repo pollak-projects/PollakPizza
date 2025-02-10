@@ -1,14 +1,14 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import axios from "axios";
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 
-const registemail = ref("");
-const registpassword = ref("");
-const birthDate = ref(""); // Születési dátum
-const phoneNumber = ref(""); // Telefonszám
-const address = ref(""); // Cím
-const name = ref(""); // Név
+const registemail = ref('');
+const registpassword = ref('');
+const birthdate = ref(""); // Születési dátum
+const phonenumber = ref(""); // Telefonszám
+const address = ref(''); // Cím
+const name = ref(''); // Név
 
 const router = useRouter();
 const isLoading = ref(false);
@@ -17,20 +17,20 @@ const isLoading = ref(false);
 const handleLogin = async () => {
   try {
     isLoading.value = true;
-    const response = await axios.post("http://localhost:3061/login", {
+    const response = await axios.post('http://localhost:3061/login', {
       email: registemail.value,
       password: registpassword.value,
     });
-    localStorage.setItem("token", response.data.token);
-    router.push({ name: "HomePage" });
+    localStorage.setItem('token', response.data.token);
+    router.push({ name: 'HomePage' });
 
     setTimeout(() => {
-      localStorage.removeItem("token");
-      alert("A token lejárt, kérjük jelentkezz be újra!");
-      router.push({ name: "Login" });
+      localStorage.removeItem('token');
+      alert('A token lejárt, kérjük jelentkezz be újra!');
+      router.push({ name: 'Login' });
     }, 600000); // 600000 ms = 10 perc
   } catch (error) {
-    console.error("Login error:", error);
+    console.error('Login error:', error);
     alert(
       `Login failed: ${
         error.response ? error.response.data.message : error.message
@@ -45,25 +45,26 @@ const handleLogin = async () => {
 const handleSignUp = async () => {
   try {
     isLoading.value = true; // Set loading to true
-    const response = await axios.post("http://localhost:3061/register", {
-      name: "John Doe", // Töltsd ki a megfelelő adatokat a formból
-      birthDate: "1337-12-30",
-      phone: "+36301234567",
+    const response = await axios.post('http://localhost:3061/register', {
+      name: name.value,
+      birthdate: birthdate.value,
+      phonenumber: phonenumber.value,
       email: registemail.value,
-      address: "Szentes, Apponyi tér 1, 6600",
+      address: address.value,
       password: registpassword.value,
     });
 
+
     // Ha sikerült a regisztráció, pl. egy üzenetet jeleníthetünk meg
-    console.log("Regisztráció sikeres:", response.data);
-    alert("Sikeres regisztráció!");
+    console.log('Regisztráció sikeres:', response.data);
+    alert('Sikeres regisztráció!');
 
     // Visszairányítjuk a felhasználót a bejelentkezéshez
-    router.push({ name: "Login" });
+    router.push({ name: 'Login' });
   } catch (error) {
-    console.error("Regisztráció hiba:", error);
+    console.error('Regisztráció hiba:', error);
     // Hiba esetén megjeleníthetünk egy üzenetet a felhasználónak
-    alert("Hiba történt a regisztráció során! Kérjük próbálja újra.");
+    alert('Hiba történt a regisztráció során! Kérjük próbálja újra.');
   } finally {
     isLoading.value = false; // Set loading to false after operation
   }
@@ -71,17 +72,17 @@ const handleSignUp = async () => {
 
 // Handle panel switching logic here
 function signUp() {
-  document.getElementById("container").classList.add("right-panel-active");
-  document.getElementById("hideDiv").classList.add("hidden");
+  document.getElementById('container').classList.add('right-panel-active');
+  document.getElementById('hideDiv').classList.add('hidden');
 }
 
 function signIn() {
-  document.getElementById("container").classList.remove("right-panel-active");
-  document.getElementById("hideDiv").classList.remove("hidden");
+  document.getElementById('container').classList.remove('right-panel-active');
+  document.getElementById('hideDiv').classList.remove('hidden');
 }
 
 onMounted(() => {
-  document.getElementById("container").classList.add("loaded");
+  document.getElementById('container').classList.add('loaded');
 });
 </script>
 
@@ -99,7 +100,7 @@ onMounted(() => {
 
             <div class="col-sm-6">
               <label>Születési Dátum</label>
-              <input type="date" v-model="birthDate" />
+              <input type="date" v-model="birthdate" />
             </div>
 
             <div class="col-sm-6">
@@ -113,7 +114,7 @@ onMounted(() => {
 
             <div class="col-sm-6">
               <label>Telefonszám</label>
-              <input type="text" v-model="phoneNumber" placeholder="+36301234567" />
+              <input type="text" v-model="phonenumber" placeholder="+36301234567" />
             </div>
           </div>
           <label>Email</label>

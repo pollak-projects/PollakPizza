@@ -3,6 +3,7 @@ import HomePage from '@/pages/index.vue'
 import Login from '@/pages/Login.vue'
 import Menu from '@/pages/Menu.vue'
 import Order from '@/pages/Order.vue'
+import Profile from '@/pages/Profile.vue'
 
 const routes = [
   {
@@ -24,13 +25,18 @@ const routes = [
     path: '/order',
     name: 'Order',
     component: Order,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-})
+});
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
 router.onError((err, to) => {

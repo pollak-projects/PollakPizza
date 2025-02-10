@@ -1,0 +1,4 @@
+<template>
+    <ProfilePage/>
+</template>
+  
