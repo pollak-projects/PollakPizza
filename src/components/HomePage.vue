@@ -62,7 +62,7 @@ import hawaiiImage from '@/assets/image/hawaii.jpg';
       <section class="hero">
     <div class="hero-content">
       <div class="text-content">
-        <h2>Pollak Pizza Home </h2>
+        <h2>Pollak Pizza Home</h2>
         <p>Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br> pizzák otthonra</p>
         <button @click="scrollToMenu">Rendelj most</button>
         <button>Irány az étlap</button>
