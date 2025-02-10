@@ -2,6 +2,26 @@
 import margaretaImage from "@/assets/image/margareta.jpg";
 import pepiImage from "@/assets/image/pepi.jpg";
 import hawaiiImage from "@/assets/image/hawaii.jpg";
+document.addEventListener("DOMContentLoaded", function () {
+  const textContent = document.querySelector(".text-content");
+
+  function checkScroll() {
+    const sectionPosition = textContent.getBoundingClientRect().top;
+    const screenHeight = window.innerHeight;
+
+    console.log("Szöveg pozíció:", sectionPosition); // Debugging
+
+    if (sectionPosition < screenHeight * 0.8) {
+      textContent.classList.add("show");
+      console.log("Szöveg megjelenik!"); // Írja ki, ha aktiválja a 'show' osztályt
+    }
+  }
+
+  window.addEventListener("scroll", checkScroll);
+  checkScroll();
+});
+
+
 
 export default {
   data() {
@@ -28,6 +48,27 @@ export default {
           price: 1200,
           image: hawaiiImage,
         },
+      {
+        id: 4,
+        name: "Quattro Formaggi",
+        description: "Négyféle sajt, mozzarella, gorgonzola, parmezán, és ricotta",
+        price: 2000,
+        image: "@/assets/image/quattro_formaggi.jpg",
+      },
+      {
+        id: 5,
+        name: "Vegetarian",
+        description: "Friss zöldségek, mozzarella, paradicsomszósz",
+        price: 1700,
+        image: "@/assets/image/vegetarian.jpg",
+      },
+      {
+        id: 6,
+        name: "BBQ Chicken",
+        description: "Csirke, BBQ szósz, mozzarella, hagyma",
+        price: 1900,
+        image: "@/assets/image/bbq_chicken.jpg",
+      }
       ],
       order: {
         name: "",
@@ -69,10 +110,19 @@ export default {
         </div>
         <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
       </div>
+      </section>
+
+    <section class="textvideo">
+      <video autoplay muted loop>
+        <source src="../assets/video/bgvideo.mp4" type="video/mp4">
+      </video>
+      <div class="text-asd">
+        <p>A Pollak Pizza a legjobb alapanyagokkal és hagyományos receptúrával készíti el ínycsiklandó pizzáit. Gyors rendelés, friss ízek, és gyors kiszállítás – mindez azért, hogy a legjobb pizzát élvezhesd otthonodban!</p>
+      </div>
     </section>
 
     <section id="menu" class="menu">
-      <h2>Menü</h2>
+      <h2>Étlapunk</h2>
       <div class="pizza-list">
         <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
           <img :src="pizza.image" alt="Pizza" />
@@ -88,31 +138,134 @@ export default {
 
     <section id="order" class="order">
       <h2>Rendelés</h2>
-      <form @submit.prevent="submitOrder">
-        <div>
-          <label for="name">Név:</label>
-          <input type="text" id="name" v-model="order.name" required />
-        </div>
-        <div>
-          <label for="pizza">Válaszd ki a pizzát:</label>
-          <select v-model="order.pizza" required>
-            <option v-for="pizza in pizzas" :key="pizza.id" :value="pizza.name">
-              {{ pizza.name }}
-            </option>
-          </select>
-        </div>
-        <div>
-          <label for="address">Szállítási cím:</label>
-          <input type="text" id="address" v-model="order.address" required />
-        </div>
-        <button type="submit">Rendelés leadása</button>
-      </form>
+
     </section>
   </div>
 </template>
 
 <style scoped>
+.menu{
+  color: black;
+  background: radial-gradient(
+    circle,
+    rgb(255, 255, 255) 0%,
+    rgb(255, 231, 152) 40%
+  );
+}
+.pizza-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns per row */
+  gap: 20px; /* Space between pizza cards */
+  justify-content: center;
+  padding-left: 20dvw;
+  padding-right: 20dvw;
+}
 
+.pizza-card {
+  width: 100%; /* Ensure cards take up equal space */
+  border: 1px solid #D9983D;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color: rgba(247, 173, 69, 0.5);
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #A0702B;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pizza-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.pizza-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.pizza-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.pizza-card p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.pizza-card button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #F7AD45;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.textvideo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30vw;
+  overflow: hidden;
+}
+.text-asd {
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.7); 
+  border-radius: 10px;
+  max-width: 70%;
+  opacity: 1; 
+  transform: translateY(0); 
+  z-index: 2; 
+}
+
+.textvideo {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  height: 30dvw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.textvideo video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.textvideo .text-content {
+  position: relative;
+  z-index: 1;
+  font-size: 3.3dvh;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  padding: 20px;
+  margin-right: 50%;
+  margin-left: 10%;
+  background:  rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.textvideo p {
+  word-wrap: break-word;
+}
 .specialfont{
   background: linear-gradient(to right,#5F8D37,#BB3E00);
   -webkit-text-fill-color: transparent; 
@@ -157,6 +310,7 @@ img {
     rgb(255, 255, 255) 0%,
     rgb(255, 231, 152) 40%
   );
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .hero img {
   height: 40dvw; 
