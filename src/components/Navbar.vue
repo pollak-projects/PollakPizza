@@ -66,6 +66,7 @@ const handleLogout = () => {
 .profileimg {
   width: 2dvw;
   height: 2dvw;
+  cursor: pointer;
 }
 
 .pl {

@@ -1,0 +1,3 @@
+<template>
+    <FooterPage/>
+</template>
