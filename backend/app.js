@@ -100,7 +100,7 @@ app.post('/register', async (req, res) => {
   db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
     if (err) {
       console.error('MySQL query error:', err);  // Log the error
-      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
+      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során. ' });
     }
     if (results.length > 0) {
       return res.status(400).json({ message: 'Ez az email már regisztrálva van!' });
