@@ -159,9 +159,7 @@ export default {
 
 .pizza-card img {
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  height: 60%;
 }
 
 .pizza-card h3 {
@@ -343,12 +341,6 @@ img {
   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
-}
-
-.pizza-card img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
 }
 
 .pizza-card h3 {
