@@ -60,13 +60,13 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: 'Email és jelszó szükséges!' });
+    return res.status(400).json({ message: 'Email és jelszó szükséges! ' });
   }
 
   // Ellenőrizzük, hogy létezik-e már a felhasználó
   db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
     if (err) {
-      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
+      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során. ' });
     }
     if (results.length > 0) {
       // Bcrypt jelszó összehasonlítás
