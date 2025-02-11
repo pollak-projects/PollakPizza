@@ -1,3 +1,4 @@
+<!-- eslint-disable no-unused-vars -->
 <script>
 import { useRouter, useRoute } from "vue-router";
 import axios from "axios";

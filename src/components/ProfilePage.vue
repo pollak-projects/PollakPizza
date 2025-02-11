@@ -1,3 +1,4 @@
+<!-- eslint-disable no-unused-vars -->
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
@@ -51,9 +52,11 @@ const updateUserData = async () => {
     } catch (error) {
       console.error('Error updating profile:', error);
       errorMessage.value = 'Hiba történt az adatok frissítése során.';
+      
     }
   }
 };
+
 
 onMounted(() => {
   getUserData();
