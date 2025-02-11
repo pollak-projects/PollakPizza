@@ -9,13 +9,15 @@ const pizzaRoutes = require('./routes/pizzas');
 // Express alkalmazás inicializálása
 const app = express();
 
+// CORS middleware beállítása
 app.use(cors({
-  origin: 'http://localhost:8200',
-  methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204
+  origin: 'http://localhost:8200', // Engedélyezzük a frontend URL-jét
+  methods: ['GET', 'POST', 'OPTIONS'], // Engedélyezett HTTP metódusok
+  allowedHeaders: ['Content-Type', 'Authorization'], // Engedélyezett fejlécek
+  preflightContinue: false, // Ne folytassa az OPTIONS kérést
+  optionsSuccessStatus: 204 // A 204 státuszkód a sikeres preflight kérés válaszához
 }));
+
 
 app.use(bodyParser.json());
 
