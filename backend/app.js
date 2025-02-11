@@ -8,14 +8,15 @@ const jwt = require('jsonwebtoken');
 // Express alkalmazás inicializálása
 const app = express();
 
-// CORS middleware beállítása
+
 app.use(cors({
   origin: 'http://localhost:8200', // Engedélyezzük a frontend URL-jét
-  methods: ['GET', 'POST', 'OPTIONS'], // Engedélyezett HTTP metódusok
+  methods: ['GET', 'POST', 'PUT', 'OPTIONS'], // Engedélyezett HTTP metódusok
   allowedHeaders: ['Content-Type', 'Authorization'], // Engedélyezett fejlécek
   preflightContinue: false, // Ne folytassa az OPTIONS kérést
   optionsSuccessStatus: 204 // A 204 státuszkód a sikeres preflight kérés válaszához
 }));
+
 
 app.use(bodyParser.json());
 
@@ -138,6 +139,32 @@ app.get('/profile', authMiddleware, (req, res) => {
     res.status(200).json(results[0]);
   });
 });
+
+// Profil frissítése
+app.put('/profile', authMiddleware, (req, res) => {
+  const userId = req.user.id;
+  const { name, email, address, phonenumber } = req.body;
+
+  if (!name || !email || !address || !phonenumber) {
+    return res.status(400).json({ message: 'Minden mező kitöltése szükséges!' });
+  }
+
+  // A profil frissítése az adatbázisban
+  db.query(
+    'UPDATE users SET name = ?, email = ?, address = ?, phonenumber = ? WHERE id = ?',
+    [name, email, address, phonenumber, userId],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({ message: 'Hiba az adatbázis frissítése során.' });
+      }
+      if (results.affectedRows === 0) {
+        return res.status(400).json({ message: 'Felhasználó nem található.' });
+      }
+      res.status(200).json({ message: 'Profil sikeresen frissítve.' });
+    }
+  );
+});
+
 
 // Szerver indítása
 const port = 3061;
