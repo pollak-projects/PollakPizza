@@ -1,8 +1,9 @@
 <script>
+import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
-import margaretaImage from "@/assets/image/margareta.jpg";
-import pepiImage from "@/assets/image/pepi.jpg";
-import hawaiiImage from "@/assets/image/hawaii.jpg";
+
+const router = useRouter();
+
 
 export default {
   data() {
@@ -41,6 +42,10 @@ export default {
       alert(`A ${pizza.name} pizzát adtad hozzá a rendeléshez!`);
     },
 
+    goToOrder() {
+      this.$router.push("/order");
+    },
+
     submitOrder() {
       alert(`Köszönjük a rendelésed, ${this.order.name}!`);
       console.log(this.order);
@@ -48,6 +53,8 @@ export default {
     },
   },
 };
+
+
 </script>
 
 <template>
@@ -60,8 +67,8 @@ export default {
             Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
             pizzák <span class="specialfont"> otthon(r)a </span>
           </p>
-          <button @click="scrollToMenu" class="orderbtn">Rendelés most</button>
-          <button class="menubtn">Irány az étlap</button>
+          <button @click="goToOrder" class="orderbtn">Rendelés most</button>
+          <button @click="scrollToMenu" class="menubtn">Irány az étlap</button>
         </div>
         <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
       </div>

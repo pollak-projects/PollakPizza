@@ -52,8 +52,8 @@ const toggleDropdown = () => {
     <div class="nav-links">
       <!-- Use <router-link> for navigation and active class binding -->
       <router-link to="/" :class="{ active: route.path === '/' }">Kezdőlap</router-link>
-      <router-link to="/Menu" :class="{ active: route.path === '/Menu' }">Pizzák</router-link>
-      <router-link to="/Order" :class="{ active: route.path === '/Order' }" class="right">Rendelés</router-link>
+      <router-link to="/menu" :class="{ active: route.path === '/menu' }">Pizzák</router-link>
+      <router-link to="/order" :class="{ active: route.path === '/order' }" class="right">Rendelés</router-link>
     </div>
     <!-- Profile image with dropdown toggle -->
     <div class="profile-container" @click="toggleDropdown">
