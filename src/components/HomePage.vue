@@ -113,7 +113,7 @@ export default {
     <div>
       <h1>Rendelés</h1>
       <br>
-      <p>A rendelésed megkezdéséhez, kattints a gombra!</p>
+      <p>A rendelésed megkezdéséhez, kattints a gombra! </p>
       <br>
       <button @click="goToOrder">Rendelés megkezdése</button>
     </div>
