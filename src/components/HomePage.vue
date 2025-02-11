@@ -121,6 +121,37 @@ export default {
 </template>
 
 <style scoped>
+.getToOrder
+{
+  height: 20dvw;
+  font-size: 27px;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  color: #A0702B;
+  background: radial-gradient(
+    circle,
+    rgb(255, 255, 255) 0%,
+    rgb(255, 231, 152) 20%
+  );
+}
+.getToOrder button{
+  padding: 10px 25px;
+  font-size: 1rem;
+  background-color: #F7AD45;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.previewpizza{
+  height: 50%;
+  width: 100%;
+}
 .menu{
   color: black;
   background: radial-gradient(
@@ -156,10 +187,16 @@ export default {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+<<<<<<< HEAD
+=======
 .pizza-card img {
+  height: 50%;
   width: 100%;
-  height: 60%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
+>>>>>>> 27f18436061ba9012721fe5c9b1e68676ac9505e
 
 .pizza-card h3 {
   font-size: 1.5rem;
@@ -340,6 +377,12 @@ img {
   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
+}
+
+.pizza-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
 }
 
 .pizza-card h3 {
