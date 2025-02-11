@@ -93,7 +93,7 @@ export default {
       <h2>Étlapunk</h2>
       <div class="pizza-list">
         <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
-          <img :src="pizza.image" alt="Pizza" />
+          <img class="previewpizza" :src="pizza.image" alt="Pizza" />
           <h3>{{ pizza.name }}</h3>
           <p>{{ pizza.description }}</p>
           <p>
@@ -106,12 +106,22 @@ export default {
 
     <section id="order" class="order">
       <h2>Rendelés</h2>
+
     </section>
   </div>
+  <section class="getToOrder">
+    <div>
+      <h1>Rendelés</h1>
+      <br>
+      <p>A rendelésed megkezdéséhez, kattints a gombra!</p>
+      <br>
+      <button>Rendelés megkezdése</button>
+    </div>
+  </section>
 </template>
 
 <style scoped>
-.menu {
+.menu{
   color: black;
   background: radial-gradient(
     circle,
@@ -147,8 +157,10 @@ export default {
 }
 
 .pizza-card img {
-  height: 50%;
   width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .pizza-card h3 {
@@ -259,10 +271,6 @@ body {
 img {
   border-radius: 30px;
 }
-.home {
-  padding-bottom: 5dvw;
-}
-
 .hero {
   background-size: cover;
   background-position: center;
@@ -334,6 +342,12 @@ img {
   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
+}
+
+.pizza-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
 }
 
 .pizza-card h3 {
