@@ -115,7 +115,7 @@ export default {
       <br>
       <p>A rendelésed megkezdéséhez, kattints a gombra!</p>
       <br>
-      <button>Rendelés megkezdése</button>
+      <button @click="goToOrder">Rendelés megkezdése</button>
     </div>
   </section>
 </template>
