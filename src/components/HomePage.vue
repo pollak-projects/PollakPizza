@@ -193,9 +193,7 @@ export default {
 .pizza-card img {
   height: 50%;
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  height: 60%;
 }
 >>>>>>> 27f18436061ba9012721fe5c9b1e68676ac9505e
 
