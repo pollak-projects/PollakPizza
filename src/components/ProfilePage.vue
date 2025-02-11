@@ -29,7 +29,7 @@ const getUserData = async () => {
     }
   } else {
     console.log('No token found');
-    errorMessage.value = 'Nincs érvényes token. Kérjük, jelentkezz be újra.';
+    errorMessage.value = 'Nincs érvényes token. Kérjük, jelentkezz be újra. ';
     router.push({ name: 'Login' });
   }
 };
