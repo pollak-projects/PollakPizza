@@ -1,75 +1,13 @@
 <script>
+import axios from "axios";
 import margaretaImage from "@/assets/image/margareta.jpg";
 import pepiImage from "@/assets/image/pepi.jpg";
 import hawaiiImage from "@/assets/image/hawaii.jpg";
-document.addEventListener("DOMContentLoaded", function () {
-  const textContent = document.querySelector(".text-content");
-
-  function checkScroll() {
-    const sectionPosition = textContent.getBoundingClientRect().top;
-    const screenHeight = window.innerHeight;
-
-    console.log("Szöveg pozíció:", sectionPosition); // Debugging
-
-    if (sectionPosition < screenHeight * 0.8) {
-      textContent.classList.add("show");
-      console.log("Szöveg megjelenik!"); // Írja ki, ha aktiválja a 'show' osztályt
-    }
-  }
-
-  window.addEventListener("scroll", checkScroll);
-  checkScroll();
-});
-
-
 
 export default {
   data() {
     return {
-      pizzas: [
-        {
-          id: 1,
-          name: "Margherita",
-          description: "Alap paradicsomszósz, mozzarella, bazsalikom",
-          price: 1500,
-          image: margaretaImage,
-        },
-        {
-          id: 2,
-          name: "Pepperoni",
-          description: "Szalámi, mozzarella, paradicsomszósz",
-          price: 1800,
-          image: pepiImage,
-        },
-        {
-          id: 3,
-          name: "Hawaii",
-          description: "Sonka, ananász, mozzarella, paradicsomszósz",
-          price: 1200,
-          image: hawaiiImage,
-        },
-      {
-        id: 4,
-        name: "Quattro Formaggi",
-        description: "Négyféle sajt, mozzarella, gorgonzola, parmezán, és ricotta",
-        price: 2000,
-        image: "@/assets/image/quattro_formaggi.jpg",
-      },
-      {
-        id: 5,
-        name: "Vegetarian",
-        description: "Friss zöldségek, mozzarella, paradicsomszósz",
-        price: 1700,
-        image: "@/assets/image/vegetarian.jpg",
-      },
-      {
-        id: 6,
-        name: "BBQ Chicken",
-        description: "Csirke, BBQ szósz, mozzarella, hagyma",
-        price: 1900,
-        image: "@/assets/image/bbq_chicken.jpg",
-      }
-      ],
+      pizzas: [], // Itt tároljuk a betöltött pizzákat
       order: {
         name: "",
         pizza: "",
@@ -77,15 +15,32 @@ export default {
       },
     };
   },
+  mounted() {
+    this.fetchPizzas(); // Betöltjük a pizzákat az oldal betöltődésekor
+  },
   methods: {
+    // API hívás a pizzák lekérésére
+    fetchPizzas() {
+      fetch("http://localhost:3061/pizzas")  // Itt állítsd be az API végpontot
+        .then((response) => response.json())
+        .then((data) => {
+          this.pizzas = data;  // Az adatokat az állapotba mentjük
+        })
+        .catch((error) => {
+          console.error("Hiba a pizzák betöltésekor:", error);
+        });
+    },
+
     scrollToMenu() {
       const menuSection = document.getElementById("menu");
       menuSection.scrollIntoView({ behavior: "smooth" });
     },
+
     orderPizza(pizza) {
       this.order.pizza = pizza.name;
       alert(`A ${pizza.name} pizzát adtad hozzá a rendeléshez!`);
     },
+
     submitOrder() {
       alert(`Köszönjük a rendelésed, ${this.order.name}!`);
       console.log(this.order);
@@ -102,7 +57,7 @@ export default {
         <div class="text-content">
           <h2>Pollak Pizza Home</h2>
           <p>
-            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br>
+            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
             pizzák <span class="specialfont"> otthon(r)a </span>
           </p>
           <button @click="scrollToMenu" class="orderbtn">Rendelés most</button>
@@ -110,14 +65,19 @@ export default {
         </div>
         <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
       </div>
-      </section>
+    </section>
 
     <section class="textvideo">
       <video autoplay muted loop>
-        <source src="../assets/video/bgvideo.mp4" type="video/mp4">
+        <source src="../assets/video/bgvideo.mp4" type="video/mp4" />
       </video>
       <div class="text-asd">
-        <p>A Pollak Pizza a legjobb alapanyagokkal és hagyományos receptúrával készíti el ínycsiklandó pizzáit. Gyors rendelés, friss ízek, és gyors kiszállítás – mindez azért, hogy a legjobb pizzát élvezhesd otthonodban!</p>
+        <p>
+          A Pollak Pizza a legjobb alapanyagokkal és hagyományos receptúrával
+          készíti el ínycsiklandó pizzáit. Gyors rendelés, friss ízek, és gyors
+          kiszállítás – mindez azért, hogy a legjobb pizzát élvezhesd
+          otthonodban!
+        </p>
       </div>
     </section>
 
@@ -138,13 +98,12 @@ export default {
 
     <section id="order" class="order">
       <h2>Rendelés</h2>
-
     </section>
   </div>
 </template>
 
 <style scoped>
-.menu{
+.menu {
   color: black;
   background: radial-gradient(
     circle,
@@ -163,14 +122,14 @@ export default {
 
 .pizza-card {
   width: 100%; /* Ensure cards take up equal space */
-  border: 1px solid #D9983D;
+  border: 1px solid #d9983d;
   border-radius: 10px;
   font-weight: bold;
   background-color: rgba(247, 173, 69, 0.5);
   padding: 15px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #A0702B;
+  color: #a0702b;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -180,10 +139,8 @@ export default {
 }
 
 .pizza-card img {
+  height: 50%;
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 10px;
 }
 
 .pizza-card h3 {
@@ -199,7 +156,7 @@ export default {
 .pizza-card button {
   padding: 10px 20px;
   font-size: 1rem;
-  background-color: #F7AD45;
+  background-color: #f7ad45;
   color: white;
   border: none;
   border-radius: 5px;
@@ -221,12 +178,12 @@ export default {
   color: white;
   font-weight: bold;
   padding: 2rem;
-  background: rgba(0, 0, 0, 0.7); 
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
   max-width: 70%;
-  opacity: 1; 
-  transform: translateY(0); 
-  z-index: 2; 
+  opacity: 1;
+  transform: translateY(0);
+  z-index: 2;
 }
 
 .textvideo {
@@ -259,32 +216,32 @@ export default {
   padding: 20px;
   margin-right: 50%;
   margin-left: 10%;
-  background:  rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 }
 
 .textvideo p {
   word-wrap: break-word;
 }
-.specialfont{
-  background: linear-gradient(to right,#5F8D37,#BB3E00);
-  -webkit-text-fill-color: transparent; 
-  -webkit-background-clip: text; 
+.specialfont {
+  background: linear-gradient(to right, #5f8d37, #bb3e00);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
 }
-.menubtn{
+.menubtn {
   background-color: rgba(247, 173, 69, 0.3);
-  border: #F7AD45 solid 3px;
+  border: #f7ad45 solid 3px;
   border-radius: 40px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   padding: 0.7dvw 3.3dvw;
-  color: #F7AD45;
+  color: #f7ad45;
 }
-.orderbtn{
-  background-color: #F7AD45;
-  border: #F7AD45 solid 2px;
+.orderbtn {
+  background-color: #f7ad45;
+  border: #f7ad45 solid 2px;
   border-radius: 40px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  padding: 0.7dvw 3.3dvw ;
+  padding: 0.7dvw 3.3dvw;
 }
 body {
   margin: 0;
@@ -313,8 +270,8 @@ img {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .hero img {
-  height: 40dvw; 
-  max-height: 500px; 
+  height: 40dvw;
+  max-height: 500px;
   border-radius: 30px;
   padding-left: 3dvw;
 }
@@ -327,14 +284,14 @@ img {
 }
 .hero h2 {
   font-size: 70px;
-  color: #9B6600;
+  color: #9b6600;
 }
 
 .hero p {
   font-size: 18px;
   margin-bottom: 2dvw;
   padding-left: 2.5dvw;
-  color: #9B6600;
+  color: #9b6600;
   font-weight: bold;
 }
 
@@ -369,12 +326,6 @@ img {
   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
-}
-
-.pizza-card img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
 }
 
 .pizza-card h3 {

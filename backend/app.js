@@ -165,6 +165,18 @@ app.put('/profile', authMiddleware, (req, res) => {
   );
 });
 
+// Pizzák lekérése
+app.get('/pizzas', (req, res) => {
+  // Véletlenszerű 6 pizza kiválasztása az adatbázisból
+  db.query('SELECT * FROM pizzas ORDER BY RAND() LIMIT 6', (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Hiba a pizzák lekérdezése során.' });
+    }
+    res.status(200).json(results);
+  });
+});
+
+
 
 // Szerver indítása
 const port = 3061;
