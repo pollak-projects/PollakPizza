@@ -84,6 +84,10 @@ function signIn() {
 onMounted(() => {
   document.getElementById('container').classList.add('loaded');
 });
+onMounted(() => {
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+});
 </script>
 
 <template>
@@ -186,14 +190,28 @@ onMounted(() => {
 }
 
 body {
+  width: 100%;
+  height: 100%;
   background: url("../assets/image/pizza-oven-dark.jpg");
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
-  margin: -20px 0 50px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important; /* Completely disable scrolling */
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display: none !important; /* Hide scrollbar for Chrome, Safari, Edge */
+}
+
+* {
+  overscroll-behavior: none; /* Prevents touch scrolling on mobile */
 }
 
 .login {
