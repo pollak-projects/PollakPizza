@@ -23,7 +23,7 @@ export default {
     this.fetchPizzas(); // Betöltjük a pizzákat az oldal betöltődésekor
   },
   methods: {
-    // API hívás a pizzák lekérésére
+    // API hívás a pizzák lekérésére (.)
     fetchPizzas() {
       fetch("http://localhost:3061/pizzas")  // Itt állítsd be az API végpontot
         .then((response) => response.json())
@@ -184,14 +184,11 @@ export default {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-<<<<<<< HEAD
-=======
 .pizza-card img {
   height: 50%;
   width: 100%;
   height: 60%;
 }
->>>>>>> 27f18436061ba9012721fe5c9b1e68676ac9505e
 
 .pizza-card h3 {
   font-size: 1.5rem;
