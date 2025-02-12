@@ -43,12 +43,12 @@ CREATE TABLE orders (
 CREATE TABLE orderDone (
     orderId INT,
     startDate DATE,
-    FOREIGN KEY (orderId) REFERENCES rendeles(id)
+    FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE
 );
 
 CREATE TABLE orderTops (
     orderId INT,
     toppingId INT,
-    FOREIGN KEY (orderId) REFERENCES rendeles(id),
-    FOREIGN KEY (toppingId) REFERENCES toppings(id)
+    FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (toppingId) REFERENCES toppings(id) ON DELETE CASCADE
 );
