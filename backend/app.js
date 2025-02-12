@@ -18,7 +18,6 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
-
 app.use(authRoutes);
 app.use(profileRoutes);
 app.use(pizzaRoutes);
