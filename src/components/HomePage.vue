@@ -66,7 +66,7 @@ export default {
         <div class="text-content">
           <h2>Pollak Pizza Home</h2>
           <p>
-            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
+            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi<br />
             pizzák <span class="specialfont"> otthon(r)a </span>
           </p>
           <button @click="goToOrder" class="orderbtn">Rendelés most</button>

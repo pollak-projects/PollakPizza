@@ -10,7 +10,7 @@ router.get('/profile', authMiddleware, (req, res) => {
 
   db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
     if (err) {
-      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
+      return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során. ' });
     }
     res.status(200).json(results[0]);
   });
