@@ -51,7 +51,7 @@ const updateUserData = async () => {
       errorMessage.value = '';  // Töröljük az esetleges hibát
     } catch (error) {
       console.error('Error updating profile:', error);
-      errorMessage.value = 'Hiba történt az adatok frissítése során.';
+      errorMessage.value = 'Hiba történt az adatok frissítése során. Próbáld újra!';
       
     }
   }

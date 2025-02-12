@@ -104,11 +104,6 @@ export default {
         </div>
       </div>
     </section>
-
-    <section id="order" class="order">
-      <h2>Rendelés</h2>
-
-    </section>
   </div>
   <section class="getToOrder">
     <div>
