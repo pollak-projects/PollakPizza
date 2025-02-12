@@ -83,11 +83,14 @@ function signIn() {
 
 onMounted(() => {
   document.getElementById('container').classList.add('loaded');
-});
-onMounted(() => {
   document.body.style.overflow = 'hidden';
   document.documentElement.style.overflow = 'hidden';
 });
+onUnmounted(() => {
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+});
+
 </script>
 
 <template>
