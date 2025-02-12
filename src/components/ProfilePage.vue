@@ -35,6 +35,29 @@ const getUserData = async () => {
   }
 };
 
+const updateUserData = async () => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    try {
+      const response = await axios.put('http://localhost:3061/profile', userData.value, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      // Sikeres frissítés után újra lekérjük az adatokat
+      await getUserData();  // Újra lekérjük a legfrissebb adatokat
+      isEditing.value = false;
+      errorMessage.value = '';  // Töröljük az esetleges hibát
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      errorMessage.value = 'Hiba történt az adatok frissítése során. Próbáld újra!';
+      
+    }
+  }
+};
+
+
 onMounted(() => {
   getUserData();
 });

@@ -1,4 +1,5 @@
 <!-- eslint-disable no-unused-vars -->
+<!-- eslint-disable no-unused-vars -->
 <script>
 import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
@@ -66,7 +67,7 @@ export default {
         <div class="text-content">
           <h2>Pollak Pizza Home</h2>
           <p>
-            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi<br />
+            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br>
             pizzák <span class="specialfont"> otthon(r)a </span>
           </p>
           <button @click="goToOrder" class="orderbtn">Rendelés most</button>
@@ -103,11 +104,6 @@ export default {
           <button @click="orderPizza(pizza)">Rendelj most!</button>
         </div>
       </div>
-    </section>
-
-    <section id="order" class="order">
-      <h2>Rendelés</h2>
-
     </section>
   </div>
   <section class="getToOrder">

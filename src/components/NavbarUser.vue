@@ -45,7 +45,7 @@ const handleLogout = () => {
     <div class="nav-links">
       <a> Pizzák </a>
       <a> Kezdőlap </a>
-      <a> Rendelés </a>
+      <a> Rendelés  </a>
     </div>
     <img src="../assets/image/user (2).png" alt="user img" class="profileimg" />
   </nav>
