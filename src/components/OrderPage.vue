@@ -1,8 +1,8 @@
 <script>
-import { ref } from "vue";
 import margaretaImage from "@/assets/image/margareta.jpg";
 import pepiImage from "@/assets/image/pepi.jpg";
 import hawaiiImage from "@/assets/image/hawaii.jpg";
+import { onMounted, ref } from 'vue';
 const isLoggedIn = ref(false);
 
 export default {
@@ -56,6 +56,8 @@ export default {
     },
   },
 };
+
+
 </script>
 
 <template>
@@ -172,7 +174,10 @@ export default {
 
 
 body {
+  height: 100%;
+  width: 100%;
   font-family: 'Lato';
+  overflow-x: hidden;
   background: rgb(255,241,216);
   background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
 }
