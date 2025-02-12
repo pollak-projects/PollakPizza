@@ -380,12 +380,14 @@ img {
   text-align: center;
 }
 
-.pizza-card img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
 
+
+=======
+>>>>>>> 27f18436061ba9012721fe5c9b1e68676ac9505e
+>>>>>>> 682ccd96a2b404face9028247748955252c79407
 .pizza-card h3 {
   font-size: 24px;
   margin-bottom: 10px;
