@@ -57,7 +57,6 @@ const updateUserData = async () => {
   }
 };
 
-
 onMounted(() => {
   getUserData();
 });
@@ -75,7 +74,7 @@ onMounted(() => {
       </div>
       <button class="edit-button" @click="isEditing = true">Szerkesztés</button>
     </div>
-    <div v-if="isEditing">
+    <div v-if="isEditing" class="edit-form-container">
       <form @submit.prevent="updateUserData" class="edit-form">
         <div>
           <label for="name">Felhasználónév:</label>
@@ -105,20 +104,28 @@ onMounted(() => {
 
 <style scoped>
 .profile-container {
-  padding: 20px;
-  background-color: #000000;
-  max-width: 600px;
+  padding: 5dvw;
+  background: radial-gradient(
+    circle,
+    rgb(255, 255, 255) 0%,
+    rgb(255, 231, 152) 20%
+  );
+  width: 100%;
   margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-title {
+  margin-top: 5dvw;
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
+  color: #8b5e3b;
 }
 
 .profile-data {
-  background-color: #0a0a0a;
+  background-color: rgba(247, 173, 69, 0.5);
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -127,28 +134,40 @@ onMounted(() => {
 .profile-data p {
   margin: 10px 0;
   font-size: 16px;
+  color: #8b5e3b;
 }
 
 .edit-button, .save-button, .cancel-button {
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
-  background-color: #dba14a;
-  color: rgb(0, 0, 0);
+  background-color: #a0702b;
+  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
+.edit-button {
+  margin-bottom: 10.2dvw;
+}
+
 .edit-button:hover, .save-button:hover, .cancel-button:hover {
-  background-color: #b78e3b;
+  background-color: #e6953b;
+}
+
+.edit-form-container {
+  width: 100%;
+  padding: 20px;
+  background-color: rgba(247, 173, 69, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .edit-form {
-  background-color: #000000;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .edit-form div {
@@ -159,12 +178,13 @@ onMounted(() => {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: #8b5e3b;
 }
 
 .edit-form input {
   width: 100%;
   padding: 8px;
-  border: 1px solid #000000;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
@@ -172,5 +192,9 @@ onMounted(() => {
   color: red;
   text-align: center;
   font-weight: bold;
+}
+
+input{
+  color: #8b5e3b;
 }
 </style>
