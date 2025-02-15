@@ -52,7 +52,7 @@ export default {
     submitOrder() {
       alert(`Köszönjük a rendelésed, ${this.order.name}!`);
       console.log(this.order);
-      // Itt lehetne API hívást tenni rendelés küldéséhez
+      // Itt lehetne API hívást tenni rendelés küldéséhez. Példa: axios.post("http://localhost:3061/orders", this.order);
     },
   },
 };
