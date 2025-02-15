@@ -7,8 +7,8 @@ const transporter = nodemailer.createTransport({
   host: 'smtp.eu.mailgun.org',
   port: 587,
   auth: {
-    user: 'postmaster@cleandc.hu',
-    pass: 'd045d2264a5eed6a5a7a2432c39430e5-1654a412-fbec0050'
+    user: 'your-user',
+    pass: 'your-pass'
   }
 });
 
