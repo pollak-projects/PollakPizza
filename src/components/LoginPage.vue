@@ -157,7 +157,7 @@ onUnmounted(() => {
             v-model="registpassword"
             placeholder="password"
           />
-          <a href="#" class="forgotPassword">Elfelejtette a jelszavát?</a>
+          <a href="/forgotpassword" class="forgotPassword">Elfelejtette a jelszavát?</a>
           <button class="login" :disabled="isLoading">BEJELENTKEZÉS</button>
         </form>
       </div>

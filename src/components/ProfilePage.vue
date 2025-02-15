@@ -4,7 +4,13 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
-const userData = ref(null);
+const userData = ref({
+  name: '',
+  email: '',
+  address: '',
+  phonenumber: ''
+});
+const originalUserData = ref({});
 const errorMessage = ref('');
 const router = useRouter();
 const isEditing = ref(false);
@@ -20,6 +26,7 @@ const getUserData = async () => {
         },
       });
       userData.value = response.data;
+      originalUserData.value = { ...response.data }; // Mentjük az eredeti adatokat
     } catch (error) {
       console.error('Error fetching profile:', error);
       errorMessage.value = 'Hiba történt az adatok lekérése során.';
@@ -38,6 +45,11 @@ const getUserData = async () => {
 const updateUserData = async () => {
   const token = localStorage.getItem('token');
 
+  if (!userData.value.name || !userData.value.email || !userData.value.address || !userData.value.phonenumber) {
+    errorMessage.value = 'Minden mezőt ki kell tölteni.';
+    return;
+  }
+
   if (token) {
     try {
       const response = await axios.put('http://localhost:3061/profile', userData.value, {
@@ -55,6 +67,11 @@ const updateUserData = async () => {
       
     }
   }
+};
+
+const cancelEdit = () => {
+  userData.value = { ...originalUserData.value }; // Visszaállítjuk az eredeti adatokat
+  isEditing.value = false;
 };
 
 onMounted(() => {
@@ -93,7 +110,7 @@ onMounted(() => {
           <input type="text" id="phonenumber" v-model="userData.phonenumber" />
         </div>
         <button type="submit" class="save-button">Mentés</button>
-        <button type="button" class="cancel-button" @click="isEditing = false">Mégse</button>
+        <button type="button" class="cancel-button" @click="cancelEdit">Mégse</button>
       </form>
     </div>
     <div v-if="errorMessage" class="error-message">
@@ -184,7 +201,7 @@ onMounted(() => {
 .edit-form input {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #ffffff;
   border-radius: 4px;
 }
 
@@ -194,7 +211,7 @@ onMounted(() => {
   font-weight: bold;
 }
 
-input{
+input {
   color: #8b5e3b;
 }
 </style>

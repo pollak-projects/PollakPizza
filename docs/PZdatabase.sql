@@ -24,7 +24,9 @@ CREATE TABLE users (
     birthdate DATE,
     address VARCHAR(255),
     admin TINYINT,
-    phonenumber VARCHAR(50)
+    phonenumber VARCHAR(50),
+    resetPasswordToken VARCHAR(255),
+    resetPasswordExpires BIGINT 
 );
 
 CREATE TABLE orders (

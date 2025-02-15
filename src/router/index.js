@@ -4,6 +4,8 @@ import Login from '@/pages/Login.vue'
 import Menu from '@/pages/Menu.vue'
 import Order from '@/pages/Order.vue'
 import Profile from '@/pages/Profile.vue'
+import ForgotPassword from '@/pages/ForgotPassword.vue'
+import ResetPasswordPage from '@/pages/ResetPassword.vue'
 
 const routes = [
   {
@@ -30,7 +32,17 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
-  }
+  },
+  {
+    path: '/forgotpassword',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
+  },
+  {
+    path: '/reset-password/:token',
+    name: 'ResetPassword',
+    component: ResetPasswordPage,
+  },
 ]
 
 const router = createRouter({
@@ -58,7 +70,7 @@ router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('token'); // Autentikáció ellenőrzése
 
   // Ha nem bejelentkezett és nem a bejelentkező oldalra próbál menni
-  if (to.name !== 'Login' && !isAuthenticated) {
+  if (to.name !== 'Login' && to.name !== 'ForgotPassword' && to.name !== 'ResetPassword' && !isAuthenticated) {
     next({ name: 'Login' }); // Átirányítás a bejelentkezéshez
   } else {
     next(); // Minden más esetben folytatás
@@ -69,4 +81,4 @@ router.isReady().then(() => {
   localStorage.removeItem('vuetify:dynamic-reload');
 });
 
-export default router
+export default router;
