@@ -5,8 +5,8 @@ const transporter = nodemailer.createTransport({
   host: 'smtp.eu.mailgun.org',
   port: 587,
   auth: {
-    user: 'your-user',
-    pass: 'your-pass'
+    user: 'your-user', 
+    pass: 'your-password'
   }
 });
 

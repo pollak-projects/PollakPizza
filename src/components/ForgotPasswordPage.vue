@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const email = ref('');
 const isLoading = ref(false);
 const message = ref('');
+const router = useRouter();
 
 const handleForgotPassword = async () => {
   console.log("A handleForgotPassword függvény meghívódott!"); // Debug log
@@ -15,12 +17,19 @@ const handleForgotPassword = async () => {
     message.value = 'Ellenőrizze az email fiókját!';
   } catch (error) {
     console.error('Hiba történt:', error);
-    message.value = 'Hiba történt. Próbálja újra!';
+    if (error.response && error.response.data && error.response.data.message) {
+      message.value = error.response.data.message;
+    } else {
+      message.value = 'Hiba történt. Próbálja újra!';
+    }
   } finally {
     isLoading.value = false;
   }
 };
 
+const handleBackToLogin = () => {
+  router.push('/login');
+};
 </script>
 
 <template>
@@ -30,6 +39,7 @@ const handleForgotPassword = async () => {
       <label for="email">Email</label>
       <input type="email" id="email" v-model="email" placeholder="example@pollakpizza.hu" required />
       <button type="submit" class="submit-button" :disabled="isLoading">Küldés</button>
+      <button type="button" class="back-button" @click="handleBackToLogin">Vissza</button>
     </form>
     <div v-if="message" class="message">{{ message }}</div>
   </div>
@@ -71,7 +81,7 @@ const handleForgotPassword = async () => {
   font-size: 16px;
 }
 
-.submit-button {
+.submit-button, .back-button {
   padding: 10px 20px;
   background-color: #a0702b;
   color: #fff;
@@ -80,7 +90,7 @@ const handleForgotPassword = async () => {
   cursor: pointer;
 }
 
-.submit-button:disabled {
+.submit-button:disabled, .back-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
