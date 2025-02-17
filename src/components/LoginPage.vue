@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -54,7 +54,6 @@ const handleSignUp = async () => {
       password: registpassword.value,
     });
 
-
     // Ha sikerült a regisztráció, pl. egy üzenetet jeleníthetünk meg
     console.log('Regisztráció sikeres:', response.data);
     alert('Sikeres regisztráció!');
@@ -90,7 +89,6 @@ onUnmounted(() => {
   document.body.style.overflow = '';
   document.documentElement.style.overflow = '';
 });
-
 </script>
 
 <template>
@@ -372,7 +370,7 @@ label {
   min-height: 480px;
   /*Betöltés effekt*/
   opacity: 0;
-  transition: opacity 5s ease-in-out;
+  transition: opacity 1s ease-in-out;
 }
 
 .form-container {
@@ -385,7 +383,7 @@ label {
 .sign-in-container {
   left: 0;
   width: 50%;
-  z-index: 2;
+  z-index: 10;
 }
 
 .container.right-panel-active .sign-in-container {
@@ -396,13 +394,13 @@ label {
   left: 0;
   width: 50%;
   opacity: 0;
-  z-index: 1;
+  z-index: 10;
 }
 
 .container.right-panel-active .sign-up-container {
   transform: translateX(100%);
   opacity: 1;
-  z-index: 5;
+  z-index: 15;
   animation: show 0.6s;
 }
 
@@ -428,7 +426,7 @@ label {
   height: 100%;
   overflow: hidden;
   transition: transform 0.6s ease-in-out;
-  z-index: 100;
+  z-index: 5;
 }
 
 .container.right-panel-active .overlay-container {
@@ -468,7 +466,7 @@ label {
 }
 
 .overlay-left {
-  transform: translateX(-20%);
+  transform: translateX(100%);
   background: radial-gradient(
     circle,
     rgba(255, 226, 171, 1) 0%,
@@ -492,7 +490,7 @@ label {
 }
 
 .container.right-panel-active .overlay-right {
-  transform: translateX(20%);
+  transform: translateX(10%);
 }
 
 .hidden {
