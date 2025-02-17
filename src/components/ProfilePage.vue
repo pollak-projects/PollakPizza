@@ -124,12 +124,12 @@ onMounted(() => {
   padding: 5dvw;
   background: radial-gradient(
     circle,
-    rgb(255, 255, 255) 0%,
+    rgb(253, 193, 125) 0%,
     rgb(255, 231, 152) 20%
   );
   width: 100%;
+  height: 100%;
   margin: 0 auto;
-  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
