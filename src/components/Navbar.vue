@@ -8,7 +8,8 @@ const route = useRoute();
 
 // State for managing login status and dropdown visibility
 const isLoggedIn = ref(false);
-const isDropdownVisible = ref(false);  // Dropdown visibility state
+const isDropdownVisible = ref(false); // Dropdown visibility state
+const isMobileMenuOpen = ref(false); // Mobile menu state
 
 // Check if there is a token in localStorage
 onMounted(() => {
@@ -39,6 +40,11 @@ const handleLogout = () => {
 const toggleDropdown = () => {
   isDropdownVisible.value = !isDropdownVisible.value;
 };
+
+// Toggle mobile menu
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
 </script>
 
 <template>
@@ -49,13 +55,11 @@ const toggleDropdown = () => {
         <p>PIZZA</p>
       </div>
     </div>
-    <div class="nav-links">
-      <!-- Use <router-link> for navigation and active class binding -->
+    <div class="nav-links" :class="{ 'nav-active': isMobileMenuOpen }">
       <router-link to="/" :class="{ active: route.path === '/' }">Kezdőlap</router-link>
       <router-link to="/menu" :class="{ active: route.path === '/menu' }">Pizzák</router-link>
       <router-link to="/order" :class="{ active: route.path === '/order' }" class="right">Rendelés</router-link>
     </div>
-    <!-- Profile image with dropdown toggle -->
     <div class="profile-container" @click="toggleDropdown">
       <img src="../assets/image/usericon.png" alt="user img" class="profileimg" />
       <div v-if="isDropdownVisible" class="dropdown-menu">
@@ -64,15 +68,19 @@ const toggleDropdown = () => {
         <p @click="handleLogout">Kijelentkezés</p>
       </div>
     </div>
+    <div class="hamburger" @click="toggleMobileMenu">
+      &#9776;
+    </div>
   </nav>
 </template>
 
 <style scoped>
 .profileimg {
-  width: 2vw;
-  height: 2vw;
+  width: 3dvw;
+  height: 3dvw;
   cursor: pointer;
-  border-radius: 50%;
+  float: right;
+  border-radius: 500%;
 }
 
 .pl {
@@ -91,7 +99,6 @@ const toggleDropdown = () => {
   font-size: 30px;
 }
 
-/* Navbar styles */
 .navbar {
   display: flex;
   justify-content: center;
@@ -99,6 +106,7 @@ const toggleDropdown = () => {
   padding: 20px;
   background-color: #dba14a;
   color: white;
+  position: relative;
 }
 
 .nav-links {
@@ -106,18 +114,6 @@ const toggleDropdown = () => {
   gap: 15px;
   padding-left: 38%;
   padding-right: 2%;
-}
-
-button {
-  background-color: transparent;
-  color: white;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  color: #f1f1f1;
 }
 
 .nav-links a,
@@ -129,10 +125,9 @@ button:hover {
 .nav-links .active {
   font-weight: bold;
   color: #f1f1f1;
-  border-bottom: 2px solid #f1f1f1; /* Example active link styling */
+  border-bottom: 2px solid #f1f1f1;
 }
 
-/* Profile dropdown styles */
 .profile-container {
   position: relative;
 }
@@ -157,5 +152,35 @@ button:hover {
 .dropdown-menu p:hover {
   background-color: #dba14a;
   border-radius: 5px;
+}
+
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #dba14a;
+    padding: 10px;
+  }
+
+  .nav-active {
+    display: flex;
+  }
 }
 </style>
