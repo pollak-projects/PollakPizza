@@ -11,8 +11,9 @@ exports.login = async (email, password) => {
       if (results.length > 0) {
         const isMatch = await bcrypt.compare(password, results[0].password);
         if (isMatch) {
-          const payload = { email: results[0].email, id: results[0].id };
-          const token = jwt.sign(payload, 'your-secret-key', { expiresIn: '1h' });
+          const payload = { email: results[0].email, id: results[0].id, admin: results[0].admin };
+          // JWT létrehozása
+          const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
           return resolve(token);
         } else {
           return reject(new Error('Hibás jelszó!'));

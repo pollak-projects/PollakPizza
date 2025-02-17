@@ -6,6 +6,8 @@ import Order from '@/pages/Order.vue'
 import Profile from '@/pages/Profile.vue'
 import ForgotPassword from '@/pages/ForgotPassword.vue'
 import ResetPasswordPage from '@/pages/ResetPassword.vue'
+import AdminPage from '@/components/AdminPage.vue'
+import OrdersPage from '@/components/OrdersPage.vue'
 
 const routes = [
   {
@@ -43,6 +45,18 @@ const routes = [
     name: 'ResetPassword',
     component: ResetPasswordPage,
   },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: AdminPage,
+    meta: { requiresAdmin: true }, // Admin jogosultság szükséges
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: OrdersPage,
+    meta: { requiresAdmin: true }, // Admin jogosultság szükséges
+  }
 ]
 
 const router = createRouter({
@@ -65,12 +79,20 @@ router.onError((err, to) => {
   }
 });
 
-// Navigation guard to check for authentication
+// Navigation guard to check for authentication and admin rights
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('token'); // Autentikáció ellenőrzése
+  const token = localStorage.getItem('token');
+  const isAuthenticated = !!token; // Autentikáció ellenőrzése
+  let isAdmin = false;
 
-  // Ha nem bejelentkezett és nem a bejelentkező oldalra próbál menni
-  if (to.name !== 'Login' && to.name !== 'ForgotPassword' && to.name !== 'ResetPassword' && !isAuthenticated) {
+  if (token) {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    isAdmin = decodedToken.admin === 1; // Admin jogosultság ellenőrzése
+  }
+
+  if (to.meta.requiresAdmin && !isAdmin) {
+    next({ name: 'HomePage' }); // Átirányítás a főoldalra, ha nincs admin jogosultság
+  } else if (to.name !== 'Login' && to.name !== 'ForgotPassword' && to.name !== 'ResetPassword' && !isAuthenticated) {
     next({ name: 'Login' }); // Átirányítás a bejelentkezéshez
   } else {
     next(); // Minden más esetben folytatás

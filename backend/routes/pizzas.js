@@ -1,15 +1,23 @@
 const express = require('express');
+const router = express.Router();
 const db = require('../models/db');
 
-const router = express.Router();
-
-// Pizzák lekérése
 router.get('/pizzas', (req, res) => {
-  db.query('SELECT * FROM pizzas ORDER BY RAND() LIMIT 6', (err, results) => {
+  const query = `
+    SELECT p.id, p.name, p.price, p.image, GROUP_CONCAT(t.name SEPARATOR ', ') AS toppings
+    FROM pizzas p
+    LEFT JOIN pizzaToppings pt ON p.id = pt.pizzaId
+    LEFT JOIN toppings t ON pt.toppingId = t.id
+    GROUP BY p.id, p.name, p.price, p.image
+    ORDER BY RAND()
+    LIMIT 6
+  `;
+
+  db.query(query, (err, results) => {
     if (err) {
-      return res.status(500).json({ message: 'Hiba a pizzák lekérdezése során.' });
+      return res.status(500).json({ error: 'Hiba a pizzák lekérdezése során.' });
     }
-    res.status(200).json(results);
+    res.json(results);
   });
 });
 

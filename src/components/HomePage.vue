@@ -1,63 +1,29 @@
-<!-- eslint-disable no-unused-vars -->
-<!-- eslint-disable no-unused-vars -->
-<script>
-import { useRouter, useRoute } from "vue-router";
-import axios from "axios";
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
+const pizzas = ref([]);
 
-const router = useRouter();
-
-
-export default {
-  data() {
-    return {
-      pizzas: [], // Itt tároljuk a betöltött pizzákat
-      order: {
-        name: "",
-        pizza: "",
-        address: "",
-      },
-    };
-  },
-  mounted() {
-    this.fetchPizzas(); // Betöltjük a pizzákat az oldal betöltődésekor
-  },
-  methods: {
-    // API hívás a pizzák lekérésére (.)
-    fetchPizzas() {
-      fetch("http://localhost:3061/pizzas")  // Itt állítsd be az API végpontot
-        .then((response) => response.json())
-        .then((data) => {
-          this.pizzas = data;  // Az adatokat az állapotba mentjük
-        })
-        .catch((error) => {
-          console.error("Hiba a pizzák betöltésekor:", error);
-        });
-    },
-
-    scrollToMenu() {
-      const menuSection = document.getElementById("menu");
-      menuSection.scrollIntoView({ behavior: "smooth" });
-    },
-
-    orderPizza(pizza) {
-      this.order.pizza = pizza.name;
-      alert(`A ${pizza.name} pizzát adtad hozzá a rendeléshez!`);
-    },
-
-    goToOrder() {
-      this.$router.push("/order");
-    },
-
-    submitOrder() {
-      alert(`Köszönjük a rendelésed, ${this.order.name}!`);
-      console.log(this.order);
-      // Itt lehetne API hívást tenni rendelés küldéséhez. Példa: axios.post("http://localhost:3061/orders", this.order);
-    },
-  },
+const fetchPizzas = async () => {
+  try {
+    const response = await axios.get('http://localhost:3061/pizzas');
+    pizzas.value = response.data;
+  } catch (error) {
+    console.error('Hiba a pizzák betöltésekor:', error);
+  }
 };
 
+onMounted(() => {
+  fetchPizzas();
+});
 
+const orderPizza = (pizza) => {
+  alert(`A ${pizza.name} pizzát adtad hozzá a rendeléshez!`);
+};
+
+const goToOrder = () => {
+  router.push('/order');
+};
 </script>
 
 <template>
@@ -97,7 +63,7 @@ export default {
         <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
           <img class="previewpizza" :src="pizza.image" alt="Pizza" />
           <h3>{{ pizza.name }}</h3>
-          <p>{{ pizza.description }}</p>
+          <p>{{ pizza.toppings }}</p>
           <p>
             <strong>{{ pizza.price }} Ft</strong>
           </p>
@@ -118,8 +84,7 @@ export default {
 </template>
 
 <style scoped>
-.getToOrder
-{
+.getToOrder {
   height: 20dvw;
   font-size: 27px;
   background-position: center;
@@ -127,17 +92,17 @@ export default {
   justify-content: center;
   text-align: center;
   align-items: center;
-  color: #A0702B;
+  color: #a0702b;
   background: radial-gradient(
     circle,
     rgb(255, 255, 255) 0%,
     rgb(255, 231, 152) 20%
   );
 }
-.getToOrder button{
+.getToOrder button {
   padding: 10px 25px;
   font-size: 1rem;
-  background-color: #F7AD45;
+  background-color: #f7ad45;
   color: white;
   border: none;
   font-weight: bold;
@@ -145,11 +110,11 @@ export default {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.previewpizza{
+.previewpizza {
   height: 50%;
   width: 100%;
 }
-.menu{
+.menu {
   color: black;
   background: radial-gradient(
     circle,

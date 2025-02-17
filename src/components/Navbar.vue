@@ -8,6 +8,7 @@ const route = useRoute();
 
 // State for managing login status and dropdown visibility
 const isLoggedIn = ref(false);
+const isAdmin = ref(false); // Admin jogosultság állapota
 const isDropdownVisible = ref(false); // Dropdown visibility state
 const isMobileMenuOpen = ref(false); // Mobile menu state
 
@@ -16,6 +17,8 @@ onMounted(() => {
   const token = localStorage.getItem("token");
   if (token) {
     isLoggedIn.value = true;
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    isAdmin.value = decodedToken.admin === 1; // Admin jogosultság ellenőrzése
   }
 });
 
@@ -29,10 +32,16 @@ const goToCart = () => {
   router.push("/cart");
 };
 
+// Navigate to admin page
+const goToAdmin = () => {
+  router.push("/admin");
+};
+
 // Logout logic
 const handleLogout = () => {
   localStorage.removeItem("token");
   isLoggedIn.value = false;
+  isAdmin.value = false;
   router.push("/login");
 };
 
@@ -65,6 +74,7 @@ const toggleMobileMenu = () => {
       <div v-if="isDropdownVisible" class="dropdown-menu">
         <p @click="goToProfile">Profil</p>
         <p @click="goToCart">Kosár</p>
+        <p v-if="isAdmin" @click="goToAdmin">Admin</p> <!-- Admin link -->
         <p @click="handleLogout">Kijelentkezés</p>
       </div>
     </div>

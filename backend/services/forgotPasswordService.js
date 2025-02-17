@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   auth: {
     user: 'your-user',
-    pass: 'your-password'
+    pass: 'your-pass'
   }
 });
 
@@ -37,7 +37,19 @@ exports.sendResetEmail = async (email) => {
           text: `Ön ezt az emailt azért kapta, mert valaki (vagy Ön) jelszó visszaállítást kért a fiókjához.\n\n
           Kérjük kattintson az alábbi linkre, vagy másolja be a böngészőjébe a jelszó visszaállításához:\n\n
           http://localhost:8200/reset-password/${token}\n\n
-          Ha nem Ön kérte a jelszó visszaállítást, kérjük hagyja figyelmen kívül ezt az emailt, és a jelszava változatlan marad.\n`
+          Ha nem Ön kérte a jelszó visszaállítást, kérjük hagyja figyelmen kívül ezt az emailt, és a jelszava változatlan marad.\n`,
+          html: `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+              <h2 style="color: #333;">PollakPizza Jelszó Visszaállítás</h2>
+              <p>Ön ezt az emailt azért kapta, mert valaki (vagy Ön) jelszó visszaállítást kért a fiókjához.</p>
+              <p>Kérjük kattintson az alábbi linkre, vagy másolja be a böngészőjébe a jelszó visszaállításához:</p>
+              <p>
+                <a href="http://localhost:8200/reset-password/${token}" style="display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">Jelszó Visszaállítása</a>
+              </p>
+              <p>Ha nem Ön kérte a jelszó visszaállítást, kérjük hagyja figyelmen kívül ezt az emailt, és a jelszava változatlan marad.</p>
+              <p>Üdvözlettel,<br>PollakPizza Csapat</p>
+            </div>
+          `
         };
 
         transporter.sendMail(mailOptions, (err, info) => {
