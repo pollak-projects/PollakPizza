@@ -10,29 +10,6 @@ export default {
     return {
       activeLink: window.location.pathname, // Initializes the activeLink based on the current URL
       isLoggedIn: false, // Example login status, adjust based on your actual logic
-      pizzas: [
-        {
-          id: 1,
-          name: "Margherita",
-          description: "Alap paradicsomszósz, mozzarella, bazsalikom",
-          price: 1500,
-          image: margaretaImage,
-        },
-        {
-          id: 2,
-          name: "Pepperoni",
-          description: "Szalámi, mozzarella, paradicsomszósz",
-          price: 1800,
-          image: pepiImage,
-        },
-        {
-          id: 3,
-          name: "Hawaii",
-          description: "Sonka, ananász, mozzarella, paradicsomszósz",
-          price: 1200,
-          image: hawaiiImage,
-        },
-      ],
       order: {
         name: "",
         pizza: "",
