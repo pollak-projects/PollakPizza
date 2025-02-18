@@ -1,9 +1,24 @@
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import margaretaImage from "@/assets/image/margareta.jpg";
 import pepiImage from "@/assets/image/pepi.jpg";
 import hawaiiImage from "@/assets/image/hawaii.jpg";
-const isLoggedIn = ref(false);
+import axios from "axios";
+
+const pizzas = ref([]);
+
+const fetchPizzas = async () => {
+  try {
+    const response = await axios.get("http://localhost:3061/pizzas");
+    pizzas.value = response.data;
+  } catch (error) {
+    console.error("Hiba a pizzák betöltésekor:", error);
+  }
+};
+
+onMounted(() => {
+  fetchPizzas();
+});
 
 export default {
   data() {
@@ -39,48 +54,23 @@ export default {
   <div class="home">
     <section class="hero">
       <div class="hero-content">
-        <h2>A legfinomabb pizzák várnak rád!</h2>
-        <p>Válassz a kedvenc pizzáid közül, és rendelj online gyorsan!</p>
-        <button @click="scrollToMenu">Nézd meg a menüt!</button>
+        <h2>Ezen az oldalon megtaláljak a kinílatunkat</h2>
       </div>
     </section>
 
     <section id="menu" class="menu">
-      <h2>Menü</h2>
+      <h2>Étlapunk</h2>
       <div class="pizza-list">
         <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
-          <img :src="pizza.image" alt="Pizza" />
+          <img class="previewpizza" :src="pizza.image" alt="Pizza" />
           <h3>{{ pizza.name }}</h3>
-          <p>{{ pizza.description }}</p>
+          <p>{{ pizza.toppings }}</p>
           <p>
             <strong>{{ pizza.price }} Ft</strong>
           </p>
           <button @click="orderPizza(pizza)">Rendelj most!</button>
         </div>
       </div>
-    </section>
-
-    <section id="order" class="order">
-      <h2>Rendelés</h2>
-      <form @submit.prevent="submitOrder">
-        <div>
-          <label for="name">Név:</label>
-          <input type="text" id="name" v-model="order.name" required />
-        </div>
-        <div>
-          <label for="pizza">Válaszd ki a pizzát:</label>
-          <select v-model="order.pizza" required>
-            <option v-for="pizza in pizzas" :key="pizza.id" :value="pizza.name">
-              {{ pizza.name }}
-            </option>
-          </select>
-        </div>
-        <div>
-          <label for="address">Szállítási cím:</label>
-          <input type="text" id="address" v-model="order.address" required />
-        </div>
-        <button type="submit">Rendelés leadása</button>
-      </form>
     </section>
   </div>
 </template>
