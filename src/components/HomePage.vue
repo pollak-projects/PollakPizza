@@ -1,15 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
 const pizzas = ref([]);
 
 const fetchPizzas = async () => {
   try {
-    const response = await axios.get('http://localhost:3061/pizzas');
+    const response = await axios.get("http://localhost:3061/pizzas");
     pizzas.value = response.data;
   } catch (error) {
-    console.error('Hiba a pizzák betöltésekor:', error);
+    console.error("Hiba a pizzák betöltésekor:", error);
   }
 };
 
@@ -22,7 +22,7 @@ const orderPizza = (pizza) => {
 };
 
 const goToOrder = () => {
-  router.push('/order');
+  router.push("/order");
 };
 </script>
 
@@ -33,7 +33,7 @@ const goToOrder = () => {
         <div class="text-content">
           <h2>Pollak Pizza Home</h2>
           <p>
-            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br>
+            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
             pizzák <span class="specialfont"> otthon(r)a </span>
           </p>
           <button @click="goToOrder" class="orderbtn">Rendelés most</button>
@@ -75,9 +75,9 @@ const goToOrder = () => {
   <section class="getToOrder">
     <div>
       <h1>Rendelés</h1>
-      <br>
-      <p>A rendelésed megkezdéséhez, kattints a gombra! </p>
-      <br>
+      <br />
+      <p>A rendelésed megkezdéséhez, kattints a gombra!</p>
+      <br />
       <button @click="goToOrder">Rendelés megkezdése</button>
     </div>
   </section>
@@ -86,7 +86,7 @@ const goToOrder = () => {
 <style scoped>
 .getToOrder {
   height: 20dvw;
-  font-size: 27px;
+  font-size: 1.7dvw;
   background-position: center;
   display: flex;
   justify-content: center;
@@ -100,8 +100,8 @@ const goToOrder = () => {
   );
 }
 .getToOrder button {
-  padding: 10px 25px;
-  font-size: 1rem;
+  padding: 1dvw 1.75dvw;
+  font-size: 1.2dvw;
   background-color: #f7ad45;
   color: white;
   border: none;
@@ -137,7 +137,7 @@ const goToOrder = () => {
   border-radius: 10px;
   font-weight: bold;
   background-color: rgba(247, 173, 69, 0.5);
-  padding: 15px;
+  padding: 1.3dvw;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #a0702b;
@@ -157,16 +157,16 @@ const goToOrder = () => {
 
 .pizza-card h3 {
   font-size: 1.5rem;
-  margin-bottom: 10px;
+  margin-bottom: 1dvw;
 }
 
 .pizza-card p {
-  font-size: 1rem;
-  margin-bottom: 10px;
+  font-size: 1dvw;
+  margin-bottom: 1dvw;
 }
 
 .pizza-card button {
-  padding: 10px 20px;
+  padding: 1dvw 2dvw;
   font-size: 1rem;
   background-color: #f7ad45;
   color: white;
@@ -186,10 +186,10 @@ const goToOrder = () => {
 }
 .text-asd {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.5dvw;
   color: white;
   font-weight: bold;
-  padding: 2rem;
+  padding: 2dvw;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
   max-width: 70%;
@@ -242,7 +242,7 @@ const goToOrder = () => {
 }
 .menubtn {
   background-color: rgba(247, 173, 69, 0.3);
-  border: #f7ad45 solid 3px;
+  border: #f7ad45 solid 0.2dvw;
   border-radius: 40px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   padding: 0.7dvw 3.3dvw;
@@ -250,7 +250,7 @@ const goToOrder = () => {
 }
 .orderbtn {
   background-color: #f7ad45;
-  border: #f7ad45 solid 2px;
+  border: #f7ad45 solid 0.2dvw;
   border-radius: 40px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   padding: 0.7dvw 3.3dvw;
@@ -278,7 +278,8 @@ img {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .hero img {
-  height: 40dvw;
+  height: 35dvw;
+  width: 25dvw;
   max-height: 500px;
   border-radius: 30px;
   padding-left: 3dvw;
@@ -291,12 +292,12 @@ img {
   justify-content: space-between;
 }
 .hero h2 {
-  font-size: 70px;
+  font-size: 4dvw;
   color: #9b6600;
 }
 
 .hero p {
-  font-size: 18px;
+  font-size: 1dvw;
   margin-bottom: 2dvw;
   padding-left: 2.5dvw;
   color: #9b6600;
@@ -304,9 +305,9 @@ img {
 }
 
 .hero button {
-  font-size: 18px;
+  font-size: 1dvw;
   cursor: pointer;
-  margin: 5px;
+  margin: 0.2dvw;
   font-weight: bold;
   margin-left: 2dvw;
 }
@@ -317,7 +318,7 @@ img {
 }
 
 .menu h2 {
-  font-size: 36px;
+  font-size: 3dvw;
   margin-bottom: 20px;
 }
 
@@ -327,32 +328,44 @@ img {
   justify-content: center;
 }
 
-.pizza-card {
-  width: 300px;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
-}
-
 .pizza-card h3 {
-  font-size: 24px;
+  font-size: 2dvw;
   margin-bottom: 10px;
 }
 
 .pizza-card p {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 1dvw;
+  margin-bottom: 0.4dvw;
+}
+
+.pizza-card {
+  display: flex;
+  flex-direction: column; /* Stack items properly */
+  justify-content: space-between; /* Spread items evenly */
+  width: 30%;
+  border: 1px solid #d9983d;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color: rgba(247, 173, 69, 0.5);
+  padding: 1.3dvw;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #a0702b;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .pizza-card button {
-  padding: 5px 10px;
-  font-size: 16px;
-  background-color: #333;
-  color: #fff;
+  padding: 1dvw 2dvw;
+  font-size: 1dvw;
+  background-color: #f7ad45;
+  color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center; /* Ensures it stays centered */
+  width: 80%; /* Prevents it from being too wide */
+  margin-top: auto; /* Pushes the button to the bottom */
 }
 
 .order {
