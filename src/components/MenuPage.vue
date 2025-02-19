@@ -1,56 +1,33 @@
 <script>
 import { ref, onMounted } from "vue";
-import margaretaImage from "@/assets/image/margareta.jpg";
-import pepiImage from "@/assets/image/pepi.jpg";
-import hawaiiImage from "@/assets/image/hawaii.jpg";
 import axios from "axios";
 
-const pizzas = ref([]);
-
-const fetchPizzas = async () => {
-  try {
-    const response = await axios.get("http://localhost:3061/pizzas");
-    pizzas.value = response.data;
-  } catch (error) {
-    console.error("Hiba a pizzák betöltésekor:", error);
-  }
-};
-
-onMounted(() => {
-  fetchPizzas();
-});
-
 export default {
-  data() {
-    return {
-      activeLink: window.location.pathname, // Initializes the activeLink based on the current URL
-      isLoggedIn: false, // Example login status, adjust based on your actual logic
-      order: {
-        name: "",
-        pizza: "",
-        address: "",
-      },
+  setup() {
+    const pizzas = ref([]);
+
+    const fetchPizzas = async () => {
+      try {
+        const response = await axios.get("http://localhost:3061/allpizzas");
+        pizzas.value = response.data;
+      } catch (error) {
+        console.error("Hiba a pizzák betöltésekor:", error);
+      }
     };
-  },
-  methods: {
-    scrollToMenu() {
-      const menuSection = document.getElementById("menu");
-      menuSection.scrollIntoView({ behavior: "smooth" });
-    },
-    orderPizza(pizza) {
-      this.order.pizza = pizza.name;
-      alert(`A ${pizza.name} pizzát adtad hozzá a rendeléshez!`);
-    },
-    submitOrder() {
-      alert(`Köszönjük a rendelésed, ${this.order.name}!`);
-      console.log(this.order);
-      // Itt lehetne API hívást tenni rendelés küldéséhez
-    },
+
+    onMounted(() => {
+      fetchPizzas();
+    });
+
+    return { pizzas, fetchPizzas };
   },
 };
 </script>
 
 <template>
+  <body>
+    
+
   <div class="home">
     <section class="hero">
       <div class="hero-content">
@@ -73,12 +50,17 @@ export default {
       </div>
     </section>
   </div>
+  </body>
 </template>
 
 <style scoped>
+body{
+  background-color: rgb(255, 231, 152);
+  height: 100%;
+}
 a.active {
-  font-weight: bold; /* Optional: Make the active link bold */
-  border-bottom: 2px solid #fae4df; /* Optional: Add a bottom border to indicate active link */
+  font-weight: bold;
+  border-bottom: 2px solid #fae4df; 
   padding-bottom: 5px;
 }
 
@@ -123,7 +105,7 @@ header nav ul li.active::after {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #fff; /* A vonal színe */
+  background-color: #fff; 
 }
 body {
   margin: 0;
@@ -200,132 +182,138 @@ img {
 
 .menu {
   text-align: center;
+  color: black;
+  background: radial-gradient(
+    circle,
+    rgb(255, 255, 255) 0%,
+    rgb(255, 231, 152) 40%
+  );
 }
+
 
 .menu h2 {
   font-size: 36px;
   margin-bottom: 20px;
 }
 
+
 .pizza-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Alapértelmezett: 3 oszlop */
+  gap: 20px;
   justify-content: center;
+  padding-left: 20dvw;
+  padding-right: 20dvw;
 }
 
-.pizza-card {
-  width: 300px;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
+/* Tablet nézet (max 1024px) - 2 oszlop */
+@media (max-width: 1024px) {
+  .pizza-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 oszlop */
+  }
 }
 
-.pizza-card img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
+/* Mobil nézet (max 768px) - 1 oszlop */
+@media (max-width: 768px) {
+  .pizza-list {
+    grid-template-columns: repeat(1, 1fr); /* 1 oszlop */
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
 }
+
 
 .pizza-card h3 {
-  font-size: 24px;
+  font-size: 2dvw;
   margin-bottom: 10px;
 }
 
 .pizza-card p {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 1dvw;
+  margin-bottom: 0.4dvw;
+}
+
+.pizza-card {
+  display: flex;
+  flex-direction: column; /* Stack items properly */
+  justify-content: space-between; /* Spread items evenly */
+  width: 30%;
+  border: 1px solid #d9983d;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color: rgba(247, 173, 69, 0.5);
+  padding: 1.3dvw;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #a0702b;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .pizza-card button {
-  padding: 5px 10px;
-  font-size: 16px;
-  background-color: #333;
-  color: #fff;
+  padding: 1dvw 2dvw;
+  font-size: 1dvw;
+  background-color: #f7ad45;
+  color: white;
   border: none;
-  cursor: pointer;
-}
-
-.order {
-  text-align: center;
-}
-
-.order h2 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
-.order form {
-  display: flex;
-  flex-direction: column;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.order form label {
-  margin-bottom: 10px;
-}
-
-.order form input,
-.order form select {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
   border-radius: 5px;
-}
-
-.order form button {
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #333;
-  color: #fff;
-  border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center; /* Ensures it stays centered */
+  width: 80%; /* Prevents it from being too wide */
+  margin-top: auto; /* Pushes the button to the bottom */
+}
+.pizza-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns per row */
+  gap: 20px; /* Space between pizza cards */
+  justify-content: center;
+  padding-left: 20dvw;
+  padding-right: 20dvw;
 }
 
-.order form button:hover {
-  background-color: #555;
+.pizza-card {
+  width: 100%; /* Ensure cards take up equal space */
+  border: 1px solid #d9983d;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color: rgba(247, 173, 69, 0.5);
+  padding: 1.3dvw;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #a0702b;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.order form button:active {
-  background-color: #777;
+.pizza-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.order form button:disabled {
-  background-color: #999;
-  cursor: not-allowed;
+.pizza-card img {
+  height: 50%;
+  width: 100%;
+  height: 60%;
 }
 
-.order form button:disabled:hover {
-  background-color: #999;
+.pizza-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1dvw;
 }
 
-.order form button:disabled:active {
-  background-color: #999;
+.pizza-card p {
+  font-size: 1dvw;
+  margin-bottom: 1dvw;
 }
 
-.order form button:disabled:focus {
-  background-color: #999;
+.pizza-card button {
+  padding: 1dvw 2dvw;
+  font-size: 1rem;
+  background-color: #f7ad45;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.order form button:disabled:active {
-  background-color: #999;
-}
-
-.order form button:disabled:focus {
-  background-color: #999;
-}
-
-.order form button:disabled:active {
-  background-color: #999;
-}
-
-.order form button:disabled:focus {
-  background-color: #999;
-}
-
-.order form button:disabled:active {
-  background-color: #999;
-}
 </style>
