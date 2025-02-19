@@ -9,6 +9,7 @@ dotenv.config();
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const pizzaRoutes = require('./routes/pizzas');
+const allPizzaRoutes = require('./routes/allPizzas'); 
 const adminRoutes = require('./routes/admin');
 const orderRoutes = require('./routes/orders'); // Új útvonal importálása
 
@@ -31,6 +32,7 @@ app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(profileRoutes);
 app.use(pizzaRoutes);
+app.use(allPizzaRoutes);
 app.use(adminRoutes);
 app.use(orderRoutes); // Új útvonal hozzáadása
 
