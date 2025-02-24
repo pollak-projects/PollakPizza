@@ -42,7 +42,7 @@ describe('Auth Routes', () => {
         password: 'password123'
       });
     expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('message', 'Sikeres bejelentkezés!');
+    expect(res.body).toHaveProperty('message', 'Sikeres bejelentkezés.');
     expect(res.body).toHaveProperty('token');
   });
 });
