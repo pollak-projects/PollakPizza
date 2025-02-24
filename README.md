@@ -16,9 +16,11 @@
 
 ## How to install packages
 **Frontend:**
-- `1. npm init`
+- `1. cd PollakPizza`
 - `2. npm install`
+- `3. npm run dev`
 
 **Backend:**
-- `1. npm install express`
-- `2. npm install jsonwebtoken`
+- `1. cd PollakPizza/backend`
+- `2. npm install`
+- `3. node .`
