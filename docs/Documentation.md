@@ -17,27 +17,35 @@
 ## Telepítési útmutató
 
 ### Frontend
-1. Navigálj a frontend mappába:
+1. Navigálj a mappába:
     ```sh
-    cd frontend
+    cd PollakPizza
     ```
 2. Inicializáld a projektet:
     ```sh
-    npm init
+    npm init -y
     ```
 3. Telepítsd a szükséges csomagokat:
     ```sh
     npm install
     ```
+4. Indítsd el a weboldalt:
+    ```sh
+    npm run dev
+    ```
 
 ### Backend
 1. Navigálj a backend mappába:
     ```sh
-    cd backend
+    cd PollakPizza/backend
     ```
 2. Telepítsd a szükséges csomagokat:
     ```sh
-    npm install express jsonwebtoken bcryptjs body-parser cors dotenv mysql2 sequelize jest supertest
+    npm install
+    ```
+3. Indítsd el a backendet:
+    ```sh
+    node .
     ```
 
 ## Projekt struktúra
