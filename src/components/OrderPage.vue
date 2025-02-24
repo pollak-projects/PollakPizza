@@ -1,38 +1,11 @@
 <script>
-import margaretaImage from "@/assets/image/margareta.jpg";
-import pepiImage from "@/assets/image/pepi.jpg";
-import hawaiiImage from "@/assets/image/hawaii.jpg";
-import { onMounted, ref } from 'vue';
-const isLoggedIn = ref(false);
 
 export default {
   data() {
     return {
       activeLink: window.location.pathname, // Initializes the activeLink based on the current URL
       isLoggedIn: false, // Example login status, adjust based on your actual logic
-      pizzas: [
-        {
-          id: 1,
-          name: "Margherita",
-          description: "Alap paradicsomszósz, mozzarella, bazsalikom",
-          price: 1500,
-          image: margaretaImage,
-        },
-        {
-          id: 2,
-          name: "Pepperoni",
-          description: "Szalámi, mozzarella, paradicsomszósz",
-          price: 1800,
-          image: pepiImage,
-        },
-        {
-          id: 3,
-          name: "Hawaii",
-          description: "Sonka, ananász, mozzarella, paradicsomszósz",
-          price: 1200,
-          image: hawaiiImage,
-        },
-      ],
+      pizzas: [],
       order: {
         name: "",
         pizza: "",
@@ -83,28 +56,28 @@ export default {
 
         <div class="row">
           <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZAA">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZA">
             <h3>Nápolyi pizza</h3>
             <h4>10 Ft</h4>
             <button>Hozzáadás</button>
           </div>
 
           <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZAA">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZA">
             <h3>Nápolyi pizza</h3>
             <h4>10 Ft</h4>
             <button>Hozzáadás</button>
           </div>
 
           <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZAA">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZA">
             <h3>Nápolyi pizza</h3>
             <h4>10 Ft</h4>
             <button>Hozzáadás</button>
           </div>
 
           <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZAA">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZA">
             <h3>Nápolyi pizza</h3>
             <h4>10 Ft</h4>
             <button>Hozzáadás</button>
