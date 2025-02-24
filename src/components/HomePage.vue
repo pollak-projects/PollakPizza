@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-
+import { useRouter } from "vue-router";
 const pizzas = ref([]);
+
+const router = useRouter();
+
 
 const fetchPizzas = async () => {
   try {
@@ -17,12 +20,13 @@ onMounted(() => {
   fetchPizzas();
 });
 
-const orderPizza = (pizza) => {
-  alert(`A ${pizza.name} pizzát adtad hozzá a rendeléshez!`);
-};
 
 const goToOrder = () => {
   router.push("/order");
+};
+
+const goToMenu = () => {
+  router.push("/menu");
 };
 </script>
 
@@ -37,7 +41,7 @@ const goToOrder = () => {
             pizzák <span class="specialfont"> otthon(r)a </span>
           </p>
           <button @click="goToOrder" class="orderbtn">Rendelés most</button>
-          <button @click="scrollToMenu" class="menubtn">Irány az étlap</button>
+          <button @click="goToMenu" class="menubtn">Irány az étlap</button>
         </div>
         <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
       </div>
@@ -67,7 +71,7 @@ const goToOrder = () => {
           <p>
             <strong>{{ pizza.price }} Ft</strong>
           </p>
-          <button @click="orderPizza(pizza)">Rendelj most!</button>
+          <button>Rendelj most!</button>
         </div>
       </div>
     </section>
@@ -153,6 +157,7 @@ const goToOrder = () => {
   height: 50%;
   width: 100%;
   height: 60%;
+  border-radius: 20px;
 }
 
 .pizza-card h3 {
@@ -260,9 +265,7 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
 }
-img {
-  border-radius: 30px;
-}
+
 .hero {
   background-size: cover;
   background-position: center;
@@ -278,9 +281,8 @@ img {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .hero img {
-  height: 35dvw;
+  height: 25dvw;
   width: 25dvw;
-  max-height: 500px;
   border-radius: 30px;
   padding-left: 3dvw;
 }
