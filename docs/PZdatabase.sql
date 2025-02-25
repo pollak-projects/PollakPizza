@@ -2,6 +2,7 @@ CREATE TABLE pizzas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     price INT,
+    category VARCHAR(255),
     image VARCHAR(255) -- Új oszlop a pizza képének URL-jéhez
 );
 
@@ -61,9 +62,9 @@ CREATE TABLE pizzaToppings (
 
 -- Alapértelmezett pizzák és toppingok beszúrása
 INSERT INTO pizzas (name, price, image) VALUES
-('Margherita', 1000, 'images/margherita.jpg'),
-('Pepperoni', 1200, 'images/pepperoni.jpg'),
-('Hawaii', 1300, 'images/hawaii.jpg');
+('Margherita', 1000, 'src/assets/image/margareta.jpg'),
+('Pepperoni', 1200, 'src/assets/image/pepi.jpg'),
+('Hawaii', 1300, 'src/assets/image/hawaii.jpg');
 
 INSERT INTO toppings (name, bonusPrice) VALUES
 ('Sajt', 200),
