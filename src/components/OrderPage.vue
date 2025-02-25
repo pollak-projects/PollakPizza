@@ -1,25 +1,29 @@
 <script>
-import OrderPageCheesePizzas from './OrderPageCheesePizzas.vue';
-import OrderPageCostumePizzas from './OrderPageCostumePizzas.vue';
-import OrderPageMeatPizzas from './OrderPageMeatPizzas.vue';
-import Spinner from './Spinner.vue';
-
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
 export default {
-  data() {
-    return {
-      activeLink: window.location.pathname, // Initializes the activeLink based on the current URL
-      isLoggedIn: false, // Example login status, adjust based on your actual logic
-      pizzas: [],
-      order: {
-        name: "",
-        pizza: "",
-        address: "",
-      },
+  setup() {
+    const pizzas = ref([]);
+
+    const fetchPizzas = async () => {
+      try {
+        const response = await axios.get("http://localhost:3061/allpizzas");
+        pizzas.value = response.data;
+      } catch (error) {
+        console.error("Hiba a pizzák betöltésekor:", error);
+      }
     };
+
+    onMounted(() => {
+      fetchPizzas();
+    });
+
+    return { pizzas, fetchPizzas };
   },
-  methods: {
-    scrollToMenu() {
+
+
+   scrollToMenu() {
       const menuSection = document.getElementById("menu");
       menuSection.scrollIntoView({ behavior: "smooth" });
     },
@@ -32,9 +36,7 @@ export default {
       console.log(this.order);
       // Itt lehetne API hívást tenni rendelés küldéséhez
     },
-  },
-};
-
+  };
 
 </script>
 
@@ -46,15 +48,24 @@ export default {
 
     <div class="menu">
       <ul class="menubar">
-        <li class="active">Húsos pizzák</li>
-        <li>Sajtos pizzák</li>
-        <li>Egyedi pizzák</li>
+        <li class="active" @click="scrollToMenu">Húsos pizzák</li>
+        <li @click="scrollToMenu">Sajtos pizzák</li>
+        <li @click="scrollToMenu">Egyedi pizzák</li>
       </ul>
     </div>
 
     <div class="container row">
       <!-- Bal oldal -->
-      <OrderPageMeatPizzas></OrderPageMeatPizzas>
+      <div class="leftSide">
+        <div id="menu" class="menuList">
+          <div v-for="pizza in pizzas" :key="pizza.id" class="pizzaItem">
+            <h4>{{ pizza.name }}</h4>
+            <p>{{ pizza.price }} Ft</p>
+            <p>{{ pizza.toppings }}</p>
+            <button @click="orderPizza(pizza)">Rendelés</button>
+          </div>
+        </div>
+      </div>
       
       <!-- Jobb oldal -->
       <div class="rightSide">
