@@ -1,4 +1,9 @@
 <script>
+import OrderPageCheesePizzas from './OrderPageCheesePizzas.vue';
+import OrderPageCostumePizzas from './OrderPageCostumePizzas.vue';
+import OrderPageMeatPizzas from './OrderPageMeatPizzas.vue';
+import Spinner from './Spinner.vue';
+
 
 export default {
   data() {
@@ -48,49 +53,9 @@ export default {
     </div>
 
     <div class="container row">
-
       <!-- Bal oldal -->
-      <div class="items leftSide">
-
-        <div class="row">
-          <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZA">
-            <h3>Nápolyi pizza</h3>
-            <h4>10 Ft</h4>
-            <button>Hozzáadás</button>
-          </div>
-
-          <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZA">
-            <h3>Nápolyi pizza</h3>
-            <h4>10 Ft</h4>
-            <button>Hozzáadás</button>
-          </div>
-
-          <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZA">
-            <h3>Nápolyi pizza</h3>
-            <h4>10 Ft</h4>
-            <button>Hozzáadás</button>
-          </div>
-
-          <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZA">
-            <h3>Nápolyi pizza</h3>
-            <h4>10 Ft</h4>
-            <button>Hozzáadás</button>
-          </div>
-
-          <div class="item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZAA">
-            <h3>Nápolyi pizza</h3>
-            <h4>10 Ft</h4>
-            <button>Hozzáadás</button>
-          </div>
-
-        </div>
-      </div>
-
+      <OrderPageMeatPizzas></OrderPageMeatPizzas>
+      
       <!-- Jobb oldal -->
       <div class="rightSide">
         <div class="delivery">
@@ -170,7 +135,9 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-
+.hidden {
+  opacity: 0;
+}
 
 .app {
   height: 1080px;
@@ -333,6 +300,7 @@ export default {
   color: #9B6600;
   text-overflow: ellipsis;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .delivery input:focus {
@@ -352,6 +320,7 @@ export default {
   margin: 10px 0px 10px 0px;
   color: #9B6600;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .delivery select:hover {
@@ -413,7 +382,8 @@ export default {
   background-color: #FFF1D7;
   border: #9B6600 solid 2px;
   color: #9B6600;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 15px;
   width: 23px;
   height: 15px;
   cursor: pointer;
