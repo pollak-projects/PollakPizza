@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-
+import { useRouter } from "vue-router";
 const pizzas = ref([]);
+
+const router = useRouter();
+
 
 const fetchPizzas = async () => {
   try {
@@ -17,12 +20,13 @@ onMounted(() => {
   fetchPizzas();
 });
 
-const orderPizza = (pizza) => {
-  alert(`A ${pizza.name} pizzát adtad hozzá a rendeléshez!`);
-};
 
 const goToOrder = () => {
   router.push("/order");
+};
+
+const goToMenu = () => {
+  router.push("/menu");
 };
 </script>
 
@@ -37,7 +41,7 @@ const goToOrder = () => {
             pizzák <span class="specialfont"> otthon(r)a </span>
           </p>
           <button @click="goToOrder" class="orderbtn">Rendelés most</button>
-          <button @click="scrollToMenu" class="menubtn">Irány az étlap</button>
+          <button @click="goToMenu" class="menubtn">Irány az étlap</button>
         </div>
         <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
       </div>
@@ -67,7 +71,7 @@ const goToOrder = () => {
           <p>
             <strong>{{ pizza.price }} Ft</strong>
           </p>
-          <button @click="orderPizza(pizza)">Rendelj most!</button>
+          <button>Rendelj most!</button>
         </div>
       </div>
     </section>
@@ -110,8 +114,10 @@ const goToOrder = () => {
   transition: background-color 0.3s ease;
 }
 .previewpizza {
-  height: 50%;
+  max-height: 185px;
   width: 100%;
+  border-radius: 20px;
+  object-fit: cover;
 }
 .menu {
   color: black;
@@ -127,13 +133,30 @@ const goToOrder = () => {
   padding-right: 20dvw;
 }
 
+@media (max-width: 1024px) {
+  .pizza-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .pizza-list {
+    grid-template-columns: repeat(1, 1fr);
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+}
+
 .pizza-card {
-  width: 100%; /* Ensure cards take up equal space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 90%;
   border: 1px solid #d9983d;
   border-radius: 10px;
   font-weight: bold;
   background-color: rgba(247, 173, 69, 0.5);
-  padding: 1.3dvw;
+  padding: 1dvw;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #a0702b;
@@ -146,30 +169,32 @@ const goToOrder = () => {
 }
 
 .pizza-card img {
-  height: 50%;
   width: 100%;
-  height: 60%;
+  height: auto; /* Maintain aspect ratio to avoid stretching */
 }
 
 .pizza-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1dvw;
+  font-size: 1rem;
+  margin-bottom: 0.5dvw;
 }
 
 .pizza-card p {
-  font-size: 1dvw;
-  margin-bottom: 1dvw;
+  font-size: 0.8rem;
+  margin-bottom: 0.5dvw;
 }
 
 .pizza-card button {
-  padding: 1dvw 2dvw;
-  font-size: 1rem;
+  padding: 0.5dvw 1dvw;
+  font-size: 0.8rem;
   background-color: #f7ad45;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  align-self: center;
+  width: 80%;
+  margin-top: auto;
 }
 
 .textvideo {
@@ -256,9 +281,139 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
 }
-img {
-  border-radius: 30px;
+.getToOrder {
+  height: 20dvw;
+  font-size: 1.7dvw;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  color: #a0702b;
+  background: radial-gradient(
+    circle,
+    rgb(255, 255, 255) 0%,
+    rgb(255, 231, 152) 20%
+  );
 }
+.getToOrder button {
+  padding: 1dvw 1.75dvw;
+  font-size: 1.2dvw;
+  background-color: #f7ad45;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.previewpizza {
+  height: 50%;
+  width: 100%;
+}
+.menu {
+  color: black;
+  background: radial-gradient(
+    circle,
+    rgb(255, 255, 255) 0%,
+    rgb(255, 231, 152) 40%
+  );
+}
+.pizza-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns per row */
+  gap: 20px; /* Space between pizza cards */
+  justify-content: center;
+  padding-left: 20dvw;
+  padding-right: 20dvw;
+}
+
+
+.textvideo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30vw;
+  overflow: hidden;
+}
+.text-asd {
+  text-align: center;
+  font-size: 1.5dvw;
+  color: white;
+  font-weight: bold;
+  padding: 2dvw;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  max-width: 70%;
+  opacity: 1;
+  transform: translateY(0);
+  z-index: 2;
+}
+
+.textvideo {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  height: 30dvw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.textvideo video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.textvideo .text-content {
+  position: relative;
+  z-index: 1;
+  font-size: 3.3dvh;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  padding: 20px;
+  margin-right: 50%;
+  margin-left: 10%;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.textvideo p {
+  word-wrap: break-word;
+}
+.specialfont {
+  background: linear-gradient(to right, #5f8d37, #bb3e00);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+.menubtn {
+  background-color: rgba(247, 173, 69, 0.3);
+  border: #f7ad45 solid 0.2dvw;
+  border-radius: 40px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  padding: 0.7dvw 3.3dvw;
+  color: #f7ad45;
+}
+.orderbtn {
+  background-color: #f7ad45;
+  border: #f7ad45 solid 0.2dvw;
+  border-radius: 40px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  padding: 0.7dvw 3.3dvw;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
 .hero {
   background-size: cover;
   background-position: center;
@@ -271,9 +426,8 @@ img {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .hero img {
-  height: 35dvw;
+  height: 25dvw;
   width: 25dvw;
-  max-height: 500px;
   border-radius: 30px;
   padding-left: 3dvw;
 }
