@@ -84,6 +84,8 @@ const goToOrder = () => {
 </template>
 
 <style scoped>
+
+
 .getToOrder {
   height: 20dvw;
   font-size: 1.7dvw;
@@ -93,11 +95,8 @@ const goToOrder = () => {
   text-align: center;
   align-items: center;
   color: #a0702b;
-  background: radial-gradient(
-    circle,
-    rgb(255, 255, 255) 0%,
-    rgb(255, 231, 152) 20%
-  );
+  background: rgb(255,241,216);
+  background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
 }
 .getToOrder button {
   padding: 1dvw 1.75dvw;
@@ -116,11 +115,8 @@ const goToOrder = () => {
 }
 .menu {
   color: black;
-  background: radial-gradient(
-    circle,
-    rgb(255, 255, 255) 0%,
-    rgb(255, 231, 152) 40%
-  );
+  background: rgb(255,241,216);
+  background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
 }
 .pizza-list {
   display: grid;
@@ -270,11 +266,8 @@ img {
   display: flex;
   padding-left: 22dvw;
   align-items: center;
-  background: radial-gradient(
-    circle,
-    rgb(255, 255, 255) 0%,
-    rgb(255, 231, 152) 40%
-  );
+  background: rgb(255,241,216);
+  background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .hero img {

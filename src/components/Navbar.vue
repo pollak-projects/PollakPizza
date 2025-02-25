@@ -114,7 +114,7 @@ const toggleMobileMenu = () => {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color: #dba14a;
+  background-color: #F7AD45;
   color: white;
   position: relative;
 }

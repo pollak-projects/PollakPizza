@@ -61,9 +61,7 @@ export default {
 </script>
 
 <template>
-<body>
-  
-  
+  <div class="app">
     <div class="title">
       <h1>Rendelés</h1>
     </div>
@@ -82,6 +80,13 @@ export default {
       <div class="items leftSide">
 
         <div class="row">
+          <div class="item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZAA">
+            <h3>Nápolyi pizza</h3>
+            <h4>10 Ft</h4>
+            <button>Hozzáadás</button>
+          </div>
+
           <div class="item">
             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="PIZZAA">
             <h3>Nápolyi pizza</h3>
@@ -129,12 +134,34 @@ export default {
           <div class="orderDetails">
             <h3>Rendelésed</h3>
             <hr>
+
             <div class="orders row">
 
               <div class="targy half">
                 <h4><span id="darab">1</span>x Nápolyi pizza</h4>
               </div>
+              <div class="szamol half">
+                <h4>10 Ft</h4>
+                <div class="szamolGombok">
+                  <button id="hozzaadas">+</button>
+                  <button id="kivonas">-</button>
+                </div>
+              </div>
 
+              <div class="targy half">
+                <h4><span id="darab">1</span>x Nápolyi pizza</h4>
+              </div>
+              <div class="szamol half">
+                <h4>10 Ft</h4>
+                <div class="szamolGombok">
+                  <button id="hozzaadas">+</button>
+                  <button id="kivonas">-</button>
+                </div>
+              </div>
+
+              <div class="targy half">
+                <h4><span id="darab">1</span>x Nápolyi pizza</h4>
+              </div>
               <div class="szamol half">
                 <h4>10 Ft</h4>
                 <div class="szamolGombok">
@@ -165,19 +192,17 @@ export default {
         </div>
       </div>
     </div>
-
-</body>
+  </div>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 
-body {
-  height: 100%;
+.app {
+  height: 1080px;
   width: 100%;
   font-family: 'Lato';
-  overflow-x: hidden;
   background: rgb(255,241,216);
   background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
 }
@@ -210,11 +235,12 @@ body {
   font-weight: bolder;
 }
 
-.title {
+.title h1 {
   color: #9B6600;
-  font-size: 32px;
+  font-size: 64px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 800;
+  margin: 10px;
 }
 
 .menu {
@@ -251,11 +277,13 @@ body {
   font-weight: bold;
   border-radius: 50px;
   margin: 0px 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .menubar li:hover{
   background-color: #F7AD45;
   color: #FFF1D7;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .menubar li.active{
@@ -296,6 +324,7 @@ body {
   color: #FFF1D7;
   font-weight: bold;
   font-size: 18px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .item h4 {
@@ -318,6 +347,7 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .delivery input {
@@ -328,6 +358,16 @@ body {
   width: 230px;
   margin: 10px 0px 10px 0px;
   color: #9B6600;
+  text-overflow: ellipsis;
+  font-weight: 700;
+}
+
+.delivery input:focus {
+  border: #9B6600 solid 2px;
+}
+
+.delivery input:focus-visible {
+  outline: none;
 }
 
 .delivery select {
@@ -338,20 +378,33 @@ body {
   width: 230px;
   margin: 10px 0px 10px 0px;
   color: #9B6600;
+  font-weight: 700;
+}
+
+.delivery select:hover {
+  border: #9B6600 solid 1px;
+}
+
+.delivery select:focus {
+  border: #9B6600 solid 2px;
+}
+
+.delivery select:focus-visible {
+  outline: none;
 }
 
 .iconCar {
-  padding-left: 30px;
+  padding-left: 40px;
   background: url("https://cdn-icons-png.freepik.com/512/75/75689.png") no-repeat left;
   background-size: 20px;
-  background-position-x: 7px;
+  background-position-x: 10px;
 }
 
 .iconWaypoint {
-  padding-left: 30px;
+  padding-left: 40px;
   background: url("https://icon-library.com/images/waypoint-icon/waypoint-icon-0.jpg") no-repeat left;
   background-size: 15px;
-  background-position-x: 7px;
+  background-position-x: 13px;
 }
 
 .checkout {
@@ -359,6 +412,7 @@ body {
   width: 300px;
   background-color: #FCC77C;
   border-radius: 50px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .checkout hr {
@@ -370,10 +424,16 @@ body {
 
 .orderDetails h3 {
   margin: 20px 30px 10px 30px;
+  align-self: flex-start;
+  font-weight: 900;
 }
 
 .orderDetails {
   color: #9B6600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .orderDetails button {
@@ -390,6 +450,42 @@ body {
   display: flex;
   justify-content: space-around;
   margin: 0px 30px 0px 30px;
+  height: 140px;
+  overflow-x: auto;
+}
+
+.orders hr {
+  margin: auto;
+}
+
+.orders button {
+  padding: 0;
+  line-height: 0.3;
+}
+
+.orders::-webkit-scrollbar {
+    width: 12px;
+    height: 85%;
+}
+
+.orders::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: transparent;
+}
+
+.orders::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.2); 
+}
+
+.orders::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+    margin-bottom: 10px; 
+}
+
+.orders::-webkit-scrollbar-track-piece:start {
+    background: transparent;
+    margin-top: 10px;
 }
 
 .total {
@@ -406,12 +502,14 @@ body {
   color: #FFF1D7;
   font-weight: bold;
   font-size: 18px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
   width: 976px;;
   display: flex;
   justify-content: center;
+  margin: auto;
 }
 
 .row {
@@ -420,9 +518,6 @@ body {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  margin-top: calc(-1* var(--bs-gutter-y));
-  margin-right: calc(-.5* var(--bs-gutter-x));
-  margin-left: calc(-.5* var(--bs-gutter-x));
 }
 
 .szallitas {
@@ -441,7 +536,8 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+  padding-right: 10px;
 }
 
 .szamol h4 {
@@ -454,7 +550,7 @@ body {
 }
 
 .targy h4 {
-  margin: 7px 0px 0px 40px;
+  margin: 7px 0px 7px 0px;
 }
 
 .szamolGombok buttons{
@@ -479,6 +575,33 @@ body {
   justify-content: space-evenly;
   align-items: flex-start;
   flex-wrap: wrap;
+  height: 810px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.leftSide::-webkit-scrollbar {
+    width: 12px;
+}
+
+.leftSide::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: transparent;
+}
+
+.leftSide::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.2); 
+}
+
+.leftSide::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+    margin-bottom: 40px; 
+}
+
+.leftSide::-webkit-scrollbar-track-piece:start {
+    background: transparent;
+    margin-top: 40px;
 }
 
 .rightSide {
