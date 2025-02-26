@@ -5,7 +5,9 @@ import axios from "axios";
 export default {
   setup() {
     const pizzas = ref([]);
-
+    const orderedPizzas = ref([]);
+    const orderFullPrice = 0;
+    
     const fetchPizzas = async () => {
       try {
         const response = await axios.get("http://localhost:3061/allpizzas");
@@ -19,24 +21,75 @@ export default {
       fetchPizzas();
     });
 
-    return { pizzas, fetchPizzas };
+    return { pizzas, fetchPizzas, orderedPizzas, orderFullPrice };
   },
-
-
-   scrollToMenu() {
+  
+  methods:{
+    scrollToMenu() {
       const menuSection = document.getElementById("menu");
       menuSection.scrollIntoView({ behavior: "smooth" });
     },
+
     orderPizza(pizza) {
-      this.order.pizza = pizza.name;
-      alert(`A ${pizza.name} pizzát adtad hozzá a rendeléshez!`);
+      /*TEXT CHANGE*/
+      if (this.orderedPizzas.length <= 0) {
+        document.getElementById('nincsRendelesSzoveg').remove()
+      }
+
+      /*CODE*/
+      const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name);
+
+      if (pizzIndex !== -1) {
+        this.orderedPizzas[pizzIndex].count += 1;
+      } else {
+        this.orderedPizzas.push({ count: 1, name: pizza.name, price: pizza.price });
+        this.orderFullPrice += pizza.price
+      }
+
+      console.log(this.orderedPizzas.length)
+    },
+
+    pizzaCountAdd(pizza) {
+      const pizz = this.orderedPizzas.find(p => p.name === pizza.name)
+      pizz.count += 1
+      this.orderFullPrice += pizza.price
+    },
+
+    pizzaCountRemove(pizza) {
+      /*CODE*/
+      const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name);
+
+      if (pizzIndex !== -1) {
+        const pizz = this.orderedPizzas[pizzIndex];
+        pizz.count -= 1;
+        this.orderFullPrice -= pizza.price
+        if (pizz.count === 0) {
+          this.orderedPizzas.splice(pizzIndex, 1);
+        }
+      }
+      console.log(this.orderedPizzas.length)
+
+      /*TEXT CHANGE*/
+      if (this.orderedPizzas.length < 1) {
+        const htmlElement = document.createElement('h4')
+        const htmlElemntText = document.createTextNode("A rendelés megkezdéséhez adjon hozzá egy pizzát!")
+        htmlElement.appendChild(htmlElemntText)
+        htmlElement.setAttribute("id","nincsRendelesSzoveg")
+
+        const ordersDiv = document.getElementById("orders")
+        ordersDiv.appendChild(htmlElement)
+
+
+        console.log(this.orderedPizzas.length)
+      }
     },
     submitOrder() {
       alert(`Köszönjük a rendelésed, ${this.order.name}!`);
       console.log(this.order);
       // Itt lehetne API hívást tenni rendelés küldéséhez
     },
-  };
+  }
+};
 
 </script>
 
@@ -61,9 +114,9 @@ export default {
             <div v-for="pizza in pizzas" :key="pizza.id" class="item">
               <img class="previewpizza" :src="pizza.image" alt="Pizza" />
               <h4>{{ pizza.name }}</h4>
-              <p>{{ pizza.price }} Ft</p>
-              <p>{{ pizza.toppings }}</p>
-              <button @click="orderPizza(pizza)">Rendelés</button>
+              <p class="ratet">{{ pizza.toppings }}</p>
+              <p class="ar">{{ pizza.price }} Ft</p>
+              <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
             </div>
         </div>
       </div>
@@ -72,7 +125,7 @@ export default {
       <div class="rightSide">
         <div class="delivery">
 
-          <select name="cars" id="cars" class="iconCar" placeholder="Kiszállítás">
+          <select name="atvetel" id="atvetel" class="iconCar" placeholder="Kiszállítás">
             <option value="Kiszállítás">Kiszállítás</option>
             <option value="Átvétel az étteremben">Átvétel az étteremben</option>
           </select>
@@ -85,38 +138,20 @@ export default {
             <h3>Rendelésed</h3>
             <hr>
 
-            <div class="orders row">
-
-              <div class="targy half">
-                <h4><span id="darab">1</span>x Nápolyi pizza</h4>
+            <div class="orders row" id="orders">
+              <div class="nincsRendelesSzoveg">
+                <h4 id="nincsRendelesSzoveg">A rendelés megkezdéséhez adjon hozzá egy pizzát!</h4>
               </div>
-              <div class="szamol half">
-                <h4>10 Ft</h4>
-                <div class="szamolGombok">
-                  <button id="hozzaadas">+</button>
-                  <button id="kivonas">-</button>
+              <div class="rendelesRow" v-for="pizza in orderedPizzas" :key="pizza.id">
+                <div class="targy half">
+                  <h4><span id="darab">{{ pizza.count }}</span>x {{ pizza.name }}</h4>
                 </div>
-              </div>
-
-              <div class="targy half">
-                <h4><span id="darab">1</span>x Nápolyi pizza</h4>
-              </div>
-              <div class="szamol half">
-                <h4>10 Ft</h4>
-                <div class="szamolGombok">
-                  <button id="hozzaadas">+</button>
-                  <button id="kivonas">-</button>
-                </div>
-              </div>
-
-              <div class="targy half">
-                <h4><span id="darab">1</span>x Nápolyi pizza</h4>
-              </div>
-              <div class="szamol half">
-                <h4>10 Ft</h4>
-                <div class="szamolGombok">
-                  <button id="hozzaadas">+</button>
-                  <button id="kivonas">-</button>
+                <div class="szamol half">
+                  <h4>{{pizza.price}} Ft</h4>
+                  <div class="szamolGombok">
+                    <button id="hozzaadas" @click="pizzaCountAdd(pizza)">+</button>
+                    <button id="kivonas" @click="pizzaCountRemove(pizza)">-</button>
+                  </div>
                 </div>
               </div>
 
@@ -130,9 +165,11 @@ export default {
               <h3>INGYENES</h3>
             </div>
 
-            <div class="osszeg">
-              <h3>ÖSSZESEN:</h3>
-              <h3>10 Ft</h3>
+            <div>
+              <div class="osszeg">
+                <h3>ÖSSZESEN:</h3>
+                <h3>{{ orderFullPrice }} Ft</h3>
+              </div>
             </div>
 
             <div class="fizetes">
@@ -274,13 +311,27 @@ export default {
   height: 50px;
   border-radius: 75px;
   color: #FFF1D7;
-  font-weight: bold;
-  font-size: 18px;
+  font-weight: 800;
+  font-size: 20px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .item h4 {
-  margin: 40px 0px 5px 0px;
+  margin: 5px 0px 3px 0px;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.ar {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 20px 0px 5px 0px;
+}
+
+.ratet {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0px 0px 5px 0px;
 }
 
 .item button:hover {
@@ -394,7 +445,7 @@ export default {
   background-color: #FFF1D7;
   border: #9B6600 solid 2px;
   color: #9B6600;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 15px;
   width: 23px;
   height: 15px;
@@ -404,9 +455,10 @@ export default {
 .orders {
   display: flex;
   justify-content: space-around;
-  margin: 0px 30px 0px 30px;
-  height: 140px;
+  margin: 0px 10px 0px 24px;
+  height: 100px;
   overflow-x: auto;
+  width: 266px;
 }
 
 .orders hr {
@@ -416,6 +468,11 @@ export default {
 .orders button {
   padding: 0;
   line-height: 0.3;
+}
+
+.nincsRendelesSzoveg {
+  display: flex;
+  align-items: center;
 }
 
 .orders::-webkit-scrollbar {
@@ -446,6 +503,7 @@ export default {
 .total {
   color: #684400;
   font-weight: bolder;
+  margin-top: 15px;
 }
 
 .total button {
@@ -475,6 +533,16 @@ export default {
   flex-wrap: wrap;
 }
 
+
+.rendelesRow {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
 .szallitas {
   display: flex;
   justify-content: space-between;
@@ -492,7 +560,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: flex-end;
-  padding-right: 10px;
+  padding-right: 20px;
 }
 
 .szamol h4 {
@@ -501,21 +569,24 @@ export default {
 
 .targy {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
 }
 
 .targy h4 {
   margin: 7px 0px 7px 0px;
 }
 
-.szamolGombok buttons{
-   display: block; 
-   margin: 5px 0;
+.szamolGombok {
+  display: flex;
+  flex-direction: row;
 }
 
 .fizetes {
   display: flex;
   justify-content: center;
+  margin-top: 15px;
 }
 
 .fizetes button:hover {
@@ -570,5 +641,6 @@ export default {
 .half {
   display: flex;
   width: 50%;
+  margin-bottom: 5px;
 }
 </style>
