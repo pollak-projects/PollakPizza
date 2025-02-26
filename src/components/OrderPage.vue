@@ -41,12 +41,11 @@ export default {
 
       if (pizzIndex !== -1) {
         this.orderedPizzas[pizzIndex].count += 1;
+        this.orderFullPrice += pizza.price
       } else {
         this.orderedPizzas.push({ count: 1, name: pizza.name, price: pizza.price });
         this.orderFullPrice += pizza.price
       }
-
-      console.log(this.orderedPizzas.length)
     },
 
     pizzaCountAdd(pizza) {
@@ -67,7 +66,6 @@ export default {
           this.orderedPizzas.splice(pizzIndex, 1);
         }
       }
-      console.log(this.orderedPizzas.length)
 
       /*TEXT CHANGE*/
       if (this.orderedPizzas.length < 1) {
@@ -78,9 +76,6 @@ export default {
 
         const ordersDiv = document.getElementById("orders")
         ordersDiv.appendChild(htmlElement)
-
-
-        console.log(this.orderedPizzas.length)
       }
     },
     submitOrder() {
@@ -116,7 +111,9 @@ export default {
               <h4>{{ pizza.name }}</h4>
               <p class="ratet">{{ pizza.toppings }}</p>
               <p class="ar">{{ pizza.price }} Ft</p>
-              <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
+              <div>
+                <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
+              </div>
             </div>
         </div>
       </div>
@@ -273,6 +270,7 @@ export default {
   background-color: #F7AD45;
   color: #FFF1D7;
   transition: background-color 0.3s ease, color 0.3s ease;
+  transform: scale(1.01);
 }
 
 .menubar li.active{
@@ -296,6 +294,7 @@ export default {
   font-weight: bolder;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin: 10px 10px 10px 10px;
+  transition: transform 0.2s;
 }
 
 .item img {
@@ -320,6 +319,10 @@ export default {
   margin: 5px 0px 3px 0px;
   font-size: 24px;
   font-weight: 800;
+}
+
+.item:hover {
+  transform: scale(1.01);
 }
 
 .ar {
@@ -360,14 +363,21 @@ export default {
   height: 50px;
   width: 230px;
   margin: 10px 0px 10px 0px;
-  color: #9B6600;
+  color: #754c00;
   text-overflow: ellipsis;
   font-weight: 700;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.delivery input:hover{
+  transform: scale(1.01);
+  transition: ease 0.1s;
 }
 
 .delivery input:focus {
   border: #9B6600 solid 2px;
+  transition: ease 0.1s;
 }
 
 .delivery input:focus-visible {
@@ -384,14 +394,18 @@ export default {
   color: #9B6600;
   font-weight: 700;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .delivery select:hover {
-  border: #9B6600 solid 1px;
+  transform: scale(1.01);
+  transition: ease 0.1s;
+  color: #916001;
 }
 
 .delivery select:focus {
   border: #9B6600 solid 2px;
+  transition: ease 0.1s;
 }
 
 .delivery select:focus-visible {
