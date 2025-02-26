@@ -54,16 +54,17 @@ export default {
       </ul>
     </div>
 
-    <div class="container row">
+    <div class="container">
       <!-- Bal oldal -->
       <div class="leftSide">
-        <div id="menu" class="menuList">
-          <div v-for="pizza in pizzas" :key="pizza.id" class="pizzaItem">
-            <h4>{{ pizza.name }}</h4>
-            <p>{{ pizza.price }} Ft</p>
-            <p>{{ pizza.toppings }}</p>
-            <button @click="orderPizza(pizza)">Rendelés</button>
-          </div>
+          <div id="menu" class="menuList row">
+            <div v-for="pizza in pizzas" :key="pizza.id" class="item">
+              <img class="previewpizza" :src="pizza.image" alt="Pizza" />
+              <h4>{{ pizza.name }}</h4>
+              <p>{{ pizza.price }} Ft</p>
+              <p>{{ pizza.toppings }}</p>
+              <button @click="orderPizza(pizza)">Rendelés</button>
+            </div>
         </div>
       </div>
       
