@@ -2,6 +2,7 @@ const request = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
 const authRoutes = require('../routes/auth');
+const db = require('../models/db');
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,13 +11,14 @@ app.use(authRoutes);
 describe('Auth Routes', () => {
   beforeAll(async () => {
     // Töröljük a teszt felhasználót az adatbázisból, ha létezik
-    await new Promise((resolve, reject) => {
-      const db = require('../models/db');
-      db.query('DELETE FROM users WHERE email = ?', ['test@example.com'], (err, results) => {
-        if (err) return reject(err);
-        resolve();
-      });
-    });
+    try {
+      const connection = await db.getConnection();
+      await connection.query('DELETE FROM users WHERE email = ?', ['test@example.com']);
+      connection.release();
+    } catch (err) {
+      console.error('Error setting up the test environment:', err);
+      throw err;
+    }
   });
 
   it('should register a new user', async () => {

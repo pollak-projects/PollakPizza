@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const profileRoutes = require('../routes/profile');
 const authRoutes = require('../routes/auth'); // Hozzáadjuk az authRoutes-t a token megszerzéséhez
 const authMiddleware = require('../middleware/auth');
+const db = require('../models/db'); // Importing the database connection
 
 const app = express();
 app.use(bodyParser.json());
