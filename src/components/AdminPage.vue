@@ -3,15 +3,24 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
+const toppings = ref([]);
 const users = ref([]);
+const pizzas = ref([]);
 const isLoading = ref(false);
 const message = ref('');
-const notification = ref(''); // Értesítési üzenet
-const showNotification = ref(false); // Értesítési popup láthatósága
-const selectedUserOrders = ref([]); // Kiválasztott felhasználó rendelései
-const showOrdersModal = ref(false); // Rendelési adatok modal láthatósága
+const notification = ref('');
+const showNotification = ref(false);
+const selectedUserOrders = ref([]);
+const showOrdersModal = ref(false);
+const selectedToppings = ref([]);
 
-const router = useRouter(); // Router használata
+const pizzaName = ref('');
+const pizzaPrice = ref('');
+const pizzaImage = ref('');
+const pizzaToppings = ref('');
+const showAddPizzaModal = ref(false);
+
+const router = useRouter();
 
 const fetchUsers = async () => {
   try {
@@ -23,8 +32,48 @@ const fetchUsers = async () => {
     });
     users.value = response.data;
   } catch (error) {
-    console.error('Hiba a felhasználók betöltésekor:', error);
-    message.value = 'Hiba történt a felhasználók betöltésekor.';
+    console.error('Error fetching users:', error);
+    message.value = 'Error fetching users';
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const fetchToppings = async () => {
+  try {
+    isLoading.value = true;
+    const response = await axios.get('http://localhost:3061/admin/allToppings', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if (response.status === 200) {
+      toppings.value = response.data;
+      console.log('Toppings fetched successfully:', toppings.value);
+    } else {
+      throw new Error(`Unexpected response code: ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error fetching toppings:', error);
+    message.value = 'Error fetching toppings';
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+
+const fetchPizzas = async () => {
+  try {
+    isLoading.value = true;
+    const response = await axios.get('http://localhost:3061/admin/allPizzas', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    pizzas.value = response.data;
+  } catch (error) {
+    console.error('Error fetching pizzas:', error);
+    message.value = 'Error fetching pizzas';
   } finally {
     isLoading.value = false;
   }
@@ -40,8 +89,8 @@ const fetchUserOrders = async (userId) => {
     selectedUserOrders.value = response.data;
     showOrdersModal.value = true;
   } catch (error) {
-    console.error('Hiba a rendelési adatok betöltésekor:', error);
-    message.value = 'Hiba történt a rendelési adatok betöltésekor.';
+    console.error('Error fetching orders:', error);
+    message.value = 'Error fetching orders';
   }
 };
 
@@ -53,12 +102,28 @@ const deleteUser = async (userId) => {
       },
     });
     fetchUsers();
-    showNotificationMessage('Felhasználó sikeresen törölve.');
+    showNotificationMessage('User deleted successfully');
   } catch (error) {
-    console.error('Hiba a felhasználó törlésekor:', error);
-    message.value = 'Hiba történt a felhasználó törlésekor.';
+    console.error('Error deleting user:', error);
+    message.value = 'Error deleting user';
   }
 };
+
+const deletePizza = async (pizzaId) => {
+  try {
+    await axios.delete(`http://localhost:3061/admin/deletePizza/${pizzaId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    fetchPizzas(); // Fetch updated list of pizzas
+    showNotificationMessage('Pizza deleted successfully');
+  } catch (error) {
+    console.error('Error deleting pizza:', error);
+    message.value = 'Error deleting pizza';
+  }
+};
+
 
 const updateUser = async (user) => {
   try {
@@ -68,12 +133,78 @@ const updateUser = async (user) => {
       },
     });
     fetchUsers();
-    showNotificationMessage('Felhasználó sikeresen módosítva.');
+    showNotificationMessage('User updated successfully');
   } catch (error) {
-    console.error('Hiba a felhasználó módosításakor:', error);
-    message.value = 'Hiba történt a felhasználó módosításakor.';
+    console.error('Error updating user:', error);
+    message.value = 'Error updating user';
   }
 };
+
+const togglePizzaTopping = (pizza, toppingId) => {
+  if (!Array.isArray(pizza.toppings)) {
+    pizza.toppings = [];
+  }
+
+  const topping = toppings.value.find(t => t.id === toppingId);
+  if (topping) {
+    const toppingName = topping.name;
+    if (pizza.toppings.includes(toppingName)) {
+      pizza.toppings = pizza.toppings.filter(t => t !== toppingName);
+    } else {
+      pizza.toppings.push(toppingName);
+    }
+  }
+};
+
+const addPizza = async () => {
+  try {
+    const selectedToppingsNames = selectedToppings.value.map(id => {
+      const topping = toppings.value.find(topping => topping.id === id);
+      return topping ? topping.name : null;
+    }).filter(name => name !== null);
+
+    await axios.post('http://localhost:3061/admin/addPizza', {
+      name: pizzaName.value,
+      price: pizzaPrice.value,
+      image: pizzaImage.value,
+      toppings: selectedToppingsNames,
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    showNotificationMessage('Pizza added successfully');
+    clearPizzaForm();
+  } catch (error) {
+    console.error('Error adding pizza:', error);
+    message.value = 'Error adding pizza';
+  }
+};
+
+const updatePizza = async (pizza) => {
+  try {
+    if (!Array.isArray(pizza.toppings)) {
+      pizza.toppings = [];
+    }
+
+    await axios.put(`http://localhost:3061/admin/updatePizza/${pizza.id}`, {
+      name: pizza.name,
+      price: pizza.price,
+      image: pizza.image,
+      toppings: pizza.toppings,
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    fetchPizzas();
+    showNotificationMessage('Pizza updated successfully');
+  } catch (error) {
+    console.error('Error updating pizza:', error);
+    message.value = 'Error updating pizza';
+  }
+};
+
 
 const showNotificationMessage = (msg) => {
   notification.value = msg;
@@ -83,9 +214,20 @@ const showNotificationMessage = (msg) => {
   }, 3000);
 };
 
+const clearPizzaForm = () => {
+  pizzaName.value = '';
+  pizzaPrice.value = '';
+  pizzaImage.value = '';
+  pizzaToppings.value = '';
+  showAddPizzaModal.value = false;
+};
+
 onMounted(() => {
   fetchUsers();
+  fetchPizzas();
+  fetchToppings(); // Fetch the toppings
 });
+
 </script>
 
 <template>
@@ -93,6 +235,8 @@ onMounted(() => {
     <h1>Admin oldal</h1>
     <div v-if="isLoading">Betöltés...</div>
     <div v-if="message">{{ message }}</div>
+    
+    <!-- Users Table -->
     <table v-if="!isLoading && !message">
       <thead>
         <tr>
@@ -121,10 +265,74 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
+
+    <!-- Pizzas Table -->
+    <h2>Pizzák kezelése</h2>
+<table v-if="!isLoading && !message">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Név</th>
+      <th>Ár</th>
+      <th>Kép URL</th>
+      <th>Feltétek</th>
+      <th>Műveletek</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="pizza in pizzas" :key="pizza.id">
+      <td>{{ pizza.id }}</td>
+      <td><input v-model="pizza.name" /></td>
+      <td><input v-model="pizza.price" /></td>
+      <td><input v-model="pizza.image" /></td>
+      <td>
+        <div v-for="topping in toppings" :key="topping.id">
+          <input
+            type="checkbox"
+            :id="`topping-${topping.id}-${pizza.id}`"
+            :value="topping.id"
+            :checked="pizza.toppings && pizza.toppings.includes(topping.name)"
+            @change="togglePizzaTopping(pizza, topping.id)"
+          />
+          <label :for="`topping-${topping.id}-${pizza.id}`">{{ topping.name }}</label>
+        </div>
+      </td>
+      <td>
+        <button @click="updatePizza(pizza)">Mentés</button>
+        <button @click="deletePizza(pizza.id)">Törlés</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+    
+    <button @click="showAddPizzaModal = true">Új pizza hozzáadása</button>
+    <div v-if="showAddPizzaModal" class="modal">
+      <div class="modal-content">
+        <h2>Új pizza hozzáadása</h2>
+        <label for="name">Név:</label>
+        <input id="name" v-model="pizzaName" />
+        <label for="price">Ár:</label>
+        <input id="price" v-model="pizzaPrice" />
+        <label for="image">Kép URL:</label>
+        <input id="image" v-model="pizzaImage" />
+        <label for="toppings">Feltétek:</label>
+        <div v-for="topping in toppings" :key="topping.id">
+          <input type="checkbox" :id="`topping-${topping.id}`" :value="topping.id" v-model="selectedToppings" />
+          <label :for="`topping-${topping.id}`">{{ topping.name }}</label>
+        </div>
+
+        <button @click="addPizza">Pizza hozzáadása</button>
+        <button @click="showAddPizzaModal = false">Mégse</button>
+      </div>
+    </div>
+    
     <router-link to="/orders" class="orders-link">Rendelések megtekintése</router-link>
     <button @click="router.push('/')">Vissza a kezdőlapra</button>
     <div v-if="showNotification" class="notification-popup">{{ notification }}</div>
   </div>
 </template>
+
 
 <style scoped src="../assets/css/admin.css"></style>

@@ -1,7 +1,7 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 // MySQL kapcsolat beállítása
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '',
@@ -9,12 +9,15 @@ const db = mysql.createConnection({
 });
 
 // Kapcsolódás ellenőrzése
-db.connect((err) => {
-  if (err) {
+(async () => {
+  try {
+    const connection = await db.getConnection();
+    console.log('Connected to MySQL database');
+    connection.release(); // Release the connection back to the pool
+  } catch (err) {
     console.error('MySQL connection error:', err);
     process.exit(1);
   }
-  console.log('Connected to MySQL database');
-});
+})();
 
 module.exports = db;
