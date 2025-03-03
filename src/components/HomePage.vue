@@ -2,15 +2,25 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+
 const pizzas = ref([]);
 
 const router = useRouter();
 
+// Function to shuffle an array
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
 
 const fetchPizzas = async () => {
   try {
-    const response = await axios.get("http://localhost:3061/pizzas");
-    pizzas.value = response.data;
+    const response = await axios.get("http://localhost:3061/allpizzas");
+    const shuffledPizzas = shuffleArray(response.data);
+    pizzas.value = shuffledPizzas.slice(0, 6); // Limit to 6 pizzas
   } catch (error) {
     console.error("Hiba a pizzák betöltésekor:", error);
   }
@@ -19,7 +29,6 @@ const fetchPizzas = async () => {
 onMounted(() => {
   fetchPizzas();
 });
-
 
 const goToOrder = () => {
   router.push("/order");
@@ -86,6 +95,9 @@ const goToMenu = () => {
     </div>
   </section>
 </template>
+
+
+
 
 <style scoped>
 

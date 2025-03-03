@@ -10,6 +10,7 @@ router.get('/allpizzas', (req, res) => {
     LEFT JOIN toppings t ON pt.toppingId = t.id
     GROUP BY p.id, p.name, p.price, p.image
     ORDER BY RAND()
+    LIMIT 6
   `;
 
   db.query(query, (err, results) => {
@@ -17,7 +18,9 @@ router.get('/allpizzas', (req, res) => {
       return res.status(500).json({ error: 'Hiba a pizzák lekérdezése során.' });
     }
     res.json(results);
+    console.log(results)
   });
 });
+
 
 module.exports = router;
