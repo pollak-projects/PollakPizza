@@ -5,8 +5,8 @@ const transporter = nodemailer.createTransport({
   host: 'smtp.eu.mailgun.org',
   port: 587,
   auth: {
-    user: 'your-user', 
-    pass: 'your-password'
+    user: 'your-user', // Replace with your Mailgun SMTP username
+    pass: 'your-password' // Replace with your Mailgun SMTP password
   }
 });
 
@@ -17,6 +17,7 @@ const mailOptions = {
   text: 'Ez egy teszt email a Mailgun SMTP használatával.'
 };
 
+// Send email
 transporter.sendMail(mailOptions, (err, info) => {
   if (err) {
     console.error('Mailgun SMTP hiba:', err);
