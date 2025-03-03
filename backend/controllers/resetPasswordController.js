@@ -10,25 +10,18 @@ exports.resetPassword = async (req, res) => {
   }
 
   try {
-    db.query('SELECT * FROM users WHERE resetPasswordToken = ? AND resetPasswordExpires > ?', [token, Date.now()], async (err, results) => {
-      if (err) {
-        return res.status(500).json({ message: 'Hiba az adatbázis lekérdezés során.' });
-      }
-      if (results.length === 0) {
-        return res.status(400).json({ message: 'A token érvénytelen vagy lejárt.' });
-      }
+    const [results] = await db.query('SELECT * FROM users WHERE resetPasswordToken = ? AND resetPasswordExpires > ?', [token, Date.now()]);
 
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+    if (results.length === 0) {
+      return res.status(400).json({ message: 'A token érvénytelen vagy lejárt.' });
+    }
 
-      db.query('UPDATE users SET password = ?, resetPasswordToken = NULL, resetPasswordExpires = NULL WHERE id = ?', [hashedPassword, results[0].id], (err) => {
-        if (err) {
-          return res.status(500).json({ message: 'Hiba a jelszó frissítése során.' });
-        }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        res.status(200).json({ message: 'A jelszó sikeresen frissítve.' });
-      });
-    });
-  } catch (error) {
+    await db.query('UPDATE users SET password = ?, resetPasswordToken = NULL, resetPasswordExpires = NULL WHERE id = ?', [hashedPassword, results[0].id]);
+
+    res.status(200).json({ message: 'A jelszó sikeresen frissítve.' });
+  } catch (err) {
     res.status(500).json({ message: 'Hiba történt a jelszó visszaállítása során.' });
   }
 };
