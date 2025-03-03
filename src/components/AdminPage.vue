@@ -231,6 +231,9 @@ onMounted(() => {
 
 
 <template>
+  <body>
+    
+
   <div class="admin-page">
     <h1>Admin oldal</h1>
     <div v-if="isLoading">Betöltés...</div>
@@ -267,14 +270,15 @@ onMounted(() => {
     </table>
 
     <!-- Pizzas Table -->
-    <h2>Pizzák kezelése</h2>
+    <br>
+    <h2 style="text-align: center;">Pizzák kezelése</h2>
     <table v-if="!isLoading && !message">
       <thead>
         <tr>
           <th>ID</th>
           <th>Név</th>
           <th>Ár</th>
-          <th>Kép URL</th>
+          <th class="kepurl">Kép URL</th>
           <th>Feltétek</th>
           <th>Műveletek</th>
         </tr>
@@ -284,7 +288,7 @@ onMounted(() => {
           <td>{{ pizza.id }}</td>
           <td><input v-model="pizza.name" /></td>
           <td><input v-model="pizza.price" /></td>
-          <td><input v-model="pizza.image" /></td>
+          <td><input class="pizzaurl" v-model="pizza.image" /></td>
           <td>
             <div v-for="topping in toppings" :key="topping.id">
               <input
@@ -304,10 +308,11 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
-
+    <br>
     <button @click="showAddPizzaModal = true">Új pizza hozzáadása</button>
-    <div v-if="showAddPizzaModal" class="modal">
-      <div class="modal-content">
+    <div v-if="showAddPizzaModal" class="model">
+      <div class="model-content">
+        <br>
         <h2>Új pizza hozzáadása</h2>
         <label for="name">Név:</label>
         <input id="name" v-model="pizzaName" />
@@ -315,12 +320,21 @@ onMounted(() => {
         <input id="price" v-model="pizzaPrice" />
         <label for="image">Kép URL:</label>
         <input id="image" v-model="pizzaImage" />
-        <label for="toppings">Feltétek:</label>
+        <br>
+        <label for="toppings"><strong>Feltétek:</strong></label>
+        <br>
+        <br>
         <div v-for="topping in toppings" :key="topping.id">
-          <input type="checkbox" :id="`topping-${topping.id}`" :value="topping.id" v-model="selectedToppings" />
-          <label :for="`topping-${topping.id}`">{{ topping.name }}</label>
+          <div class="checkbox-wrapper-18">
+            <label :for="`topping-${topping.id}`">{{ topping.name }}</label>
+             <div class="round">
+              <input type="checkbox" :id="`topping-${topping.id}`" :value="topping.id" v-model="selectedToppings" />
+              <label :for="`topping-${topping.id}`"></label>
+             </div>
+         </div>
         </div>
 
+        <br>
         <button @click="addPizza">Pizza hozzáadása</button>
         <button @click="showAddPizzaModal = false">Mégse</button>
       </div>
@@ -330,6 +344,7 @@ onMounted(() => {
     <button @click="router.push('/')">Vissza a kezdőlapra</button>
     <div v-if="showNotification" class="notification-popup">{{ notification }}</div>
   </div>
+  </body>
 </template>
 
 
