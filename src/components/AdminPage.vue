@@ -25,11 +25,13 @@ const router = useRouter();
 const fetchUsers = async () => {
   try {
     isLoading.value = true;
+    console.log('Fetching users...'); // Add log
     const response = await axios.get('http://localhost:3061/admin/users', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
+    console.log('Users fetched:', response.data); // Add log
     users.value = response.data;
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -60,7 +62,6 @@ const fetchToppings = async () => {
     isLoading.value = false;
   }
 };
-
 
 const fetchPizzas = async () => {
   try {
@@ -123,7 +124,6 @@ const deletePizza = async (pizzaId) => {
     message.value = 'Error deleting pizza';
   }
 };
-
 
 const updateUser = async (user) => {
   try {
@@ -205,7 +205,6 @@ const updatePizza = async (pizza) => {
   }
 };
 
-
 const showNotificationMessage = (msg) => {
   notification.value = msg;
   showNotification.value = true;
@@ -230,12 +229,13 @@ onMounted(() => {
 
 </script>
 
+
 <template>
   <div class="admin-page">
     <h1>Admin oldal</h1>
     <div v-if="isLoading">Betöltés...</div>
     <div v-if="message">{{ message }}</div>
-    
+
     <!-- Users Table -->
     <table v-if="!isLoading && !message">
       <thead>
@@ -268,45 +268,43 @@ onMounted(() => {
 
     <!-- Pizzas Table -->
     <h2>Pizzák kezelése</h2>
-<table v-if="!isLoading && !message">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Név</th>
-      <th>Ár</th>
-      <th>Kép URL</th>
-      <th>Feltétek</th>
-      <th>Műveletek</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="pizza in pizzas" :key="pizza.id">
-      <td>{{ pizza.id }}</td>
-      <td><input v-model="pizza.name" /></td>
-      <td><input v-model="pizza.price" /></td>
-      <td><input v-model="pizza.image" /></td>
-      <td>
-        <div v-for="topping in toppings" :key="topping.id">
-          <input
-            type="checkbox"
-            :id="`topping-${topping.id}-${pizza.id}`"
-            :value="topping.id"
-            :checked="pizza.toppings && pizza.toppings.includes(topping.name)"
-            @change="togglePizzaTopping(pizza, topping.id)"
-          />
-          <label :for="`topping-${topping.id}-${pizza.id}`">{{ topping.name }}</label>
-        </div>
-      </td>
-      <td>
-        <button @click="updatePizza(pizza)">Mentés</button>
-        <button @click="deletePizza(pizza.id)">Törlés</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <table v-if="!isLoading && !message">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Név</th>
+          <th>Ár</th>
+          <th>Kép URL</th>
+          <th>Feltétek</th>
+          <th>Műveletek</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="pizza in pizzas" :key="pizza.id">
+          <td>{{ pizza.id }}</td>
+          <td><input v-model="pizza.name" /></td>
+          <td><input v-model="pizza.price" /></td>
+          <td><input v-model="pizza.image" /></td>
+          <td>
+            <div v-for="topping in toppings" :key="topping.id">
+              <input
+                type="checkbox"
+                :id="`topping-${topping.id}-${pizza.id}`"
+                :value="topping.id"
+                :checked="pizza.toppings && pizza.toppings.includes(topping.name)"
+                @change="togglePizzaTopping(pizza, topping.id)"
+              />
+              <label :for="`topping-${topping.id}-${pizza.id}`">{{ topping.name }}</label>
+            </div>
+          </td>
+          <td>
+            <button @click="updatePizza(pizza)">Mentés</button>
+            <button @click="deletePizza(pizza.id)">Törlés</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-
-    
     <button @click="showAddPizzaModal = true">Új pizza hozzáadása</button>
     <div v-if="showAddPizzaModal" class="modal">
       <div class="modal-content">
@@ -327,7 +325,7 @@ onMounted(() => {
         <button @click="showAddPizzaModal = false">Mégse</button>
       </div>
     </div>
-    
+
     <router-link to="/orders" class="orders-link">Rendelések megtekintése</router-link>
     <button @click="router.push('/')">Vissza a kezdőlapra</button>
     <div v-if="showNotification" class="notification-popup">{{ notification }}</div>
