@@ -11,3 +11,6 @@ Miután a felhasználó sikeresen regisztrált (vagy már rendelkezett egy felha
 
 ## Főoldal
 Ez az oldal amilyet elsőre lesz képes megtekinteni miután belépett, innen képes élerni a szolgáltatásaink nagy részét, ha lejebb görget képes megtekinteni pizza ajánlatokat, illetve el tud kezdeni rendelni vagy az oldal alján található gomb lenyomásával vagy a navigációs sávon rákattint a "Rendelés" menüpontra, vagy képes elérni a pizzánk listáját ahol képes megtekinteni az összes pizzát amivel rendelkezünk, innen képes lesz azt a pizzát rendelni azonnal vagy kosárba helyezni hogy tovább folytassa a vásárlását.
+
+## Admin Felület
+Az admin felületen képes kezelni felhasználókat, és pizzákat. Itt képes új pizzákat létrehozni, szerkeszteni, illetve a meglévő pizzákat is változtatni. Felhasználóknak is itt lehet változtatni az adatait.
