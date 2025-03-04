@@ -66,6 +66,34 @@ const showNotificationMessage = (msg) => {
   }, 3000);
 };
 
+const showNoOrders = () => {
+  const noOrdersDiv = document.getElementById("noOrdersDiv")
+  const noOrdersArrow = document.getElementById("noOrdersArrow")
+
+  if (noOrdersDiv.classList.contains("hidden")) {
+    noOrdersDiv.classList.remove("hidden")
+    noOrdersArrow.src = "src/assets/image/arrow-downLight.png"
+  }
+  else {
+    noOrdersDiv.classList.add("hidden")
+    noOrdersArrow.src = "src/assets/image/arrowLight.png"
+  }
+};
+
+const showFinishedOrders = () => {
+  const finishedOrdersDiv = document.getElementById("finishedOrdersDiv")
+  const finishedOrdersArrow = document.getElementById("finishedOrdersArrow")
+
+  if (finishedOrdersDiv.classList.contains("hidden")) {
+    finishedOrdersDiv.classList.remove("hidden")
+    finishedOrdersArrow.src = "src/assets/image/arrow-downLight.png"
+  }
+  else {
+    finishedOrdersDiv.classList.add("hidden")
+    finishedOrdersArrow.src = "src/assets/image/arrowLight.png"
+  }
+};
+
 onMounted(() => {
   fetchOrders();
 });
@@ -78,70 +106,86 @@ onMounted(() => {
     <div v-if="message">{{ message }}</div>
     <div v-if="!isLoading && !message">
       <h2>Nem kész rendelések</h2>
-      <table class="orders-table">
-        <thead>
-          <tr>
-            <th>Rendelés ID</th>
-            <th>Felhasználó</th>
-            <th>Pizza</th>
-            <th>Méret</th>
-            <th>Cím</th>
-            <th>Telefonszám</th>
-            <th>Ár</th>
-            <th>Státusz</th>
-            <th>Műveletek</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="order in orders.filter(o => o.status !== 'Kész')" :key="order.id">
-            <td>{{ order.id }}</td>
-            <td>{{ order.userName }}</td>
-            <td>{{ order.pizzaName }}</td>
-            <td>{{ order.size }}</td>
-            <td>{{ order.address }}</td>
-            <td>{{ order.userPhone }}</td>
-            <td>{{ order.finalPrice }} Ft</td>
-            <td>{{ order.status }}</td>
-            <td>
-              <button @click="updateOrderStatus(order.id)">Kész</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div class="center">
+        <img src="../assets/image/arrowLight.png" alt="" @click="showNoOrders()" id="noOrdersArrow">
+      </div>
+
+      <div class="hidden" id="noOrdersDiv">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Rendelés ID</th>
+              <th>Felhasználó</th>
+              <th>Pizza</th>
+              <th>Méret</th>
+              <th>Cím</th>
+              <th>Telefonszám</th>
+              <th>Ár</th>
+              <th>Státusz</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="order in orders.filter(o => o.status !== 'Kész')" :key="order.id">
+              <td>{{ order.id }}</td>
+              <td>{{ order.userName }}</td>
+              <td>{{ order.pizzaName }}</td>
+              <td>{{ order.size }}</td>
+              <td>{{ order.address }}</td>
+              <td>{{ order.userPhone }}</td>
+              <td>{{ order.finalPrice }} Ft</td>
+              <td>{{ order.status }}</td>
+              <td>
+                <button @click="updateOrderStatus(order.id)">Kész</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <h2>Kész rendelések</h2>
-      <table class="orders-table">
-        <thead>
-          <tr>
-            <th>Rendelés ID</th>
-            <th>Felhasználó</th>
-            <th>Pizza</th>
-            <th>Méret</th>
-            <th>Cím</th>
-            <th>Telefonszám</th>
-            <th>Ár</th>
-            <th>Státusz</th>
-            <th>Műveletek</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="order in orders.filter(o => o.status === 'Kész')" :key="order.id">
-            <td>{{ order.id }}</td>
-            <td>{{ order.userName }}</td>
-            <td>{{ order.pizzaName }}</td>
-            <td>{{ order.size }}</td>
-            <td>{{ order.address }}</td>
-            <td>{{ order.userPhone }}</td>
-            <td>{{ order.finalPrice }} Ft</td>
-            <td>{{ order.status }}</td>
-            <td>
-              <button @click="deleteOrder(order.id)">Törlés</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div class="center">
+        <img src="../assets/image/arrowLight.png" alt="" @click="showFinishedOrders()" id="finishedOrdersArrow">
+      </div>
+
+      <div class="hidden" id="finishedOrdersDiv">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Rendelés ID</th>
+              <th>Felhasználó</th>
+              <th>Pizza</th>
+              <th>Méret</th>
+              <th>Cím</th>
+              <th>Telefonszám</th>
+              <th>Ár</th>
+              <th>Státusz</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="order in orders.filter(o => o.status === 'Kész')" :key="order.id">
+              <td>{{ order.id }}</td>
+              <td>{{ order.userName }}</td>
+              <td>{{ order.pizzaName }}</td>
+              <td>{{ order.size }}</td>
+              <td>{{ order.address }}</td>
+              <td>{{ order.userPhone }}</td>
+              <td>{{ order.finalPrice }} Ft</td>
+              <td>{{ order.status }}</td>
+              <td>
+                <button @click="deleteOrder(order.id)">Törlés</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <button @click="router.push('/')">Vissza a kezdőlapra</button>
+    <div class="backToHomePage">
+      <button @click="router.push('/')">Vissza a kezdőlapra</button>
+    </div>
     <div v-if="showNotification" class="notification-popup">{{ notification }}</div>
   </div>
 </template>

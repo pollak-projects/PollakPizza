@@ -96,8 +96,7 @@ export default {
 
     <div class="menu">
       <ul class="menubar">
-        <li class="active" @click="scrollToMenu">Húsos pizzák</li>
-        <li @click="scrollToMenu">Sajtos pizzák</li>
+        <li class="active" @click="scrollToMenu">Pizzáink</li>
         <li @click="scrollToMenu">Egyedi pizzák</li>
       </ul>
     </div>
@@ -111,9 +110,7 @@ export default {
               <h4>{{ pizza.name }}</h4>
               <p class="ratet">{{ pizza.toppings }}</p>
               <p class="ar">{{ pizza.price }} Ft</p>
-              <div>
-                <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
-              </div>
+              <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
             </div>
         </div>
       </div>
