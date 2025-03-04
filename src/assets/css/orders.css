@@ -1,35 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 .orders-page {
+  width: 900px;
     padding: 20px;
     max-width: 1000px;
     margin: 0 auto;
     background-color: #333;
-    border-radius: 10px;
+    border-radius: 50px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: #f9f9f9;
   }
   
-  .orders-page h1, .orders-page h2 {
+  .orders-page h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #f9f9f9;
   }
-  
-  .orders-table {
+
+  .orders-page h2 {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-top: 20px;
   }
   
-  .orders-table th, .orders-table td {
+  th, td {
     padding: 10px;
-    border: 1px solid #555;
     text-align: left;
-    color: #f9f9f9;
+    color: #a2a2a2;
+  }
+
+  td {
+    border: 1px solid #454545;
   }
   
-  .orders-table th {
-    background-color: #444;
-    color: #f9f9f9;
+  th {
+    background-color: #232323;
+  }
+
+  td:hover {
+    background-color: #4d4d4d;
+  }
+
+  /*Az adattábla lekerekítése*/
+  th:first-of-type {
+    border-top-left-radius: 25px;
+  }
+  th:last-of-type {
+    border-top-right-radius: 25px;
+  }
+  tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 25px;
+  }
+  tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 25px;
   }
   
   button {
@@ -40,6 +68,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: 700;
   }
   
   button:hover {
@@ -57,3 +86,45 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
   }
+
+/*táblák mutatása*/
+.hidden {
+  display: none;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  height: 20px;
+  width: 20px;
+}
+
+.backToHomePage {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/*Az adattábla lekerekítése*/
+th:first-of-type {
+  border-top-left-radius: 25px;
+}
+th:last-of-type {
+  border-top-right-radius: 25px;
+}
+tr:last-of-type td:first-of-type {
+  border-bottom-left-radius: 25px;
+}
+tr:last-of-type td:last-of-type {
+  border-bottom-right-radius: 25px;
+}
+
+img:hover {
+  margin: 5px;
+  transform: scale(1.1);
+  transition: ease 0.1s;
+}

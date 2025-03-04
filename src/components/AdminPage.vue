@@ -273,35 +273,35 @@ onMounted(() => {
         <img src="../assets/image/arrow.png" alt="" @click="showUsers()" id="usersArrow">
       </div>
       <div class="users hidden" id="usersDiv">
-      <table v-if="!isLoading && !message">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Név</th>
-            <th>Email</th>
-            <th>Admin</th>
-            <th>Műveletek</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in users" :key="user.id">
-            <td>{{ user.id }}</td>
-            <td><input v-model="user.name" /></td>
-            <td><input v-model="user.email" /></td>
-            <td>
-              <select v-model="user.admin">
-                <option :value="1">Igen</option>
-                <option :value="0">Nem</option>
-              </select>
-            </td>
-            <td>
-              <button @click="updateUser(user)">Mentés</button>
-              <button @click="deleteUser(user.id)">Törlés</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <table v-if="!isLoading && !message">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Név</th>
+              <th>Email</th>
+              <th>Admin</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in users" :key="user.id">
+              <td>{{ user.id }}</td>
+              <td><input v-model="user.name" /></td>
+              <td><input v-model="user.email" /></td>
+              <td>
+                <select v-model="user.admin">
+                  <option :value="1">Igen</option>
+                  <option :value="0">Nem</option>
+                </select>
+              </td>
+              <td>
+                <button @click="updateUser(user)">Mentés</button>
+                <button @click="deleteUser(user.id)">Törlés</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
     <!-- Pizzas Table -->
       <br>
