@@ -86,7 +86,7 @@
     right: 20px;
   }
   
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1000px) {
     .hamburger {
       display: block;
     }
@@ -104,5 +104,12 @@
   
     .nav-active {
       display: flex;
+    }
+    .profileimg {
+      width: 10dvw;
+      height: 10dvw;
+      cursor: pointer;
+      float: right;
+      border-radius: 500%;
     }
   }
