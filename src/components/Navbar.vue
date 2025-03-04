@@ -73,7 +73,6 @@ const toggleMobileMenu = () => {
       <img src="../assets/image/usericon.png" alt="user img" class="profileimg" />
       <div v-if="isDropdownVisible" class="dropdown-menu">
         <p @click="goToProfile">Profil</p>
-        <p @click="goToCart">Kosár</p>
         <p v-if="isAdmin" @click="goToAdmin">Admin</p> <!-- Admin link -->
         <p @click="handleLogout">Kijelentkezés</p>
       </div>
