@@ -60,7 +60,7 @@ const goToMenu = () => {
       <video autoplay muted loop>
         <source src="../assets/video/bgvideo.mp4" type="video/mp4" />
       </video>
-      <div class="text-asd">
+      <div class="text-img">
         <p>
           A Pollak Pizza a legjobb alapanyagokkal és hagyományos receptúrával
           készíti el ínycsiklandó pizzáit. Gyors rendelés, friss ízek, és gyors

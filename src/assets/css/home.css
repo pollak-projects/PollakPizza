@@ -1,26 +1,4 @@
-.getToOrder {
-    height: 20dvw;
-    font-size: 1.7dvw;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    color: #a0702b;
-    background: rgb(255,241,216);
-    background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
-  }
-  .getToOrder button {
-    padding: 1dvw 1.75dvw;
-    font-size: 1.2dvw;
-    background-color: #f7ad45;
-    color: white;
-    border: none;
-    font-weight: bold;
-    border-radius: 40px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+
   .previewpizza {
     max-height: 185px;
     width: 100%;
@@ -55,22 +33,22 @@
     }
   }
   
+
   .pizza-card {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 90%;
+    flex-direction: column; /* Stack items properly */
+    justify-content: space-between; /* Spread items evenly */
+    width: 30%;
     border: 1px solid #d9983d;
     border-radius: 10px;
     font-weight: bold;
     background-color: rgba(247, 173, 69, 0.5);
-    padding: 1dvw;
+    padding: 1.3dvw;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: #a0702b;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  
   .pizza-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -82,13 +60,13 @@
   }
   
   .pizza-card h3 {
-    font-size: 1rem;
-    margin-bottom: 0.5dvw;
+    font-size: 2dvw;
+    margin-bottom: 10px;
   }
   
   .pizza-card p {
-    font-size: 0.8rem;
-    margin-bottom: 0.5dvw;
+    font-size: 1dvw;
+    margin-bottom: 0.4dvw;
   }
   
   .pizza-card button {
@@ -103,17 +81,11 @@
     align-self: center;
     width: 80%;
     margin-top: auto;
+    font-size: 1dvw;
+    border-radius: 20px;
   }
   
-  .textvideo {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 30vw;
-    overflow: hidden;
-  }
-  .text-asd {
+  .text-img {
     text-align: center;
     font-size: 1.5dvw;
     color: white;
@@ -237,15 +209,8 @@
   }
   
   
-  .textvideo {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 30vw;
-    overflow: hidden;
-  }
-  .text-asd {
+
+  .text-img {
     text-align: center;
     font-size: 1.5dvw;
     color: white;
@@ -259,43 +224,12 @@
     z-index: 2;
   }
   
-  .textvideo {
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    height: 30dvw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
+
+
   
-  .textvideo video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
+
   
-  .textvideo .text-content {
-    position: relative;
-    z-index: 1;
-    font-size: 3.3dvh;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    padding: 20px;
-    margin-right: 50%;
-    margin-left: 10%;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-  }
-  
-  .textvideo p {
-    word-wrap: break-word;
-  }
+
   .specialfont {
     background: linear-gradient(to right, #5f8d37, #bb3e00);
     -webkit-text-fill-color: transparent;
@@ -382,46 +316,7 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  
-  .pizza-card h3 {
-    font-size: 2dvw;
-    margin-bottom: 10px;
-  }
-  
-  .pizza-card p {
-    font-size: 1dvw;
-    margin-bottom: 0.4dvw;
-  }
-  
-  .pizza-card {
-    display: flex;
-    flex-direction: column; /* Stack items properly */
-    justify-content: space-between; /* Spread items evenly */
-    width: 30%;
-    border: 1px solid #d9983d;
-    border-radius: 10px;
-    font-weight: bold;
-    background-color: rgba(247, 173, 69, 0.5);
-    padding: 1.3dvw;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: #a0702b;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .pizza-card button {
-    padding: 1dvw 2dvw;
-    font-size: 1dvw;
-    background-color: #f7ad45;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    align-self: center; /* Ensures it stays centered */
-    width: 80%; /* Prevents it from being too wide */
-    margin-top: auto; /* Pushes the button to the bottom */
-  }
+
   
   .order {
     text-align: center;
@@ -477,28 +372,131 @@
       width: 100%;
       background-size: cover;
       background-position: center;
-      height: 30dvw;
+      height: 45dvw;
       display: flex;
-      padding-left: 22dvw;
+      padding-top: 3dvw;
+      padding-left: 10dvw;
       align-items: center;
       background: rgb(255,241,216);
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     }
+    .textvideo {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 43vw;
+      overflow: hidden;
+    }
+    .text-img {
+      text-align: center;
+      font-size: 3dvw;
+      color: white;
+      font-weight: bold;
+      padding: 2dvw;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      max-width: 70%;
+      opacity: 1;
+      transform: translateY(0);
+      z-index: 2;
+    }
     .hero p{
-      font-size: 2.3dvw;
+      font-size: 3.5dvw;
     }
     .hero button{
-      width: 40%;
-
+      width: 100%;
+      font-size: 1dvw;
+      cursor: pointer;
+      margin: 0.2dvw;
+      font-weight: bold;
+      margin-left: 2dvw;
       font-size: 3dvw;
     }
-    .copyright-text {
-      position: static;
-      transform: none;
-      margin-top: 1rem;
+    .hero img {
+      height: 40dvw;
+      width: 40dvw;
+      border-radius: 30px;
+      padding-left: 2dvw;
     }
+    .menu h2{
+      font-size: 7dvw;
+    }
+    .pizza-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); 
+      
+      justify-content: center;
+    }
+    .pizza-card {
+      display: flex;
+      flex-direction: column; 
+      justify-content: space-between; 
+      width: 100%;
+      border: 1px solid #d9983d;
+      border-radius: 10px;
+      font-weight: bold;
+      background-color: rgba(247, 173, 69, 0.5);
+      padding: 1.3dvw;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      color: #a0702b;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+      
+  .pizza-card img {
+    width: 100%;
+    height: 100%;
+  }
   
-    .footer-section {
-      min-width: auto;
-    }
+  .pizza-card h3 {
+    font-size: 4.3dvw;
+    margin-bottom: 10px;
+  }
+  
+  .pizza-card p {
+    font-size: 2.7dvw;
+    margin-bottom: 0.4dvw;
+  }
+  
+  .pizza-card button {
+    padding: 0.5dvw 1dvw;
+    background-color: #f7ad45;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+    width: 80%;
+    margin-top: auto;
+    font-size: 3dvw;
+    border-radius: 20px;
+  }
+  .getToOrder {
+    height: 38dvw;
+    font-size: 4dvw;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    color: #a0702b;
+    background: radial-gradient(
+      circle,
+      rgb(255, 255, 255) 0%,
+      rgb(255, 231, 152) 20%
+    );
+  }
+  .getToOrder button {
+    padding: 2dvw 5.75dvw;
+    font-size: 3dvw;
+    background-color: #f7ad45;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
   }
