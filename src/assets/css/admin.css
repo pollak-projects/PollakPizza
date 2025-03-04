@@ -1,13 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 .model-content{
-  color:white;
+  color:#9B6600;
 }
 .model-content input{
   border: white 2px solid;
   margin: 0.4dvw;
+  color: #9B6600;
 }
+
+/*táblák mutatása*/
+.hidden {
+  display: none;
+}
+
+.shown {
+  display: contents;
+}
+/*táblák mutatása*/
 body{
-  background-color: #cfa569;
+  background-color: #FFE1A8;
   padding: 1dvw;
+  color: #9B6600;
+  font-weight: 700;
+}
+h2 {
+  text-align: center;
+}
+img {
+  height: 20px;
+  width: 20px;
+}
+input {
+  color: #9B6600;
+}
+input:focus-visible {
+  outline: none;
+}
+/*CHECKBOX STYLE*/
+input[type="checkbox"] {
+
+}
+/*CHECKBOX STYLE*/
+select {
+  color: #9B6600;
 }
 .kepurl{
   padding: 0dvw 10dvw 0dvw 0.5dvw;
@@ -61,54 +96,116 @@ body{
 .pizzaurl {
   width: 100%; /* Make it fill the parent */
 }
+
+/*ADMIN BOX*/
 .admin-page {
     padding: 0.8dvw;
     max-width: 1200px;
     margin: 0 auto;
-    background-color: #b47a28;
+    background-color: #FCC77C;
     border-radius: 50px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: white;
+    height: 900px;
+    overflow: auto;
   }
   
-  .admin-page h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #f9f9f9;
-  }
+.admin-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.admin-page::-webkit-scrollbar {
+  width: 12px;
+}
+
+.admin-page::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: transparent;
+}
+
+.admin-page::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.2); 
+}
+
+.admin-page::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+    margin-bottom: 40px; 
+}
+
+.admin-page::-webkit-scrollbar-track-piece:start {
+    background: transparent;
+    margin-top: 40px;
+}
+/*ADMIN BOX*/
   
   table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-top: 20px;
   }
   
   th, td {
     padding: 10px;
-    border: 1px solid #555;
     text-align: left;
-    color: #f9f9f9;
+    color: #9B6600;
+  }
+
+  td {
+    border: 1px solid #F7AD45;
   }
   
   th {
-    background-color: #444;
-    color: #f9f9f9;
+    background-color: #F7AD45;
+  }
+
+  td:hover {
+    background-color: #ffba5a;
+  }
+
+  /*Az adattábla lekerekítése*/
+  th:first-of-type {
+    border-top-left-radius: 25px;
+  }
+  th:last-of-type {
+    border-top-right-radius: 25px;
+  }
+  tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 25px;
+  }
+  tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 25px;
   }
   
   button {
     margin-right: 5px;
     padding: 5px 10px;
-    background-color: #e7ba59;
-    color: #333;
+    background-color: #F7AD45;
+    color: #FFF1D7;
+    font-weight: 700;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     cursor: pointer;
   }
   
   button:hover {
     background-color: #dba14a;
   }
-  
+
+  img:hover {
+    margin: 5px;
+    transform: scale(1.1);
+    transition: ease 0.1s;
+  }
+
+  .backToHomePage {
+    display: flex;
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+  }
   .orders-link {
     display: block;
     margin-top: 20px;

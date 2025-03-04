@@ -221,6 +221,34 @@ const clearPizzaForm = () => {
   showAddPizzaModal.value = false;
 };
 
+const showUsers = () => {
+  const usersDiv = document.getElementById("usersDiv")
+  const usersArrow = document.getElementById("usersArrow")
+
+  if (usersDiv.classList.contains("hidden")) {
+    usersDiv.classList.remove("hidden")
+    usersArrow.src = "src/assets/image/arrow-down.png"
+  }
+  else {
+    usersDiv.classList.add("hidden")
+    usersArrow.src = "src/assets/image/arrow.png"
+  }
+};
+
+const showPizzas = () => {
+  const pizzasDiv = document.getElementById("pizzasDiv")
+  const pizzasArrow = document.getElementById("pizzasArrow")
+
+  if (pizzasDiv.classList.contains("hidden")) {
+    pizzasDiv.classList.remove("hidden")
+    pizzasArrow.src = "src/assets/image/arrow-down.png"
+  }
+  else {
+    pizzasDiv.classList.add("hidden")
+    pizzasArrow.src = "src/assets/image/arrow.png"
+  }
+};
+
 onMounted(() => {
   fetchUsers();
   fetchPizzas();
@@ -240,39 +268,49 @@ onMounted(() => {
     <div v-if="message">{{ message }}</div>
 
     <!-- Users Table -->
-    <table v-if="!isLoading && !message">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Név</th>
-          <th>Email</th>
-          <th>Admin</th>
-          <th>Műveletek</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users" :key="user.id">
-          <td>{{ user.id }}</td>
-          <td><input v-model="user.name" /></td>
-          <td><input v-model="user.email" /></td>
-          <td>
-            <select v-model="user.admin">
-              <option :value="1">Igen</option>
-              <option :value="0">Nem</option>
-            </select>
-          </td>
-          <td>
-            <button @click="updateUser(user)">Mentés</button>
-            <button @click="deleteUser(user.id)">Törlés</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <h2>Felhasználók kezelése</h2>
+      <div class="center">
+        <img src="../assets/image/arrow.png" alt="" @click="showUsers()" id="usersArrow">
+      </div>
+      <div class="users hidden" id="usersDiv">
+      <table v-if="!isLoading && !message">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Név</th>
+            <th>Email</th>
+            <th>Admin</th>
+            <th>Műveletek</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.id }}</td>
+            <td><input v-model="user.name" /></td>
+            <td><input v-model="user.email" /></td>
+            <td>
+              <select v-model="user.admin">
+                <option :value="1">Igen</option>
+                <option :value="0">Nem</option>
+              </select>
+            </td>
+            <td>
+              <button @click="updateUser(user)">Mentés</button>
+              <button @click="deleteUser(user.id)">Törlés</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Pizzas Table -->
-    <br>
-    <h2 style="text-align: center;">Pizzák kezelése</h2>
-    <table v-if="!isLoading && !message">
+      <br>
+      <h2>Pizzák kezelése</h2>
+      <div class="center">
+        <img src="../assets/image/arrow.png" alt="" @click="showPizzas()" id="pizzasArrow">
+      </div>
+      <div class="pizzas hidden" id="pizzasDiv">
+      <table v-if="!isLoading && !message">
       <thead>
         <tr>
           <th>ID</th>
@@ -307,10 +345,10 @@ onMounted(() => {
           </td>
         </tr>
       </tbody>
-    </table>
-    <br>
-    <button @click="showAddPizzaModal = true">Új pizza hozzáadása</button>
-    <div v-if="showAddPizzaModal" class="model">
+      </table>
+      <br>
+      <button @click="showAddPizzaModal = true">Új pizza hozzáadása</button>
+      <div v-if="showAddPizzaModal" class="model">
       <div class="model-content">
         <br>
         <h2>Új pizza hozzáadása</h2>
@@ -338,10 +376,13 @@ onMounted(() => {
         <button @click="addPizza">Pizza hozzáadása</button>
         <button @click="showAddPizzaModal = false">Mégse</button>
       </div>
+      </div>
     </div>
 
     <router-link to="/orders" class="orders-link">Rendelések megtekintése</router-link>
-    <button @click="router.push('/')">Vissza a kezdőlapra</button>
+    <div class="backToHomePage">
+      <button @click="router.push('/')">Vissza a kezdőlapra</button>
+    </div>
     <div v-if="showNotification" class="notification-popup">{{ notification }}</div>
   </div>
   </body>
