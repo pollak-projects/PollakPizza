@@ -104,8 +104,8 @@ onUnmounted(() => {
             </div>
 
             <div class="col-sm-6">
-              <label>Születési Dátum</label>
-              <input type="date" v-model="birthdate" />
+              <label>Sz.Dátum</label>
+              <input type="date" v-model="birthdate" class="inputdate"/>
             </div>
 
             <div class="col-sm-6">
@@ -143,14 +143,16 @@ onUnmounted(() => {
       <div class="form-container sign-in-container" id="hideDiv">
         <form action="#" @submit.prevent="handleLogin">
           <h1 class="loginH1">BEJELENTKEZÉS</h1>
-          <label>Email</label>
+          <label class="loginlabel">Email</label>
           <input
+            class="logininput"
             type="email"
             v-model="registemail"
             placeholder="example@org.com"
           />
-          <label>Jelszó</label>
-          <input
+          <label class="loginlabel">Jelszó</label>
+          <input 
+            class="logininput"
             type="password"
             v-model="registpassword"
             placeholder="password"
@@ -179,5 +181,5 @@ onUnmounted(() => {
       </div>
     </div>
   </body>
-</template>
+  </template>
 <style scoped src="../assets/css/login.css"></style>
