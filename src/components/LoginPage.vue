@@ -100,7 +100,7 @@ onUnmounted(() => {
           <div class="row">
             <div class="col-sm-6">
               <label>Név</label>
-              <input type="text" v-model="name" placeholder="John Doe" />
+              <input type="text" v-model="name" placeholder="A neve" />
             </div>
 
             <div class="col-sm-6">
@@ -113,20 +113,20 @@ onUnmounted(() => {
               <input
                 type="password"
                 v-model="registpassword"
-                placeholder="password"
+                placeholder="Jelszó"
               />
             </div>
 
             <div class="col-sm-6">
               <label>Telefonszám</label>
-              <input type="text" v-model="phonenumber" placeholder="+36301234567" />
+              <input type="text" v-model="phonenumber" placeholder="+363012345678" />
             </div>
           </div>
           <label>Email</label>
           <input
             type="email"
             v-model="registemail"
-            placeholder="example@pollakpizza.hu"
+            placeholder="Példa@gmail.hu"
           />
           <label>Cím</label>
           <input

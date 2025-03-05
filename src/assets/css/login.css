@@ -362,7 +362,7 @@ form {
     color: #ffecd2;
     font-weight: bolder;
     font-size: 4dvw;
-    width: 40dvw;
+    width: 35dvw;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
@@ -396,11 +396,10 @@ form {
 .container{
   height: 90%;
 }
-
 .sign-up-container label {
-font-size: 4dvw;
+font-size: 3.6dvw;
 }
-.inputdate{
+.sign-up-container input{
   font-size: 2.5dvw;
 }
 }
