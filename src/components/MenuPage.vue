@@ -28,7 +28,7 @@ export default {
     <div class="home">
       <section class="hero">
         <div class="hero-content">
-          <h2>Ezen az oldalon megtaláljak a kinílatunkat</h2>
+          <h2>Ezen az oldalon megtaláljak a pizzáink listáját!</h2>
         </div>
       </section>
 
