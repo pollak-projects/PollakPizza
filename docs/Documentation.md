@@ -98,11 +98,14 @@ A bejelentkezési útvonal a `/login` végponton érhető el. A kérésnek tarta
 
 Példa kérés:
 ```json
-POST /login
-{
-  "email": "test@example.com",
-  "password": "password123"
-}
+    const res = await request(app)
+      .post('/login')
+      .send({
+        email: 'test@example.com',
+        password: 'password123'
+      });
+    token = res.body.token;
+  });
 ```
 
 ### Regisztráció
