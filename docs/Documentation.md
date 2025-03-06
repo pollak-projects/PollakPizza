@@ -110,15 +110,21 @@ A regisztrációs útvonal a `/register` végponton érhető el. A kérésnek ta
 
 Példa kérés:
 ```json
-POST /register
-{
-  "name": "Test User",
-  "email": "test@example.com",
-  "password": "password123",
-  "birthdate": "1990-01-01",
-  "address": "123 Test St",
-  "phonenumber": "1234567890"
-}
+describe('Profile Routes', () => {
+  let token;
+
+  beforeAll(async () => {
+    // Regisztráljunk egy új felhasználót a tesztekhez
+    await request(app)
+      .post('/register')
+      .send({
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'password123',
+        birthdate: '1990-01-01',
+        address: '123 Test St',
+        phonenumber: '1234567890'
+      });
 ```
 
 ### Profil lekérés
@@ -126,8 +132,13 @@ A felhasználói profil lekérdezése a `/profile` végponton érhető el.
 
 Példa kérés:
 ```json
-GET /profile
-Authorization: Bearer <token>
+  it('should get user profile', async () => {
+    const res = await request(app)
+      .get('/profile')
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('email', 'test@example.com');
+  });
 ```
 
 ### Profil frissítése
@@ -135,14 +146,21 @@ A felhasználói profil frissítése a `/profile` végponton érhető el. A kér
 
 Példa kérés:
 ```json
-PUT /profile
-Authorization: Bearer <token>
-{
-  "name": "Updated User",
-  "email": "updated@example.com",
-  "address": "456 Updated St",
-  "phonenumber": "0987654321"
-}
+
+  it('should update user profile', async () => {
+    const res = await request(app)
+      .put('/profile')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: 'Updated User',
+        email: 'updated@example.com',
+        address: '456 Updated St',
+        phonenumber: '0987654321'
+      });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('message', 'Profil sikeresen frissítve.');
+  });
+});
 ```
 
 ### Pizzák lekérése
@@ -150,7 +168,14 @@ A pizzák listájának lekérdezése a `/pizzas` végponton érhető el.
 
 Példa kérés:
 ```json
-GET /pizzas
+  it('should get a list of pizzas', async () => {
+    const res = await request(app)
+      .get('/pizzas');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toBeInstanceOf(Array);
+  });
+});
+
 ```
 
 ### Hibakeresés
