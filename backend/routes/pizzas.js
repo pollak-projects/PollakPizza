@@ -2,27 +2,76 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models/db');
 
-// Fetch all pizzas
+// Route to fetch all pizzas
 router.get('/allPizzas', async (req, res) => {
-  const query = `
+
+  const { toppings: selectedtops } = req.query;
+  let query = ""; 
+
+
+  if (selectedtops == null) {
+
+    query = `
+      SELECT p.id, p.name, p.price, p.image, GROUP_CONCAT(t.name SEPARATOR ', ') AS toppings
+      FROM pizzas p
+      LEFT JOIN pizzaToppings pt ON p.id = pt.pizzaId
+      LEFT JOIN toppings t ON pt.toppingId = t.id
+      GROUP BY p.id, p.name, p.price, p.image
+      ORDER BY p.id;
+    `;
+    try {
+      const [results] = await db.query(query); 
+      res.json(results); 
+    } catch (err) {
+      console.error('Error fetching pizzas:', err);
+      res.status(500).json({ error: 'Error fetching pizzas' }); 
+    }
+  } 
+
+  else {
+
+    let toppingsArray = selectedtops.split(';');
+
+    let Finaltops = []; 
+
+    for (let index = 0; index < toppingsArray.length; index++) {
+        let top = toppingsArray[index].split(','); 
+
+        Finaltops = Finaltops.concat(top);
+    }
+
+    const placeholders = Finaltops.map(() => "?").join(",");
+
+    const query = `
     SELECT p.id, p.name, p.price, p.image, GROUP_CONCAT(t.name SEPARATOR ', ') AS toppings
     FROM pizzas p
     LEFT JOIN pizzaToppings pt ON p.id = pt.pizzaId
     LEFT JOIN toppings t ON pt.toppingId = t.id
+    WHERE p.id IN (
+      SELECT pt.pizzaId
+      FROM pizzaToppings pt
+      WHERE pt.toppingId IN (${placeholders}) -- Filter by the selected toppings
+      GROUP BY pt.pizzaId
+      HAVING COUNT(DISTINCT pt.toppingId) = ?
+    )
     GROUP BY p.id, p.name, p.price, p.image
-    ORDER BY p.id
+    ORDER BY p.id;
   `;
+  
 
+  const params = [...Finaltops, Finaltops.length];
+  
   try {
-    const [results] = await db.query(query);
+    const [results] = await db.query(query, params);
     res.json(results);
   } catch (err) {
-    console.error('Error fetching pizzas:', err);
-    res.status(500).json({ error: 'Error fetching pizzas' });
+    console.error("Error fetching pizzas:", err);
+    res.status(500).json({ error: "Error fetching pizzas" });
   }
+}
+
 });
 
-// Update pizza
 // Update pizza
 router.put('/updatePizza/:id', async (req, res) => {
   const { name, price, image, toppings } = req.body;

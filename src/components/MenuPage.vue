@@ -22,6 +22,8 @@ export default {
 
         const response = await axios.get(endpoint);
         pizzas.value = response.data;
+        console.log(selectedToppings);
+        console.log("Fetching from:", endpoint)
       } catch (error) {
         console.error("Error fetching pizzas:", error);
       }
@@ -77,7 +79,7 @@ export default {
 
       <section id="menu" class="menu">
         <h2>Étlapunk</h2>
-        <div class="menuflex">
+       <div class="menuflex">
           <div>
             <h1>Keresés feltét alapján</h1>
           </div>
@@ -89,7 +91,7 @@ export default {
               <input type="checkbox" :id="`topping-${topping.id}`" :value="topping.id" v-model="selectedToppings" />
               <label :for="`topping-${topping.id}`"></label>
              </div>
-         </div>
+         </div> 
         </div>
           </div>
           <button @click="fetchPizzas(selectedToppings)">Keresés</button>
@@ -101,6 +103,9 @@ export default {
             <p>{{ pizza.toppings }}</p>
             <p><strong>{{ pizza.price }} Ft</strong></p>
             <button @click="orderPizza(pizza)">Rendelj most!</button>
+          </div>
+          <div v-if="pizzas.length === 0">
+            Nincs ilyen pizzánk.
           </div>
         </div>
       </section>
