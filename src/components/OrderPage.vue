@@ -7,6 +7,7 @@ export default {
     const pizzas = ref([]);
     const orderedPizzas = ref([]);
     const orderFullPrice = 0;
+    const userData = ref([])
     
     const fetchPizzas = async () => {
       try {
@@ -17,7 +18,17 @@ export default {
       }
     };
 
+    const fetchUserData = async () => {
+      try {
+        const res = await axios.get("http://localhost:3061/profile")
+        userData.value = res.data 
+      } catch (err) {
+        console.error("Hiba történt a felhasználó lekérdezésekor:", err)
+      }
+    }
+
     onMounted(() => {
+      fetchUserData()
       fetchPizzas();
     });
 
@@ -89,7 +100,7 @@ export default {
       alert(`Köszönjük a rendelésed!`);
       // Itt lehetne API hívást tenni rendelés küldéséhez
       
-      console.log("userid:")
+      console.log("userid:" + localStorage.getItem('user_id'))
       console.log("pizzaid:")
       console.log("sizeid:")
       console.log("address:" + document.getElementById('address').value)

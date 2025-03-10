@@ -418,6 +418,7 @@
 .szamolGombok {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .fizetes {
@@ -547,7 +548,7 @@
   .item button {
     width: 75px; /* 100px */
     height: 30px; /* 40px */
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .item h4 {
@@ -577,6 +578,12 @@
   .szamolGombok {
     width: 2.5rem; /* 40px */
     height: 1.25rem; /* 20px */
+  }
+
+  .orderDetails button {
+    width: 15px;
+    height: 10px;
+    font-size: 11px;
   }
 
   .delivery {
