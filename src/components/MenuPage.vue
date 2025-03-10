@@ -22,8 +22,6 @@ export default {
 
         const response = await axios.get(endpoint);
         pizzas.value = response.data;
-        console.log(selectedToppings);
-        console.log("Fetching from:", endpoint)
       } catch (error) {
         console.error("Error fetching pizzas:", error);
       }
@@ -39,7 +37,6 @@ export default {
         });
         if (response.status === 200) {
           toppings.value = response.data;
-          console.log('Toppings fetched successfully:', toppings.value);
         } else {
           throw new Error(`Unexpected response code: ${response.status}`);
         }
@@ -86,15 +83,17 @@ export default {
           <div v-for="topping in toppings" :key="topping.id">
             <div>
             <div class="checkbox-wrapper-18">
-            <label :for="`topping-${topping.id}`">{{ topping.name }}</label>
-             <div class="round">
+              <div class="topping-container">
+              <label :for="`topping-${topping.id}`">{{ topping.name }}</label>
+            <div class="round">
               <input type="checkbox" :id="`topping-${topping.id}`" :value="topping.id" v-model="selectedToppings" />
               <label :for="`topping-${topping.id}`"></label>
-             </div>
+            </div>
+          </div>
          </div> 
         </div>
           </div>
-          <button @click="fetchPizzas(selectedToppings)">Keresés</button>
+          <button class="searchbtn" @click="fetchPizzas(selectedToppings)">Keresés</button>
         </div>
         <div class="pizza-list">
           <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
