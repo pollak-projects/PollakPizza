@@ -476,3 +476,61 @@
   width: 50%;
   margin-bottom: 5px;
 }
+
+/*RESPONSIVE*/
+/* Mobile devices (up to 768px) */
+@media (max-width: 768px) {
+  .app {
+    width: auto;
+  }
+
+  .container {
+    width: auto;
+  }
+
+  .leftSide{
+    width: 60%;
+  }
+
+  .rightSide {
+    width: 40%;
+  }
+  .menu {
+    width: 410px;
+  }
+
+  .item {
+    width: 200px;
+    height: 300px;
+  }
+
+  .item img {
+    width: 200px;
+    height: 100px;
+  }
+
+  .item button {
+    width: 100px;
+    height: 40px;
+  }
+
+  .delivery {
+    height: 105px;
+    width: 100px;
+  }
+
+  .delivery select {
+    height: 50px;
+    width: 130px;
+  }
+
+  .delivery input {
+    height: 50px;
+    width: 130px;
+  }
+
+  .checkout {
+    width: 130px;
+    height: 200px;
+  }
+}
