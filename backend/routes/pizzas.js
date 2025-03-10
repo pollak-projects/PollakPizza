@@ -26,10 +26,6 @@ router.get('/allPizzas', async (req, res) => {
       return res.status(500).json({ error: "Error fetching pizzas" });
     }
   }
-  if(searchedpizza && selectedtops)
-  {
-    
-  }
   // Case: Search by toppings
   if (selectedtops) {
     let toppingsArray = selectedtops.split(";");
