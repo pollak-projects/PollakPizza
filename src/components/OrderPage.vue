@@ -69,18 +69,20 @@ export default {
 
       /*TEXT CHANGE*/
       if (this.orderedPizzas.length < 1) {
-        const htmlElement = document.createElement('h4')
-        const htmlElemntText = document.createTextNode("A rendelés megkezdéséhez adjon hozzá egy pizzát!")
-        htmlElement.appendChild(htmlElemntText)
-        htmlElement.setAttribute("id","nincsRendelesSzoveg")
+        //Létrehozzuk a megjelenő szöveget
+        const htmlElement = document.createElement('h4');
+        const htmlElementText = document.createTextNode("A rendelés megkezdéséhez adjon hozzá egy pizzát!");
+        htmlElement.appendChild(htmlElementText);
+        htmlElement.setAttribute('id', "nincsRendelesSzoveg")
 
-        const ordersDiv = document.getElementById("orders")
-        ordersDiv.appendChild(htmlElement)
+        //A diven belül megjelenítjük
+        const nincsRendelesSzovegDiv = document.getElementById("nincsRendelesSzovegDiv");
+        nincsRendelesSzovegDiv.appendChild(htmlElement);
       }
     },
     submitOrder() {
-      alert(`Köszönjük a rendelésed, ${this.order.name}!`);
-      console.log(this.order);
+      alert(`Köszönjük a rendelésed!`);
+      console.log("teszt");
       // Itt lehetne API hívást tenni rendelés küldéséhez
     },
   }
@@ -133,9 +135,11 @@ export default {
             <hr>
 
             <div class="orders row" id="orders">
-              <div class="nincsRendelesSzoveg">
+
+              <div class="nincsRendelesSzoveg" id="nincsRendelesSzovegDiv">
                 <h4 id="nincsRendelesSzoveg">A rendelés megkezdéséhez adjon hozzá egy pizzát!</h4>
               </div>
+
               <div class="rendelesRow" v-for="pizza in orderedPizzas" :key="pizza.id">
                 <div class="targy half">
                   <h4><span id="darab">{{ pizza.count }}</span>x {{ pizza.name }}</h4>
@@ -167,7 +171,7 @@ export default {
             </div>
 
             <div class="fizetes">
-              <button>Fizetés</button>
+              <button @click="submitOrder()">Fizetés</button>
             </div>
           </div>
         </div>
