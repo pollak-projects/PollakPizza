@@ -476,3 +476,127 @@
   width: 50%;
   margin-bottom: 5px;
 }
+
+/*RESPONSIVE*/
+/* Mobile devices (up to 768px) */
+@media (max-width: 768px) {
+  .app {
+    width: auto;
+  }
+
+  .container {
+    width: auto;
+  }
+
+  .leftSide {
+    width: 60%;
+  }
+
+  .rightSide {
+    width: 40%;
+  }
+
+  .menu {
+    width: auto; /* 410px */
+  }
+
+  .menubar li {
+    width: auto;
+  }
+
+  .item {
+    width: 12.5rem; /* 200px */
+    height: 18.75rem; /* 300px */
+  }
+
+  .item img {
+    width: 12.5rem; /* 200px */
+    height: 6.25rem; /* 100px */
+  }
+
+  .item button {
+    width: 6.25rem; /* 100px */
+    height: 2.5rem; /* 40px */
+    font-size: 0.875rem;
+  }
+
+  .item h4 {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .targy h4 {
+    font-size: 0.625rem; /* 10px */
+  }
+
+  .szamol {
+    padding-right: 0;
+  }
+
+  .szamol h4 {
+    font-size: 0.625rem; /* 10px */
+  }
+
+  .szamolGombok {
+    width: 2.5rem; /* 40px */
+    height: 1.25rem; /* 20px */
+  }
+
+  .delivery {
+    height: 6.5625rem; /* 105px */
+    width: auto; 
+    border-radius: 1.5625rem; /* 25px */
+  }
+
+  .delivery select {
+    height: 3.125rem; /* 50px */
+    width: 8.125rem; /* 130px */
+    text-overflow: ellipsis;
+    font-size: 10px;
+  }
+
+  .delivery input {
+    height: 3.125rem; /* 50px */
+    width: 8.125rem; /* 130px */
+    font-size: 10px;
+  }
+
+  .checkout {
+    width: auto; 
+    height: 12.5rem; /* 200px */
+    border-radius: 1.5625rem; /* 25px */
+  }
+
+  .orderDetails h3 {
+    margin: auto;
+    margin-top: 0.625rem; /* 10px */
+    margin-bottom: 0.625rem; /* 10px */
+  }
+
+  .orders {
+    width: auto;
+    margin: 0 0.625rem; /* 10px */
+    height: 3.125rem; /* 50px */
+  }
+
+  .nincsRendelesSzoveg {
+    font-size: 0.625rem; /* 10px */
+  }
+
+  .szallitas {
+    margin: 0 0.625rem; /* 10px */
+    font-size: 0.625rem; /* 10px */
+  }
+
+  .osszeg {
+    margin: 0 0.625rem; /* 10px */
+    font-size: 0.625rem; /* 10px */
+  }
+
+  .total button {
+    width: 6.25rem; /* 100px */
+    height: 1.5625rem; /* 25px */
+    font-size: 0.875rem; /* 14px */
+  }
+}
