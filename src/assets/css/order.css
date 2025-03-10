@@ -138,6 +138,9 @@
   margin: 5px 0px 3px 0px;
   font-size: 24px;
   font-weight: 800;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .item:hover {
@@ -212,6 +215,7 @@
   margin: 10px 0px 10px 0px;
   color: #9B6600;
   font-weight: 700;
+  text-overflow: ellipsis;
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -482,48 +486,80 @@
 @media (max-width: 768px) {
   .app {
     width: auto;
+    height: auto;
   }
 
   .container {
     width: auto;
   }
 
+  .row {
+    justify-content: center;
+  }
+
   .leftSide {
     width: 60%;
+    height: 640px;
   }
 
   .rightSide {
     width: 40%;
   }
+  .title h1 {
+    font-size: 40px;
+  }
 
   .menu {
-    width: auto; /* 410px */
+    width: 250px; /* 410px */
+    height: 50px;
+  }
+
+  .menubar {
+    width: 250px; /* 410px */
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .menubar li {
-    width: auto;
+    height: 25px;
+    width: 80px;
+    font-size: 10px;
+    display: flex;
+    white-space: pre;
+    align-items: center;
+    justify-content: center;
   }
 
   .item {
-    width: 12.5rem; /* 200px */
-    height: 18.75rem; /* 300px */
+    width: 150px; /* 200px */
+    height: 200px; /* 300px */
+    border-radius: 25px;
   }
 
   .item img {
-    width: 12.5rem; /* 200px */
-    height: 6.25rem; /* 100px */
+    width: 150px; /* 200px */
+    height: 75px; /* 100px */
+    border-radius: 25px 25px 0px 0px;
   }
 
   .item button {
-    width: 6.25rem; /* 100px */
-    height: 2.5rem; /* 40px */
-    font-size: 0.875rem;
+    width: 75px; /* 100px */
+    height: 30px; /* 40px */
+    font-size: 10px;
   }
 
   .item h4 {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    font-size: 12px;
+  }
+
+  .ar {
+    font-size: 10px;
+  }
+
+  .ratet {
+    font-size: 10px;
   }
 
   .targy h4 {
@@ -545,21 +581,30 @@
 
   .delivery {
     height: 6.5625rem; /* 105px */
-    width: auto; 
+    width: 137px; 
     border-radius: 1.5625rem; /* 25px */
   }
 
   .delivery select {
     height: 3.125rem; /* 50px */
-    width: 8.125rem; /* 130px */
-    text-overflow: ellipsis;
+    width: 7.565rem; /* 130px */
     font-size: 10px;
   }
 
   .delivery input {
     height: 3.125rem; /* 50px */
-    width: 8.125rem; /* 130px */
+    width: 7.565rem; /* 130px */
     font-size: 10px;
+  }
+
+  .iconCar {
+    background-size: 10px;
+    padding-left: 30px;
+  }
+
+  .iconWaypoint {
+    background-size: 10px;
+    padding-left: 30px;
   }
 
   .checkout {
@@ -576,7 +621,6 @@
 
   .orders {
     width: auto;
-    margin: 0 0.625rem; /* 10px */
     height: 3.125rem; /* 50px */
   }
 

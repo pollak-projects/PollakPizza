@@ -81,9 +81,20 @@ export default {
       }
     },
     submitOrder() {
+      if (this.orderedPizzas.length <= 0) {
+        alert("adj vmit a kosarba")
+        return
+      }
+
       alert(`Köszönjük a rendelésed!`);
-      console.log("teszt");
       // Itt lehetne API hívást tenni rendelés küldéséhez
+      
+      console.log("userid:")
+      console.log("pizzaid:")
+      console.log("sizeid:")
+      console.log("address:" + document.getElementById('address').value)
+      console.log("userphone:")
+      console.log("finalprice:" + this.orderFullPrice)
     },
   }
 };
@@ -126,7 +137,7 @@ export default {
             <option value="Átvétel az étteremben">Átvétel az étteremben</option>
           </select>
 
-          <input placeholder="Adja meg a kiszállítási címet" class="iconWaypoint">
+          <input placeholder="Adja meg a kiszállítási címet" class="iconWaypoint" id="address">
         </div>
 
         <div class="checkout">
