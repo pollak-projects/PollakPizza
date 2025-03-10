@@ -1,20 +1,80 @@
+.menuflex {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: rgb(255, 231, 152);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  float: left;
+  border: 2px solid black;
+  margin-left: 3dvw;
+  padding: 1.5dvw;
+}
+
+.menuflex h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.searchbtn{
+  border: black 2px solid;
+  padding: 0.5dvw 1dvw;
+  font-size: 0.8rem;
+  background-color: #f7ad45;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: center;
+  width: 80%;
+  margin-top: auto;
+  font-size: 1.2dvw;
+  margin-top: 1dvw;
+}
+
+.topping-container {
+  display: flex;
+  align-items: center;
+}
+
+.topping-container label {
+  margin-right: 10px; /* Adjust the spacing as needed */
+}
+
+.topping-container .round {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-wrapper-18 {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: left;
+}
+
+.checkbox-wrapper-18 label {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
 .checkbox-wrapper-18 .round {
   position: relative;
 }
-.checkbox-wrapper-18{
-  padding-left: 6dvw;
-}
+
 .checkbox-wrapper-18 .round label {
-  background-color: #fff;
+  background-color: white;
   border: 1px solid #ccc;
   border-radius: 50%;
   cursor: pointer;
   height: 28px;
   width: 28px;
   display: block;
-  position: relative; 
-  z-index: 1; 
+  position: relative;
+  z-index: 1;
 }
+
 .checkbox-wrapper-18 .round label:after {
   border: 2px solid #fff;
   border-top: none;
@@ -27,7 +87,7 @@
   top: 9px;
   transform: rotate(-45deg);
   width: 12px;
-  z-index: 2; /* Add this line */
+  z-index: 2;
 }
 
 .checkbox-wrapper-18 .round input[type="checkbox"] {
@@ -44,6 +104,7 @@
 .checkbox-wrapper-18 .round input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }
+
 
 .hero-content {
     max-width: 800px;
@@ -142,7 +203,6 @@
   .menu {
     text-align: center;
     color: black;
-    background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(255, 231, 152) 40%);
   }
   
   .menu h2 {
@@ -279,5 +339,33 @@
     font-size: 3dvw;
     border-radius: 20px;
   }
+  .menuflex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(255, 231, 152);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid black;
+    float: none;
+    margin-left: 3dvw;
+    margin-bottom: 3dvw;
+  }
   
+.searchbtn{
+  border: black 2px solid;
+  padding: 0.1dvw 0dvw;
+  font-size: 0.8rem;
+  background-color: #f7ad45;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: center;
+  width: 80%;
+  margin-top: auto;
+  font-size: 5dvw;
+  margin-top: 1dvw;
+}
   }
