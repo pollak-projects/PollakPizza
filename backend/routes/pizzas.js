@@ -26,6 +26,45 @@ router.get('/allPizzas', async (req, res) => {
       return res.status(500).json({ error: "Error fetching pizzas" });
     }
   }
+  if(selectedtops && searchedpizza)
+  {
+    let toppingsArray = selectedtops.split(";");
+  
+    let Finaltops = [];
+    for (let index = 0; index < toppingsArray.length; index++) {
+      let top = toppingsArray[index].split(",");
+      Finaltops = Finaltops.concat(top);
+    }
+  
+    const placeholders = Finaltops.map(() => "?").join(",");
+    const query =`
+    SELECT p.id, p.name, p.price, p.image, GROUP_CONCAT(t.name SEPARATOR ', ') AS toppings
+FROM pizzas p
+LEFT JOIN pizzaToppings pt ON p.id = pt.pizzaId
+LEFT JOIN toppings t ON pt.toppingId = t.id
+WHERE LOWER(p.name) LIKE LOWER(?) -- Szűrés a névre
+  AND p.id IN (
+    SELECT pt.pizzaId
+    FROM pizzaToppings pt
+    WHERE pt.toppingId IN (${placeholders}) -- Szűrés a kiválasztott topping ID-kre
+    GROUP BY pt.pizzaId
+    HAVING COUNT(DISTINCT pt.toppingId) = ?
+  )
+GROUP BY p.id, p.name, p.price, p.image
+ORDER BY p.id;
+`
+const params = [`%${searchedpizza}%`,...Finaltops, Finaltops.length];
+  
+
+try {
+  const [results] = await db.query(query, params);
+  return res.json(results); // Return immediately
+} catch (err) {
+  console.error("Error fetching pizzas:", err);
+  return res.status(500).json({ error: "Error fetching pizzas" });
+}
+
+  }
   // Case: Search by toppings
   if (selectedtops) {
     let toppingsArray = selectedtops.split(";");
