@@ -125,7 +125,6 @@ export default {
       const sizeID = 1 //alapértelmezett méret
       const address = userData.value.address //alapértelmezett cím
       const userPhone = userData.value.phonenumber
-      const finalPrice = this.orderFullPrice
       alert(`Köszönjük a rendelésed!`);
       // Itt lehetne API hívást tenni rendelés küldéséhez
       // Minden pizzánál meghívjuk a küldést
@@ -136,7 +135,7 @@ export default {
           console.log("sizeid:" + sizeID)
           console.log("address:" + address)
           console.log("userphone:" + userPhone)
-          console.log("finalprice:" + finalPrice)
+          console.log("finalprice:" + pizza.price)
           console.log("-------------------------")
         }
       });
