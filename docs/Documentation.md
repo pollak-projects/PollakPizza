@@ -50,6 +50,112 @@
 
 ## Projekt struktúra
 
+## Database
+Az adatbázis felépítése:
+a. pizzas tábla
+A pizzák adatait tárolja.
+
+Oszlop	Típus	       Leírás
+id	    INT	Egyedi     pizza azonosító.
+name	VARCHAR(255)   A pizza neve (pl. Margherita).
+price	INT	           A pizza alapára.
+image	VARCHAR(255)   URL útvonal a pizza képéhez.
+
+b. size tábla
+A pizzaméreteket és az árnövekményeket tartalmazza.
+
+Oszlop	    Típus	        Leírás
+id	        INT	            Egyedi méret azonosító.
+size	    INT	            A pizza mérete (pl. 12, 16).
+multiPrice	Decimal(10,0)	Méret alapján árnövekmény.
+
+c. toppings tábla
+Az elérhető feltéteket és azok többletköltségeit tárolja.
+
+Oszlop	    Típus	     Leírás
+id	        INT	         Egyedi feltét azonosító.
+name	    VARCHAR(255) A feltét neve (pl. Sajt).
+bonusPrice	INT	         A feltétért járó többletköltség.
+d. users tábla
+
+A felhasználók adatait tárolja.
+
+Oszlop	                Típus	        Leírás
+id	                    INT        	    Egyedi felhasználói azonosító.
+name	                VARCHAR(255)	A felhasználó teljes neve.
+email	                VARCHAR(255)	A felhasználó email címe.
+password	            VARCHAR(255)	A felhasználó jelszava (titkosított).
+birthdate	            DATE	        A felhasználó születési dátuma.
+address	                VARCHAR(255)	Kiszállítási cím.
+admin	                TINYINT	        Admin státuszt jelöl (0/1).
+phonenumber	            VARCHAR(50)    	Telefonszám.
+resetPasswordToken	    VARCHAR(255)	Jelszó visszaállítási token.
+resetPasswordExpires	BIGINT	        A visszaállító token lejárati ideje.
+
+e. orders tábla
+A leadott pizzarendeléseket kezeli.
+
+Oszlop	    Típus	        Leírás
+id	        INT	            Egyedi rendelési azonosító.
+userId	    INT	            Idegen kulcs a users táblára.
+pizzaId	    INT	            Idegen kulcs a pizzas táblára.
+pizzaNum	INT(11)        	A rendelési pizza darabszáma.
+sizeId	    INT	            Idegen kulcs a size táblára.
+address	    VARCHAR(255)	A rendelés kiszállítási címe.
+userPhone	VARCHAR(50)    	A rendelő telefonszáma.
+finalPrice	INT	            A végleges ár.
+status	    VARCHAR(50)	    A rendelés státusza (pl. Függőben).
+
+f. orderTops tábla
+
+A rendeléshez tartozó feltéteket tárolja. Sok-sok kapcsolat a orders és a toppings táblák között.
+
+Oszlop	    Típus	Leírás
+orderId	    INT	    Idegen kulcs az orders táblára.
+toppingId	INT	    Idegen kulcs a toppings táblára.
+
+g. pizzaToppings tábla
+A pizzákhoz tartozó feltéteket tartalmazza. Sok-sok kapcsolat a pizzas és a toppings táblák között.
+
+Oszlop	    Típus	Leírás
+pizzaId	    INT	    Idegen kulcs a pizzas táblára.
+toppingId	INT	    Idegen kulcs a toppings táblára.
+
+2. Kapcsolatok
+Egy-sok kapcsolatok:
+
+orders → users
+
+orders → size
+
+orders → pizzas
+
+Több-Többhöz kapcsolatok:
+
+pizzas ↔ toppings a pizzaToppings táblán keresztül.
+
+orders ↔ toppings az orderTops táblán keresztül.
+
+3. Alapértelmezett Adatok
+Előre definiált pizzák:
+
+Név	Ár	Kép URL
+Margherita	1000	src/assets/image/margareta.jpg
+Pepperoni	1200	src/assets/image/pepi.jpg
+Hawaii	1300	src/assets/image/hawaii.jpg
+Előre definiált feltétek:
+
+Név	Többlet Ár
+Sajt	200
+Pepperoni	300
+Ananász	250
+Sonka	300
+Pizza-Feltét Kapcsolatok:
+
+Margherita: Sajt.
+Pepperoni: Sajt, Pepperoni.
+Hawaii: Sajt, Ananász, Sonka.
+
 ### Frontend
 A frontend Vue.js alapú, és a következő főbb komponensekből áll:
 
