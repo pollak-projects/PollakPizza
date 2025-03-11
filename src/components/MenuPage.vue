@@ -4,7 +4,7 @@ import axios from "axios";
 
 export default {
   setup() {
-    const searchQuery = ref(" ");
+    const searchQuery = ref("");
     const pizzas = ref([]);
     const toppings = ref([]);
     const selectedToppings = ref([]);
@@ -20,10 +20,6 @@ export default {
     // Check if selected toppings are provided and update endpoint for filtering
     if (selectedToppings.length > 0) {
       endpoint += `?toppings=${selectedToppings.join(",")}`; // Assuming backend supports query params for filtering
-    }
-    if(searchQuery.value == null)
-    {
-      searchQuery = " "
     }
     if (searchQuery.value) {
   endpoint += selectedToppings.length > 0 ? `&` : `?`; // Add & if toppings exist
@@ -91,13 +87,14 @@ export default {
         <h2>Étlapunk</h2>
        <div class="menuflex">
           <div>
-            <h1>Keresés feltét alapján</h1>
+            <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pizza keresés&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
           </div>
   <div>
     <input
       type="text"
+      class="pizzasearchinput"
       v-model="searchQuery"
-      placeholder="Search for a pizza"
+      placeholder="Keresés pizza névvel"
     />
     <ul>
 

@@ -33,6 +33,11 @@
   margin-top: 1dvw;
 }
 
+.pizzasearchinput{
+  color: black;
+  margin-bottom: 1dvw;
+  padding-left: 1dvw;
+}
 
 .topping-container {
   display: flex;
