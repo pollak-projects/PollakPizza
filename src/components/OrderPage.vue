@@ -2,13 +2,15 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 
-
 const userData = ref({
   name: '',
   email: '',
   address: '',
   phonenumber: ''
 });
+
+/*IZE KIKAPCSOLADA */
+
 
 const getUserData = async () => {
   const token = localStorage.getItem('token');
@@ -97,9 +99,12 @@ export default {
         this.orderFullPrice -= pizza.price
         if (pizz.count === 0) {
           this.orderedPizzas.splice(pizzIndex, 1);
-          document.getElementById('fizetes').classList.add('disabled')
-          document.getElementById('fizetes').classList.remove('enabled')
         }
+      }
+
+      if (this.orderedPizzas.length == 0) {
+        document.getElementById('fizetes').classList.add('disabled')
+        document.getElementById('fizetes').classList.remove('enabled')
       }
 
       /*TEXT CHANGE*/
@@ -203,7 +208,7 @@ export default {
       <div class="rightSide">
         <div class="delivery">
 
-          <select name="atvetel" id="atvetel" class="iconCar" placeholder="Kiszállítás">
+          <select name="atvetel" id="atvetel" class="iconCar">
             <option value="Kiszállítás">Kiszállítás</option>
             <option value="Átvétel az étteremben">Átvétel az étteremben</option>
           </select>
