@@ -14,6 +14,7 @@ const adminRoutes = require('./routes/admin');
 const orderRoutes = require('./routes/orders'); // New route import
 const addPizzaRoute = require('./routes/addPizzas');
 const pizzasRoute = require('./routes/pizzas');
+const allSizesRoutes = require('./routes/allsizes')
 
 // Initialize Express app
 const app = express();
@@ -35,6 +36,7 @@ app.use(authRoutes);
 app.use(profileRoutes);
 app.use(pizzaRoutes);
 app.use(allPizzaRoutes);
+app.use(allSizesRoutes)
 app.use('/admin', pizzasRoute);
 app.use(adminRoutes);
 app.use(orderRoutes); // New route addition
