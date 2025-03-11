@@ -2,12 +2,45 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 
+
+const userData = ref({
+  name: '',
+  email: '',
+  address: '',
+  phonenumber: ''
+});
+
+const getUserData = async () => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    try {
+      const response = await axios.get('http://localhost:3061/profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      userData.value = response.data;
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      errorMessage.value = 'Hiba történt az adatok lekérése során.';
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem('token');
+        router.push({ name: 'Login' });
+      }
+    }
+  } else {
+    console.log('No token found');
+    errorMessage.value = 'Nincs érvényes token. Kérjük, jelentkezz be újra.';
+    router.push({ name: 'Login' });
+  }
+};
+
 export default {
   setup() {
     const pizzas = ref([]);
     const orderedPizzas = ref([]);
     const orderFullPrice = 0;
-    const userData = ref([])
     
     const fetchPizzas = async () => {
       try {
@@ -18,17 +51,8 @@ export default {
       }
     };
 
-    const fetchUserData = async () => {
-      try {
-        const res = await axios.get("http://localhost:3061/profile")
-        userData.value = res.data 
-      } catch (err) {
-        console.error("Hiba történt a felhasználó lekérdezésekor:", err)
-      }
-    }
-
     onMounted(() => {
-      fetchUserData()
+      getUserData();
       fetchPizzas();
     });
 
@@ -54,7 +78,7 @@ export default {
         this.orderedPizzas[pizzIndex].count += 1;
         this.orderFullPrice += pizza.price
       } else {
-        this.orderedPizzas.push({ count: 1, name: pizza.name, price: pizza.price });
+        this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price });
         this.orderFullPrice += pizza.price
       }
     },
@@ -97,15 +121,25 @@ export default {
         return
       }
 
+      const userID = userData.value.id
+      const sizeID = 1 //alapértelmezett méret
+      const address = userData.value.address //alapértelmezett cím
+      const userPhone = userData.value.phonenumber
+      const finalPrice = this.orderFullPrice
       alert(`Köszönjük a rendelésed!`);
       // Itt lehetne API hívást tenni rendelés küldéséhez
-      
-      console.log("userid:" + localStorage.getItem('user_id'))
-      console.log("pizzaid:")
-      console.log("sizeid:")
-      console.log("address:" + document.getElementById('address').value)
-      console.log("userphone:")
-      console.log("finalprice:" + this.orderFullPrice)
+      // Minden pizzánál meghívjuk a küldést
+      this.orderedPizzas.forEach(pizza => {
+        for (let i = 0; i < pizza.count; i++) {
+          console.log("userid:" + userID)
+          console.log("pizzaid:" + pizza.id )
+          console.log("sizeid:" + sizeID)
+          console.log("address:" + address)
+          console.log("userphone:" + userPhone)
+          console.log("finalprice:" + finalPrice)
+          console.log("-------------------------")
+        }
+      });
     },
   }
 };
