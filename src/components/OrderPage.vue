@@ -198,6 +198,11 @@ export default {
               <img class="previewpizza" :src="pizza.image" alt="Pizza" />
               <h4>{{ pizza.name }}</h4>
               <p class="ratet">{{ pizza.toppings }}</p>
+              <select name="size" id="size">
+                <option value="pelda1">pelda1</option>
+                <option value="pelda2">pelda2</option>
+                <option value="pelda3">pelda2</option>
+              </select>
               <p class="ar">{{ pizza.price }} Ft</p>
               <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
             </div>
