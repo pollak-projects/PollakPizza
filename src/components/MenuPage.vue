@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default {
   setup() {
+    const searchQuery = ref(" ");
     const pizzas = ref([]);
     const toppings = ref([]);
     const selectedToppings = ref([]);
@@ -11,21 +12,32 @@ export default {
     const isLoading = ref(false);
 
     // Fetch pizzas function with optional filtering
-    const fetchPizzas = async (selectedToppings = []) => {
-      try {
-        let endpoint = "http://localhost:3061/allpizzas";
+   const fetchPizzas = async (selectedToppings = []) => {
+  try {
+    let endpoint = "http://localhost:3061/allpizzas";
+    console.log(searchQuery.value); // Log the correct value of searchQuery
 
-        // Check if selected toppings are provided and update endpoint for filtering
-        if (selectedToppings.length > 0) {
-          endpoint += `?toppings=${selectedToppings.join(",")}`; // Assuming backend supports query params for filtering
-        }
+    // Check if selected toppings are provided and update endpoint for filtering
+    if (selectedToppings.length > 0) {
+      endpoint += `?toppings=${selectedToppings.join(",")}`; // Assuming backend supports query params for filtering
+    }
+    if(searchQuery.value == null)
+    {
+      searchQuery = " "
+    }
+    if (searchQuery.value) {
+  endpoint += selectedToppings.length > 0 ? `&` : `?`; // Add & if toppings exist
+  endpoint += `pizzaname=${encodeURIComponent(searchQuery.value)}`; // Append pizza name
+}
 
-        const response = await axios.get(endpoint);
-        pizzas.value = response.data;
-      } catch (error) {
-        console.error("Error fetching pizzas:", error);
-      }
-    };
+
+    const response = await axios.get(endpoint);
+    pizzas.value = response.data;
+  } catch (error) {
+    console.error("Error fetching pizzas:", error);
+  }
+};
+
 
     const fetchToppings = async () => {
       try {
@@ -53,6 +65,7 @@ export default {
     });
 
     return {
+      searchQuery,
       pizzas,
       toppings,
       selectedToppings,
@@ -80,20 +93,31 @@ export default {
           <div>
             <h1>Keresés feltét alapján</h1>
           </div>
+  <div>
+    <input
+      type="text"
+      v-model="searchQuery"
+      placeholder="Search for a pizza"
+    />
+    <ul>
+
+      <li v-for="pizza in filteredPizzas" :key="pizza.id">{{ pizza.name }}</li>
+    </ul>
+  </div>
           <div v-for="topping in toppings" :key="topping.id">
             <div>
             <div class="checkbox-wrapper-18">
+              <div class="round">
+              <input  type="checkbox" :id="`topping-${topping.id}`" :value="topping.id" v-model="selectedToppings" />
+              <label class="labeltab" :for="`topping-${topping.id}`"></label>
+            </div>
               <div class="topping-container">
               <label :for="`topping-${topping.id}`">{{ topping.name }}</label>
-            <div class="round">
-              <input type="checkbox" :id="`topping-${topping.id}`" :value="topping.id" v-model="selectedToppings" />
-              <label :for="`topping-${topping.id}`"></label>
-            </div>
           </div>
          </div> 
         </div>
           </div>
-          <button class="searchbtn" @click="fetchPizzas(selectedToppings)">Keresés</button>
+          <button class="searchbtn" @click="fetchPizzas(selectedToppings, searchQuery)">Keresés</button>
         </div>
         <div class="pizza-list">
           <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
