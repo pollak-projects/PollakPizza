@@ -23,16 +23,12 @@ const getUserData = async () => {
       userData.value = response.data;
     } catch (error) {
       console.error('Error fetching profile:', error);
-      errorMessage.value = 'Hiba történt az adatok lekérése során.';
       if (error.response && error.response.status === 401) {
         localStorage.removeItem('token');
-        router.push({ name: 'Login' });
       }
     }
   } else {
     console.log('No token found');
-    errorMessage.value = 'Nincs érvényes token. Kérjük, jelentkezz be újra.';
-    router.push({ name: 'Login' });
   }
 };
 
@@ -80,6 +76,8 @@ export default {
       } else {
         this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price });
         this.orderFullPrice += pizza.price
+        document.getElementById('fizetes').classList.remove('disabled')
+        document.getElementById('fizetes').classList.add('enabled')
       }
     },
 
@@ -99,6 +97,8 @@ export default {
         this.orderFullPrice -= pizza.price
         if (pizz.count === 0) {
           this.orderedPizzas.splice(pizzIndex, 1);
+          document.getElementById('fizetes').classList.add('disabled')
+          document.getElementById('fizetes').classList.remove('enabled')
         }
       }
 
@@ -161,6 +161,12 @@ export default {
       }
     });
     },
+    openModal() {
+      document.body.style.overflow = 'hidden'
+    },
+    closeModal() {
+      document.body.style.overflow = 'auto'
+    }
   }
 };
 
@@ -247,13 +253,34 @@ export default {
             </div>
 
             <div class="fizetes">
-              <a class="fizetesGomb" href="#openModal" onclick="openModal()">Fizetés</a>
+              <a class="fizetesGomb disabled" id="fizetes" href="#openModal" @click="openModal()">Fizetés</a>
             </div>
 
             <!-- MODAL -->
             <div id="openModal" class="modal-window">
+              <div class="rendeles">
+                <h1>Rendelésed</h1>
+                <hr>
+                <div class="orders row" id="orders">
+                  <div class="rendelesRow" v-for="pizza in orderedPizzas" :key="pizza.id">
+                    <div class="targy half">
+                      <h4><span id="darab">{{ pizza.count }}</span>x {{ pizza.name }}</h4>
+                    </div>
+                    <div class="szamol half">
+                      <h4>{{pizza.price}} Ft</h4>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div>
+                  <div class="osszeg">
+                    <h3>ÖSSZESEN:</h3>
+                    <h3>{{ orderFullPrice }} Ft</h3>
+                  </div>
+                </div>
+              </div>
               <div>
-                <a href="#" title="Close" class="modal-close">Bezárás</a>
+                <a href="#" title="Close" class="modal-close" @click="closeModal()">Bezárás</a>
 
                 <h1>
                   Fizetés
