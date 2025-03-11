@@ -2,14 +2,13 @@ CREATE TABLE pizzas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     price INT,
-    category VARCHAR(255),
     image VARCHAR(255) -- Új oszlop a pizza képének URL-jéhez
 );
 
 CREATE TABLE size (
     id INT AUTO_INCREMENT PRIMARY KEY,
     size INT,
-    multiPrice INT
+    multiPrice Decimal(10,0)
 );
 
 CREATE TABLE toppings (
@@ -35,6 +34,7 @@ CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     userId INT,
     pizzaId INT,
+    pizzaNum INT(11),
     sizeId INT,
     address VARCHAR(255),
     userPhone VARCHAR(50),
