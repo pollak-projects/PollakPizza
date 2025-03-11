@@ -1,7 +1,48 @@
+.hero {
+  background-size: cover;
+  background-position: center;
+  height: 30dvw;
+  display: flex;
+  padding-left: 7dvw;
+  align-items: left;
+  background: rgb(255,241,216);
+  background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
+  box-shadow: 0 14px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  margin-bottom: 3dvw;
+}
+.hero img {
+  height: 30dvw;
+  width: 25dvw;
+  border-radius: 30px;
+  padding-left: 3dvw;
+  border:none;
+}
+
+.hero-content {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.hero h2 {
+  font-size: 4dvw;
+  color: #9b6600;
+}
+
+.hero p {
+  font-size: 1dvw;
+  margin-bottom: 2dvw;
+  padding-left: 2.5dvw;
+  color: #9b6600;
+  font-weight: bold;
+}
+
+
+
 .menuflex {
   display: flex;
   flex-direction: column;
-  padding: 20px;
   background-color: rgb(255, 231, 152);
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -289,10 +330,10 @@
     width: 80%;
     margin-top: auto;
   }
-  .menuflex{
-    display: flex;
-  }
   @media (max-width: 1000px) {
+    body{
+      overflow-x: hidden;
+    }
     .pizza-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr); 
@@ -374,10 +415,23 @@
   font-size: 5dvw;
   margin-top: 1dvw;
 }
-  
+.pizzasearchinput{
+  color: black;
+  margin-bottom: 1dvw;
+  margin-right: 100dvw;
+  padding-left: 1dvw;
+  align-self: left;
+}
 .menu h2 {
-  font-size: 12dvw;
+  font-size: 10dvw;
   margin-bottom: 20px;
   margin-left: 0dvw
+}
+.hero p {
+  font-size: 2.5dvw;
+  margin-bottom: 2dvw;
+  padding-left: 2.5dvw;
+  color: #9b6600;
+  font-weight: bold;
 }
   }

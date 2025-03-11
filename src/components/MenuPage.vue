@@ -78,29 +78,34 @@ export default {
   <body>
     <div class="home">
       <section class="hero">
-        <div class="hero-content">
-          <h2>Ezen az oldalon megtaláljak a pizzáink listáját!</h2>
+      <div class="hero-content">
+        <div class="text-content">
+          <h2>Pollak Pizza Étlap</h2>
+          <p>
+             Ezen az oldalon megtalálják kinálatunkat!
+          </p>
         </div>
-      </section>
+        <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
+      </div>
+    </section>
 
       <section id="menu" class="menu">
-        <h2>Étlapunk</h2>
+        <h2>Pizzáink</h2>
        <div class="menuflex">
           <div>
             <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pizza keresés&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
           </div>
-  <div>
-    <input
-      type="text"
-      class="pizzasearchinput"
-      v-model="searchQuery"
-      placeholder="Keresés pizza névvel"
-    />
-    <ul>
-
-      <li v-for="pizza in filteredPizzas" :key="pizza.id">{{ pizza.name }}</li>
-    </ul>
-  </div>
+              <div>
+                <input
+                  type="text"
+                  class="pizzasearchinput"
+                  v-model="searchQuery"
+                  placeholder="Keresés pizza névvel"
+                />
+                <ul>
+                  <li v-for="pizza in filteredPizzas" :key="pizza.id">{{ pizza.name }}</li>
+                </ul>
+              </div>
           <div v-for="topping in toppings" :key="topping.id">
             <div>
             <div class="checkbox-wrapper-18">
