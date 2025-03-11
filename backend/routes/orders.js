@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('../models/db');
 const authMiddleware = require('../middleware/auth');
 const adminMiddleware = require('../middleware/admin');
-
 const router = express.Router();
 
 // Összes rendelés lekérdezése
@@ -47,5 +46,25 @@ router.delete('/orders/:id', authMiddleware, adminMiddleware, async (req, res) =
     res.status(500).json({ message: 'Hiba a rendelés törlése során.' });
   }
 });
+
+//Rendelés feladása
+router.post('/orders/add', async (req, res) => {
+  const { userId, pizzaId, sizeId, address, userPhone, finalPrice } = req.body;
+  const connection = await db.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    const insertPizzaQuery = 'INSERT INTO orders (userId, pizzaId, sizeId, address, userPhone, finalPrice) VALUES (?, ?, ?, ?, ?, ?)';
+    await connection.query(insertPizzaQuery, [userId, pizzaId, sizeId, address, userPhone, finalPrice]);
+
+    await connection.commit();
+    res.status(200).json({ message: 'Order added successfully' });
+  } catch (error) {
+    console.error('Error adding order:', error);
+    await connection.rollback();
+    res.status(500).json({ error: error.message });
+  }
+})
 
 module.exports = router;

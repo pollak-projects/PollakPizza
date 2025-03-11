@@ -355,6 +355,19 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.fizetesGomb {
+  border: 0;
+  background-color: #F7AD45;
+  width: 250px;
+  height: 50px;
+  border-radius: 75px;
+  color: #FFF1D7;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .container {
   width: 976px;;
   display: flex;
@@ -424,10 +437,15 @@
 .fizetes {
   display: flex;
   justify-content: center;
+}
+.fizetesGomb {
+  display: flex;
+  justify-content: center;
   margin-top: 15px;
+  align-items: center;
 }
 
-.fizetes button:hover {
+.fizetesGomb:hover {
   background-color: #E5A242;
   cursor: pointer;
 }
@@ -654,5 +672,87 @@
     width: 6.25rem; /* 100px */
     height: 1.5625rem; /* 25px */
     font-size: 0.875rem; /* 14px */
+  }
+
+  .fizetesGomb {
+    width: 6.25rem; /* 100px */
+    height: 1.5625rem; /* 25px */
+    font-size: 0.875rem; /* 14px */
+  }
+}
+
+/*MODAL STYLE*/
+.modal-window {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.25);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  &:target {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  & > div {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background-color: #FCC77C;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  header {
+    font-weight: bold;
+  }
+  h1 {
+    font-size: 150%;
+    margin: 0 0 15px;
+    font-weight: 800;
+  }
+  p {
+    color: #56390067;
+    font-size: 69%;
+    margin-bottom: 20px;
+  }
+  input, select {
+    border: #684400 solid 2px;
+    background-color: #f7ad4575;
+    color: #684400;
+    border-radius: 25px;
+    width: auto;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  input::placeholder, select::placeholder {
+    color: #68440075;
+  }
+  .cardDetails {
+    width: 100%;
+  }
+}
+
+.modal-close {
+  color: #684400;
+  font-weight: 800;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+  &:hover {
+    color: black;
   }
 }

@@ -125,20 +125,41 @@ export default {
       const sizeID = 1 //alapértelmezett méret
       const address = userData.value.address //alapértelmezett cím
       const userPhone = userData.value.phonenumber
-      alert(`Köszönjük a rendelésed!`);
+      
       // Itt lehetne API hívást tenni rendelés küldéséhez
       // Minden pizzánál meghívjuk a küldést
       this.orderedPizzas.forEach(pizza => {
-        for (let i = 0; i < pizza.count; i++) {
-          console.log("userid:" + userID)
-          console.log("pizzaid:" + pizza.id )
-          console.log("sizeid:" + sizeID)
-          console.log("address:" + address)
-          console.log("userphone:" + userPhone)
-          console.log("finalprice:" + pizza.price)
-          console.log("-------------------------")
-        }
-      });
+      for (let i = 0; i < pizza.count; i++) {
+        (async () => {
+          try {
+            await axios.post('http://localhost:3061/orders/add', {
+              userId: userID, 
+              pizzaId: pizza.id, 
+              sizeId: sizeID, 
+              address: address, 
+              userPhone: userPhone, 
+              finalPrice: pizza.price
+            }, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            });
+            alert('Köszönjük a rendelésed!');
+          } catch (err) {
+            console.error('Error adding order:', err);
+            message.value = 'Error adding order';
+          }
+        })(); // <-- Immediately invoke the async function
+      
+        console.log("userid:" + userID);
+        console.log("pizzaid:" + pizza.id);
+        console.log("sizeid:" + sizeID);
+        console.log("address:" + address);
+        console.log("userphone:" + userPhone);
+        console.log("finalprice:" + pizza.price);
+        console.log("-------------------------");
+      }
+    });
     },
   }
 };
@@ -226,7 +247,46 @@ export default {
             </div>
 
             <div class="fizetes">
-              <button @click="submitOrder()">Fizetés</button>
+              <a class="fizetesGomb" href="#openModal" onclick="openModal()">Fizetés</a>
+            </div>
+
+            <!-- MODAL -->
+            <div id="openModal" class="modal-window">
+              <div>
+                <a href="#" title="Close" class="modal-close">Bezárás</a>
+
+                <h1>
+                  Fizetés
+                </h1>
+
+                <p>NE ADD MEG A KÁRTYA ADATAID</p>
+
+                <div class="cardDeatils">
+                  <label>Kártyaszám</label>
+                  <br>
+                  <input type="text" placeholder="0123 4567 8910" maxlength="14">
+                  <br>
+                  <label >Kártyahordozó</label>
+                  <br>
+                  <input type="text" placeholder="Michael Jackson">
+                  <br>
+                  <label>Lejárati év</label>
+                  <br>
+                  <select name="lejaratHonap" id="">
+                    <option value="1">1</option>
+                  </select>
+                  <select name="lejaratEv" id="">
+                    <option value="2016">2016</option>
+                  </select>
+                  <br>
+                  <label>CVC</label>
+                  <br>
+                  <input type="text" placeholder="696" maxlength="3">
+                </div>
+                <div class="fizetes">
+                  <button class="fizetesGomb" @click="submitOrder()">Fizetés</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
