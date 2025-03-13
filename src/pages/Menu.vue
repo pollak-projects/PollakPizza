@@ -1,5 +1,5 @@
 <template>
   <navbar />
   <menuPage />
-  <FooterPage />
+  <Footer />
 </template>

@@ -1,5 +1,5 @@
 <template>
   <navbar />
   <OrderPage />
-  <FooterPage/>
+  <Footer/>
 </template>

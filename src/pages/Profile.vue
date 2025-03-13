@@ -1,6 +1,6 @@
 <template>
     <Navbar />
     <ProfilePage/>
-    <FooterPage/>
+    <Footer/>
 </template>
   
