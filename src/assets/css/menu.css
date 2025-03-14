@@ -11,13 +11,15 @@
   margin-bottom: 3dvw;
 }
 .hero img {
-  height: 30dvw;
-  width: 25dvw;
+  height: auto;
+  max-height: 25dvw;
+  width: auto;
+  max-width: 25dvw;
   border-radius: 30px;
   padding-left: 3dvw;
-  border:none;
+  border: none;
+  object-fit: contain; /* Ensure the image scales correctly */
 }
-
 .hero-content {
   height: auto;
   display: flex;
@@ -397,7 +399,8 @@
     border: 2px solid black;
     float: none;
     margin-left: 3dvw;
-    margin-bottom: 3dvw;
+    margin-bottom: 1.5dvw;
+    margin-right: 1.5dvw;
   }
   
 .searchbtn{
@@ -420,8 +423,20 @@
   margin-bottom: 1dvw;
   margin-right: 100dvw;
   padding-left: 1dvw;
+  font-size: 3dvw;
   align-self: left;
 }
+.topping-container label {
+  margin-right: 10px; 
+  font-size: 3.3dvw;
+}
+.topping-container .round {
+  display: flex;
+  align-items: center;
+  height: 3.3dvw;
+  width: 3.3dvw;
+}
+
 .menu h2 {
   font-size: 10dvw;
   margin-bottom: 20px;
@@ -433,5 +448,8 @@
   padding-left: 2.5dvw;
   color: #9b6600;
   font-weight: bold;
+}
+.text-content p{
+  font-size: 2dvh;
 }
   }
