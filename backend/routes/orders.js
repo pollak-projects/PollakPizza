@@ -4,7 +4,7 @@ const authMiddleware = require('../middleware/auth');
 const adminMiddleware = require('../middleware/admin');
 const router = express.Router();
 
-// Összes rendelés lekérdezése
+
 router.get('/orders', authMiddleware, adminMiddleware, async (req, res) => {
   const query = `
     SELECT o.id, o.userId, u.name AS userName, o.pizzaId, p.name AS pizzaName, o.sizeId, s.size, o.address, o.userPhone, o.finalPrice, o.status
@@ -22,7 +22,7 @@ router.get('/orders', authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Rendelés státuszának frissítése
+
 router.put('/orders/:id', authMiddleware, adminMiddleware, async (req, res) => {
   const orderId = req.params.id;
   const { status } = req.body;
@@ -35,7 +35,7 @@ router.put('/orders/:id', authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Kész rendelés törlése
+
 router.delete('/orders/:id', authMiddleware, adminMiddleware, async (req, res) => {
   const orderId = req.params.id;
 
@@ -47,7 +47,7 @@ router.delete('/orders/:id', authMiddleware, adminMiddleware, async (req, res) =
   }
 });
 
-//Rendelés feladása
+
 router.post('/orders/add', async (req, res) => {
   const { userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice } = req.body;
   const connection = await db.getConnection();
