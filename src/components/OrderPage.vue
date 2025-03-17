@@ -9,9 +9,6 @@ const userData = ref({
   phonenumber: ''
 });
 
-/*IZE KIKAPCSOLADA */
-
-
 const getUserData = async () => {
   const token = localStorage.getItem('token');
 
@@ -37,6 +34,7 @@ const getUserData = async () => {
 export default {
   setup() {
     const pizzas = ref([]);
+    const sizes = ref([])
     const orderedPizzas = ref([]);
     const orderFullPrice = 0;
     
@@ -49,12 +47,22 @@ export default {
       }
     };
 
+    const fetchSizes = async () => {
+      try {
+        const response = await axios.get("http://localhost:3061/allsizes")
+        sizes.value = response.data
+      } catch (err) {
+        console.error("Hiba a méretek lekérdezése során: ", err)
+      }
+    }
+
     onMounted(() => {
       getUserData();
       fetchPizzas();
+      fetchSizes();
     });
 
-    return { pizzas, fetchPizzas, orderedPizzas, orderFullPrice };
+    return { pizzas, fetchPizzas, orderedPizzas, orderFullPrice, sizes, fetchSizes };
   },
   
   methods:{
@@ -199,9 +207,7 @@ export default {
               <h4>{{ pizza.name }}</h4>
               <p class="ratet">{{ pizza.toppings }}</p>
               <select name="size" id="size">
-                <option value="pelda1">pelda1</option>
-                <option value="pelda2">pelda2</option>
-                <option value="pelda3">pelda2</option>
+                <option v-for="size in sizes" :value="size.id">{{size.size}}</option>
               </select>
               <p class="ar">{{ pizza.price }} Ft</p>
               <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
