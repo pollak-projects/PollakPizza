@@ -4,7 +4,7 @@ const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
 
-// Profil lekérése
+
 router.get('/profile', authMiddleware, async (req, res) => {
   const userId = req.user.id;
 
@@ -23,7 +23,6 @@ router.get('/profile', authMiddleware, async (req, res) => {
   }
 });
 
-// Profil frissítése
 router.put('/profile', authMiddleware, async (req, res) => {
   const userId = req.user.id;
   const { name, email, address, phonenumber } = req.body;
