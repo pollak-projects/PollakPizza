@@ -10,7 +10,7 @@ router.get('/allsizes', (req, res) => {
 
     db.query(query)
     .then(results => {
-      res.json(results);
+      res.json(results[0]);
     })
     .catch(err => {
       console.error('Database query error:', err); // Log the error
