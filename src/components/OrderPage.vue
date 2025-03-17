@@ -78,13 +78,19 @@ export default {
       }
 
       /*CODE*/
-      const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name);
-
+      const pizzaSize = document.getElementById(pizza.name)
+      const pizzaSizeValue = pizzaSize.value
+      const pizzaSizeText = pizzaSize.options[pizzaSize.selectedIndex].text
+      const pizzasSize = this.sizes.find(s => s.id == pizzaSizeValue);
+      const pizzaSizePrice = pizzasSize.multiPrice
+      const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name && p.size === pizzaSizeValue);
+      
+      console.log(pizzaSizePrice)
       if (pizzIndex !== -1) {
         this.orderedPizzas[pizzIndex].count += 1;
         this.orderFullPrice += pizza.price
       } else {
-        this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price });
+        this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice});
         this.orderFullPrice += pizza.price
         document.getElementById('fizetes').classList.remove('disabled')
         document.getElementById('fizetes').classList.add('enabled')
@@ -92,14 +98,15 @@ export default {
     },
 
     pizzaCountAdd(pizza) {
-      const pizz = this.orderedPizzas.find(p => p.name === pizza.name)
+      const pizz = this.orderedPizzas.find(p => p.name === pizza.name && p.sizeText === pizza.sizeText)
+
       pizz.count += 1
       this.orderFullPrice += pizza.price
     },
 
     pizzaCountRemove(pizza) {
       /*CODE*/
-      const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name);
+      const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name && p.sizeText === pizza.sizeText);
 
       if (pizzIndex !== -1) {
         const pizz = this.orderedPizzas[pizzIndex];
@@ -135,44 +142,45 @@ export default {
       }
 
       const userID = userData.value.id
-      const sizeID = 1 //alapértelmezett méret
       const address = userData.value.address //alapértelmezett cím
       const userPhone = userData.value.phonenumber
+      const finalPrice = this.orderFullPrice
       
       // Itt lehetne API hívást tenni rendelés küldéséhez
-      // Minden pizzánál meghívjuk a küldést
       this.orderedPizzas.forEach(pizza => {
-      for (let i = 0; i < pizza.count; i++) {
-        (async () => {
-          try {
-            await axios.post('http://localhost:3061/orders/add', {
-              userId: userID, 
-              pizzaId: pizza.id, 
-              sizeId: sizeID, 
-              address: address, 
-              userPhone: userPhone, 
-              finalPrice: pizza.price
-            }, {
+        const sizeID = pizza.size
+        try {
+          axios.post(
+            'http://localhost:3061/orders/add',
+            {
+              userId: userID,
+              pizzaId: pizza.id,
+              pizzaNum: pizza.count,
+              sizeId: sizeID,
+              address: address,
+              userPhone: userPhone,
+              finalPrice: finalPrice
+            },
+            {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
-              },
-            });
-            alert('Köszönjük a rendelésed!');
-          } catch (err) {
-            console.error('Error adding order:', err);
-            message.value = 'Error adding order';
-          }
-        })(); // <-- Immediately invoke the async function
-      
-        console.log("userid:" + userID);
-        console.log("pizzaid:" + pizza.id);
-        console.log("sizeid:" + sizeID);
-        console.log("address:" + address);
-        console.log("userphone:" + userPhone);
-        console.log("finalprice:" + pizza.price);
-        console.log("-------------------------");
-      }
-    });
+              }
+            }
+          );
+          console.log("userid:" + userID);
+          console.log("pizzaid:" + pizza.id);
+          console.log("pizzaNum:" + pizza.count);
+          console.log("sizeid:" + sizeID);
+          console.log("address:" + address);
+          console.log("userphone:" + userPhone);
+          console.log("finalprice:" + pizza.price * pizza.count);
+          console.log("-------------------------");
+        } catch (err) {
+          console.error('Error adding order:', err);
+          message.value = 'Error adding order';
+        }
+      });
+      alert('Köszönjük a rendelésed!');
     },
     openModal() {
       document.body.style.overflow = 'hidden'
@@ -201,17 +209,17 @@ export default {
     <div class="container">
       <!-- Bal oldal -->
       <div class="leftSide">
-          <div id="menu" class="menuList row">
-            <div v-for="pizza in pizzas" :key="pizza.id" class="item">
-              <img class="previewpizza" :src="pizza.image" alt="Pizza" />
-              <h4>{{ pizza.name }}</h4>
-              <p class="ratet">{{ pizza.toppings }}</p>
-              <select name="size" id="size">
-                <option v-for="size in sizes" :value="size.id">{{size.size}}</option>
-              </select>
-              <p class="ar">{{ pizza.price }} Ft</p>
-              <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
-            </div>
+        <div id="menu" class="menuList row">
+          <div v-for="pizza in pizzas" :key="pizza.id" class="item">
+            <img class="previewpizza" :src="pizza.image" alt="Pizza" />
+            <h4>{{ pizza.name }}</h4>
+            <p class="ratet">{{ pizza.toppings }}</p>
+            <select name="size" :id="pizza.name">
+              <option v-for="size in sizes" :value="size.id">{{size.size}} cm</option>
+            </select>
+            <p class="ar">{{ pizza.price }} Ft</p>
+            <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
+          </div>
         </div>
       </div>
       
@@ -241,6 +249,7 @@ export default {
               <div class="rendelesRow" v-for="pizza in orderedPizzas" :key="pizza.id">
                 <div class="targy half">
                   <h4><span id="darab">{{ pizza.count }}</span>x {{ pizza.name }}</h4>
+                  <h6>{{ pizza.sizeText }}</h6>
                 </div>
                 <div class="szamol half">
                   <h4>{{pizza.price}} Ft</h4>

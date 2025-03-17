@@ -49,14 +49,14 @@ router.delete('/orders/:id', authMiddleware, adminMiddleware, async (req, res) =
 
 //Rendelés feladása
 router.post('/orders/add', async (req, res) => {
-  const { userId, pizzaId, sizeId, address, userPhone, finalPrice } = req.body;
+  const { userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice } = req.body;
   const connection = await db.getConnection();
 
   try {
     await connection.beginTransaction();
 
-    const insertPizzaQuery = 'INSERT INTO orders (userId, pizzaId, sizeId, address, userPhone, finalPrice) VALUES (?, ?, ?, ?, ?, ?)';
-    await connection.query(insertPizzaQuery, [userId, pizzaId, sizeId, address, userPhone, finalPrice]);
+    const insertPizzaQuery = 'INSERT INTO orders (userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    await connection.query(insertPizzaQuery, [userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice]);
 
     await connection.commit();
     res.status(200).json({ message: 'Order added successfully' });
