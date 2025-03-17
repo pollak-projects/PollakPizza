@@ -70,7 +70,6 @@ export default {
       const menuSection = document.getElementById("menu");
       menuSection.scrollIntoView({ behavior: "smooth" });
     },
-
     orderPizza(pizza) {
       /*TEXT CHANGE*/
       if (this.orderedPizzas.length <= 0) {
@@ -80,18 +79,19 @@ export default {
       /*CODE*/
       const pizzaSize = document.getElementById(pizza.name)
       const pizzaSizeValue = pizzaSize.value
-      const pizzaSizeText = pizzaSize.options[pizzaSize.selectedIndex].text
       const pizzasSize = this.sizes.find(s => s.id == pizzaSizeValue);
       const pizzaSizePrice = pizzasSize.multiPrice
+
+      const pizzaSizeText = pizzaSize.options[pizzaSize.selectedIndex].text
       const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name && p.size === pizzaSizeValue);
       
       console.log(pizzaSizePrice)
       if (pizzIndex !== -1) {
         this.orderedPizzas[pizzIndex].count += 1;
-        this.orderFullPrice += pizza.price
+        this.orderFullPrice += Number(pizza.price) + Number(pizzaSizePrice)
       } else {
         this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice});
-        this.orderFullPrice += pizza.price
+        this.orderFullPrice += Number(pizza.price) + Number(pizzaSizePrice)
         document.getElementById('fizetes').classList.remove('disabled')
         document.getElementById('fizetes').classList.add('enabled')
       }
@@ -101,7 +101,7 @@ export default {
       const pizz = this.orderedPizzas.find(p => p.name === pizza.name && p.sizeText === pizza.sizeText)
 
       pizz.count += 1
-      this.orderFullPrice += pizza.price
+      this.orderFullPrice += Number(pizza.price) + Number(pizza.sizePrice)
     },
 
     pizzaCountRemove(pizza) {
@@ -111,7 +111,7 @@ export default {
       if (pizzIndex !== -1) {
         const pizz = this.orderedPizzas[pizzIndex];
         pizz.count -= 1;
-        this.orderFullPrice -= pizza.price
+        this.orderFullPrice -= Number(pizza.price) + Number(pizza.sizePrice)
         if (pizz.count === 0) {
           this.orderedPizzas.splice(pizzIndex, 1);
         }
@@ -144,7 +144,7 @@ export default {
       const userID = userData.value.id
       const address = userData.value.address //alapértelmezett cím
       const userPhone = userData.value.phonenumber
-      const finalPrice = this.orderFullPrice
+      
       
       // Itt lehetne API hívást tenni rendelés küldéséhez
       this.orderedPizzas.forEach(pizza => {
@@ -159,7 +159,7 @@ export default {
               sizeId: sizeID,
               address: address,
               userPhone: userPhone,
-              finalPrice: finalPrice
+              finalPrice: (pizza.price * pizza.count) + (pizza.count * pizza.sizePrice)
             },
             {
               headers: {
@@ -173,7 +173,7 @@ export default {
           console.log("sizeid:" + sizeID);
           console.log("address:" + address);
           console.log("userphone:" + userPhone);
-          console.log("finalprice:" + pizza.price * pizza.count);
+          console.log("finalprice:" + "Pizza ár:"+(pizza.price * pizza.count) + "Méret ár:"+(pizza.count * pizza.sizePrice));
           console.log("-------------------------");
         } catch (err) {
           console.error('Error adding order:', err);
@@ -181,6 +181,7 @@ export default {
         }
       });
       alert('Köszönjük a rendelésed!');
+      location.reload()
     },
     openModal() {
       document.body.style.overflow = 'hidden'
