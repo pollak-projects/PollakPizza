@@ -218,7 +218,7 @@ export default {
             <select name="size" :id="pizza.name">
               <option v-for="size in sizes" :value="size.id">{{size.size}} cm</option>
             </select>
-            <p class="ar">{{ pizza.price }} Ft</p>
+            <p class="ar">{{ pizza.price + Number(sizes[0].multiPrice) }} Ft</p>
             <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
           </div>
         </div>
