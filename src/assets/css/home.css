@@ -165,11 +165,7 @@
     text-align: center;
     align-items: center;
     color: #a0702b;
-    background: radial-gradient(
-      circle,
-      rgb(255, 255, 255) 0%,
-      rgb(255, 231, 152) 20%
-    );
+    background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
   }
   .getToOrder button {
     padding: 1dvw 1.75dvw;
@@ -422,7 +418,7 @@
       flex-direction: column; 
       justify-content: space-between; 
       width: 100%;
-      border: 1px solid #d9983d;
+      border: 1px solid rgb(217, 152, 61);
       border-radius: 10px;
       font-weight: bold;
       background-color: rgba(247, 173, 69, 0.5);
@@ -474,11 +470,7 @@
     text-align: center;
     align-items: center;
     color: #a0702b;
-    background: radial-gradient(
-      circle,
-      rgb(255, 255, 255) 0%,
-      rgb(255, 231, 152) 20%
-    );
+    background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
   }
   .getToOrder button {
     padding: 2dvw 5.75dvw;
