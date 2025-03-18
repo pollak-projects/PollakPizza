@@ -75,10 +75,20 @@ function signUp() {
   document.getElementById('hideDiv').classList.add('hidden');
 }
 
+function validatePhone(input) {
+  const pattern = /^[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{4}$/;
+  if (!pattern.test(input.value)) {
+    input.setCustomValidity("Please match the format: xxxxxxxxxxxx");
+  } else {
+    input.setCustomValidity("");
+  }
+}
+
 function signIn() {
   document.getElementById('container').classList.remove('right-panel-active');
   document.getElementById('hideDiv').classList.remove('hidden');
 }
+
 
 onMounted(() => {
   document.getElementById('container').classList.add('loaded');
@@ -119,7 +129,13 @@ onUnmounted(() => {
 
             <div class="col-sm-6">
               <label>Telefonszám</label>
-              <input type="text" v-model="phonenumber" placeholder="+363012345678" />
+              <input
+              v-model="phonenumber"
+              type="tel"
+              v-on:input="validatePhone($event.target)"
+               />
+
+
             </div>
           </div>
           <label>Email</label>
