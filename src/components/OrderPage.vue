@@ -88,10 +88,10 @@ export default {
       console.log(pizzaSizePrice)
       if (pizzIndex !== -1) {
         this.orderedPizzas[pizzIndex].count += 1;
-        this.orderFullPrice += Number(pizza.price) + Number(pizzaSizePrice)
+        this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice)
       } else {
         this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice});
-        this.orderFullPrice += Number(pizza.price) + Number(pizzaSizePrice)
+        this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice)
         document.getElementById('fizetes').classList.remove('disabled')
         document.getElementById('fizetes').classList.add('enabled')
       }
@@ -111,7 +111,7 @@ export default {
       if (pizzIndex !== -1) {
         const pizz = this.orderedPizzas[pizzIndex];
         pizz.count -= 1;
-        this.orderFullPrice -= Number(pizza.price) + Number(pizza.sizePrice)
+        this.orderFullPrice -= Number(pizza.price) * Number(pizza.sizePrice)
         if (pizz.count === 0) {
           this.orderedPizzas.splice(pizzIndex, 1);
         }
@@ -159,7 +159,7 @@ export default {
               sizeId: sizeID,
               address: address,
               userPhone: userPhone,
-              finalPrice: (pizza.price * pizza.count) + (pizza.count * pizza.sizePrice)
+              finalPrice: this.orderFullPrice
             },
             {
               headers: {
@@ -177,7 +177,7 @@ export default {
           console.log("-------------------------");
         } catch (err) {
           console.error('Error adding order:', err);
-          message.value = 'Error adding order';
+          
         }
       });
       alert('Köszönjük a rendelésed!');
@@ -218,7 +218,7 @@ export default {
             <select name="size" :id="pizza.name">
               <option v-for="size in sizes" :value="size.id">{{size.size}} cm</option>
             </select>
-            <p class="ar">{{ pizza.price + Number(sizes[0].multiPrice) }} Ft</p>
+            <p class="ar">{{ pizza.price * Number(sizes[0].multiPrice) }} Ft</p>
             <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
           </div>
         </div>
