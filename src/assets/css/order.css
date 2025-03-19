@@ -3,6 +3,20 @@
   opacity: 0;
 }
 
+.delivery .disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: #a77838;
+  color: rgb(199, 179, 148);
+}
+
+.fizetes .disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: #a77838;
+  color: rgb(199, 179, 148);
+}
+
 .app {
   height: 1080px;
   width: 100%;
@@ -386,12 +400,6 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.disabled {
-  pointer-events: none;
-  cursor: default;
-  background-color: #a77838;
-}
-
 .container {
   width: 976px;;
   display: flex;
@@ -604,10 +612,9 @@
   padding-left: 25px;
 }
 
-.ures {
-  background-color: black;
-  /*background-color: rgba(247,173,69,0.5);
-  border-radius: 75px;*/
+.costume p.ures {
+  background-color: rgba(247,173,69,0.5);
+  border-radius: 75px;
 }
 
 /*RESPONSIVE*/

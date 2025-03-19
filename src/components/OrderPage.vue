@@ -38,6 +38,11 @@ export default {
     const orderedPizzas = ref([]);
     const orderFullPrice = 0;
     const activeSection = ref('pizzaink');
+    // Alapértéknek adjuk a "Kiszállítás"-t
+    const selectedOption = ref("Kiszállítás"); // Alapérték
+
+    // Dinamikusan kikapcsoljuk amikor az "Átvétel az étteremben" van kiválasztva.
+    const isDisabled = computed(() => selectedOption.value === "Átvétel az étteremben");
     
     const fetchPizzas = async () => {
       try {
@@ -67,7 +72,7 @@ export default {
       fetchSizes();
     });
 
-    return { pizzas, fetchPizzas, orderedPizzas, orderFullPrice, sizes, fetchSizes, setActiveSection, activeSection };
+    return { pizzas, fetchPizzas, orderedPizzas, orderFullPrice, sizes, fetchSizes, setActiveSection, activeSection, selectedOption, isDisabled };
   },
   
   methods:{
@@ -161,7 +166,7 @@ export default {
       }
 
       const userID = userData.value.id;
-      let address = userData.value.address; // alapértelmezett cím
+      let address = "legszuperebb étterem helye"; // étterem címe
       const userPhone = userData.value.phonenumber;
       const addressEmpty = document.getElementById("address");
 
@@ -304,12 +309,12 @@ export default {
       <div class="rightSide">
         <div class="delivery">
 
-          <select name="atvetel" id="atvetel" class="iconCar">
+          <select name="atvetel" id="atvetel" class="iconCar" v-model="selectedOption">
             <option value="Kiszállítás">Kiszállítás</option>
             <option value="Átvétel az étteremben">Átvétel az étteremben</option>
           </select>
 
-          <input placeholder="Adja meg a kiszállítási címet" class="iconWaypoint" id="address">
+          <input placeholder="Adja meg a kiszállítási címet" class="iconWaypoint" id="address" :class="{ disabled: isDisabled }" v-model="address">
         </div>
 
         <div class="checkout">
