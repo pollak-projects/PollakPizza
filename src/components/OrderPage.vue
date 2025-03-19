@@ -77,13 +77,19 @@ export default {
       }
     },
     orderPizza(pizza) {
+      /*CODE */
+      const pizzaSize = document.getElementById(pizza.name)
+      
+      if (!pizzaSize || !pizzaSize.value) {
+        alert('Válassz méretet!')
+        return
+      }
       /*TEXT CHANGE*/
       if (this.orderedPizzas.length <= 0) {
         document.getElementById('nincsRendelesSzoveg').remove()
       }
 
       /*CODE*/
-      const pizzaSize = document.getElementById(pizza.name)
       const pizzaSizeValue = pizzaSize.value
       const pizzasSize = this.sizes.find(s => s.id == pizzaSizeValue);
       const pizzaSizePrice = pizzasSize.multiPrice
@@ -91,12 +97,14 @@ export default {
       const pizzaSizeText = pizzaSize.options[pizzaSize.selectedIndex].text
       const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name && p.size === pizzaSizeValue);
       
-      console.log(pizzaSizePrice)
+      console.log("price"+pizzaSizePrice)
+      console.log("sizevalue:"+pizzaSizeValue)
+
       if (pizzIndex !== -1) {
         this.orderedPizzas[pizzIndex].count += 1;
         this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice)
       } else {
-        this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice});
+        this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price * pizzaSizePrice, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice});
         this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice)
         document.getElementById('fizetes').classList.remove('disabled')
         document.getElementById('fizetes').classList.add('enabled')
@@ -107,7 +115,7 @@ export default {
       const pizz = this.orderedPizzas.find(p => p.name === pizza.name && p.sizeText === pizza.sizeText)
 
       pizz.count += 1
-      this.orderFullPrice += Number(pizza.price) + Number(pizza.sizePrice)
+      this.orderFullPrice += Number(pizza.price)
     },
 
     pizzaCountRemove(pizza) {
@@ -117,7 +125,7 @@ export default {
       if (pizzIndex !== -1) {
         const pizz = this.orderedPizzas[pizzIndex];
         pizz.count -= 1;
-        this.orderFullPrice -= Number(pizza.price) + Number(pizza.sizePrice)
+        this.orderFullPrice -= Number(pizza.price) 
         if (pizz.count === 0) {
           this.orderedPizzas.splice(pizzIndex, 1);
         }
@@ -147,11 +155,16 @@ export default {
         return
       }
 
-      const userID = userData.value.id
-      const address = userData.value.address //alapértelmezett cím
-      const userPhone = userData.value.phonenumber
-      
-      
+      const userID = userData.value.id;
+      let address = userData.value.address; // alapértelmezett cím
+      const userPhone = userData.value.phonenumber;
+      const addressEmpty = document.getElementById("address");
+
+      // Only overwrite if addressEmpty exists and its value is not empty
+      if (addressEmpty && addressEmpty.value.trim() !== "") {
+        address = addressEmpty.value;
+      }
+
       // Itt lehetne API hívást tenni rendelés küldéséhez
       this.orderedPizzas.forEach(pizza => {
         const sizeID = pizza.size
@@ -227,7 +240,7 @@ export default {
               v-model="pizza.selectedSize" 
               @change="updatePrice(pizza)"
             >
-              <option value="" disabled selected>Válassz méretet</option>
+              <option value="Válassz méretet" disabled selected>Válassz méretet</option>
               <option v-for="size in sizes" :value="size.id">
                 {{ size.size }} cm
               </option>
