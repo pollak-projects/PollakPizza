@@ -96,7 +96,7 @@ try {
   
     try {
       const [results] = await db.query(query, params);
-      return res.json(results); // Return immediately
+      return res.json(results); 
     } catch (err) {
       console.error("Error fetching pizzas:", err);
       return res.status(500).json({ error: "Error fetching pizzas" });
@@ -106,15 +106,31 @@ try {
   // Case: Search by pizzaname
   if (searchedpizza) {
     query = `
-      SELECT * FROM pizzas
-      WHERE LOWER(name) LIKE LOWER(?);
+SELECT 
+    p.id AS id,
+    p.name AS name,
+    p.price AS price,
+    p.image AS image,
+    GROUP_CONCAT(t.name SEPARATOR ', ') AS toppings
+FROM 
+    pizzas p
+LEFT JOIN 
+    pizzaToppings pt ON p.id = pt.pizzaId
+LEFT JOIN 
+    toppings t ON pt.toppingId = t.id
+WHERE 
+    LOWER(p.name) LIKE LOWER(?)
+GROUP BY 
+    p.id, p.name, p.price, p.image;
+
     `;
   
-    const params = [`%${searchedpizza}%`]; // Add the search term with wildcards
+    const params = [`%${searchedpizza}%`]; 
   
     try {
       const [results] = await db.query(query, params);
-      return res.json(results); // Return immediately
+      console.log(results)
+      return res.json(results); 
     } catch (err) {
       console.error("Error fetching pizzas:", err);
       return res.status(500).json({ error: "Error fetching pizzas" });
