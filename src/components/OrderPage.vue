@@ -1,5 +1,5 @@
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import axios from "axios";
 
 const userData = ref({
@@ -70,6 +70,12 @@ export default {
       const menuSection = document.getElementById("menu");
       menuSection.scrollIntoView({ behavior: "smooth" });
     },
+    updatePrice(pizza) {
+      const selectedSize = this.sizes.find(size => size.id === pizza.selectedSize);
+      if (selectedSize) {
+        pizza.calculatedPrice = pizza.price * selectedSize.multiPrice;
+      }
+    },
     orderPizza(pizza) {
       /*TEXT CHANGE*/
       if (this.orderedPizzas.length <= 0) {
@@ -111,7 +117,7 @@ export default {
       if (pizzIndex !== -1) {
         const pizz = this.orderedPizzas[pizzIndex];
         pizz.count -= 1;
-        this.orderFullPrice -= Number(pizza.price) * Number(pizza.sizePrice)
+        this.orderFullPrice -= Number(pizza.price) + Number(pizza.sizePrice)
         if (pizz.count === 0) {
           this.orderedPizzas.splice(pizzIndex, 1);
         }
@@ -188,7 +194,7 @@ export default {
     },
     closeModal() {
       document.body.style.overflow = 'auto'
-    }
+    },
   }
 };
 
@@ -215,10 +221,18 @@ export default {
             <img class="previewpizza" :src="pizza.image" alt="Pizza" />
             <h4>{{ pizza.name }}</h4>
             <p class="ratet">{{ pizza.toppings }}</p>
-            <select name="size" :id="pizza.name">
-              <option v-for="size in sizes" :value="size.id">{{size.size}} cm</option>
+            <select 
+              name="size" 
+              :id="pizza.name" 
+              v-model="pizza.selectedSize" 
+              @change="updatePrice(pizza)"
+            >
+              <option value="" disabled selected>Válassz méretet</option>
+              <option v-for="size in sizes" :value="size.id">
+                {{ size.size }} cm
+              </option>
             </select>
-            <p class="ar">{{ pizza.price * Number(sizes[0].multiPrice) }} Ft</p>
+            <p class="ar">{{ pizza.calculatedPrice }} Ft</p>
             <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
           </div>
         </div>

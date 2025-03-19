@@ -1,19 +1,67 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+body {
+  height: 100vh;
+  overflow: hidden;
+  /*sexy animáció*/
+  background: linear-gradient(45deg, #FFF1D8, #FFE1A8);
+  background-size: 200% 200%;
+  animation: gradientAnimation 5s ease infinite;
+}
+
+/*sexy animáció*/
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .orders-page {
+  height: 99vh;
   width: 900px;
     padding: 20px;
     max-width: 1000px;
     margin: 0 auto;
-    background-color: #333;
+    background-color: #FCC77C;
+    color: #9B6600;
     border-radius: 50px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: #f9f9f9;
+    overflow: auto;
   }
+
+.orders-page::-webkit-scrollbar {
+  width: 12px;
+  height: 85%;
+}
+
+.orders-page::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: transparent;
+}
+
+.orders-page::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.2); 
+}
+
+.orders-page::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+    margin-bottom: 30px; 
+}
+
+.orders-page::-webkit-scrollbar-track-piece:start {
+    background: transparent;
+    margin-top: 30px;
+}
   
   .orders-page h1 {
     text-align: center;
     margin-bottom: 20px;
-    color: #f9f9f9;
   }
 
   .orders-page h2 {
@@ -35,15 +83,18 @@
   }
 
   td {
-    border: 1px solid #454545;
+    border: 1px solid #F7AD45;
+    color: #9B6600;
+    font-weight: 800;
   }
   
   th {
-    background-color: #232323;
+    background-color: #F7AD45;
+    color: #9B6600;
   }
 
   td:hover {
-    background-color: #4d4d4d;
+    background-color: rgba(247, 173, 69, 0.3);
   }
 
   /*Az adattábla lekerekítése*/
@@ -64,7 +115,6 @@
     margin-right: 5px;
     padding: 5px 10px;
     background-color: #f4a83d;
-    color: #333;
     border: none;
     border-radius: 5px;
     cursor: pointer;
