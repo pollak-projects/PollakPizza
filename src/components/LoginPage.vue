@@ -5,11 +5,11 @@ import axios from 'axios';
 
 const registemail = ref('');
 const registpassword = ref('');
-const birthdate = ref(""); // Születési dátum
-const phonenumber = ref(""); // Telefonszám
-const address = ref(''); // Cím
-const name = ref(''); // Név
-
+const birthdate = ref(""); 
+const phonenumber = ref(""); 
+const address = ref(''); 
+const name = ref('');
+const maxDate = new Date().toISOString().split("T")[0];
 const router = useRouter();
 const isLoading = ref(false);
 
@@ -78,7 +78,7 @@ function signUp() {
 function validatePhone(input) {
   const pattern = /^[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{4}$/;
   if (!pattern.test(input.value)) {
-    input.setCustomValidity("Please match the format: xxxxxxxxxxxx");
+    input.setCustomValidity("Kérem írjon be 12 számot: xxxxxxxxxxxx");
   } else {
     input.setCustomValidity("");
   }
@@ -101,6 +101,7 @@ onUnmounted(() => {
 });
 </script>
 
+
 <template>
   <body>
     <div class="container loaded" id="container">
@@ -110,13 +111,13 @@ onUnmounted(() => {
           <div class="row">
             <div class="col-sm-6">
               <label>Név</label>
-              <input type="text" v-model="name" placeholder="A neve" />
+              <input type="text" v-model="name" placeholder="A neve" minlength="5" maxlength="35" required/>
             </div>
 
             <div class="col-sm-6">
-              <label>Sz.Dátum</label>
-              <input type="date" v-model="birthdate" class="inputdate"/>
-            </div>
+  <label>Sz.Dátum</label>
+  <input type="date" v-model="birthdate" class="inputdate" required :max="maxDate" />
+</div>
 
             <div class="col-sm-6">
               <label>Jelszó</label>
@@ -124,15 +125,22 @@ onUnmounted(() => {
                 type="password"
                 v-model="registpassword"
                 placeholder="Jelszó"
+                minlength="8"
+                maxlength="30"
+                required
               />
             </div>
 
             <div class="col-sm-6">
               <label>Telefonszám</label>
               <input
+              maxlength="12"
+              minlength="12"
               v-model="phonenumber"
+              placeholder="123456789123"
               type="tel"
               v-on:input="validatePhone($event.target)"
+              required
                />
 
 
@@ -143,12 +151,14 @@ onUnmounted(() => {
             type="email"
             v-model="registemail"
             placeholder="Példa@gmail.hu"
+            required
           />
           <label>Cím</label>
           <input
             type="text"
             v-model="address"
             placeholder="Szentes, Apponyi tér 1, 6600"
+            required
           />
           <button class="login" type="submit" :disabled="isLoading">
             REGISZTRÁCIÓ
@@ -165,6 +175,7 @@ onUnmounted(() => {
             type="email"
             v-model="registemail"
             placeholder="example@org.com"
+            required
           />
           <label class="loginlabel">Jelszó</label>
           <input 
@@ -172,6 +183,7 @@ onUnmounted(() => {
             type="password"
             v-model="registpassword"
             placeholder="password"
+            required
           />
           <a href="/forgotpassword" class="forgotPassword">Elfelejtette a jelszavát?</a>
           <button class="login" :disabled="isLoading">BEJELENTKEZÉS</button>
