@@ -37,6 +37,7 @@ export default {
     const sizes = ref([])
     const orderedPizzas = ref([]);
     const orderFullPrice = 0;
+    const activeSection = ref('pizzaink');
     
     const fetchPizzas = async () => {
       try {
@@ -56,13 +57,17 @@ export default {
       }
     }
 
+    const setActiveSection = (section) => {
+      activeSection.value = section;
+    };
+
     onMounted(() => {
       getUserData();
       fetchPizzas();
       fetchSizes();
     });
 
-    return { pizzas, fetchPizzas, orderedPizzas, orderFullPrice, sizes, fetchSizes };
+    return { pizzas, fetchPizzas, orderedPizzas, orderFullPrice, sizes, fetchSizes, setActiveSection, activeSection };
   },
   
   methods:{
@@ -221,15 +226,58 @@ export default {
 
     <div class="menu">
       <ul class="menubar">
-        <li class="active" @click="scrollToMenu">Pizzáink</li>
-        <li @click="scrollToMenu">Egyedi pizzák</li>
+        <li :class="{ active: activeSection === 'pizzaink' }" @click="setActiveSection('pizzaink')">Pizzáink</li>
+        <li :class="{ active: activeSection === 'egyedi' }" @click="setActiveSection('egyedi')">Egyedi pizzák</li>
       </ul>
     </div>
 
     <div class="container">
       <!-- Bal oldal -->
       <div class="leftSide">
-        <div id="menu" class="menuList row">
+        <!-- Egyedi rendelés-->
+        <div v-if="activeSection === 'egyedi'" class="row">
+          <div class="costume">
+            <div>
+              <h3>Tészta vastagsága</h3>
+              <select>
+                <option value="vékony">Vékony</option>
+                <option value="vastag">Vastag</option>
+              </select>
+            </div>
+          
+            <div>
+              <h3>Szósz</h3>
+              <select>
+                <option value="paradicsom">Paradicsom</option>
+              </select>
+              <div class="kivalasztottSor">
+                <p>paradicsom</p>
+                <p class="ures"></p>
+              </div>
+            </div>
+          
+            <div>
+              <h3>Rátét</h3>
+              <select>
+                <option value="sajt">Sajt</option>
+                <option value="krumpli">Krumpli</option>
+              </select>
+              <div class="kivalasztottSor">
+                <p>Sajt</p>
+                <p>Krumpli</p>
+                <p class="ures"></p>
+              </div>
+            </div>
+          
+            <div class="center">
+              <button>Hozzáadás</button>
+            </div>
+          </div>
+
+          </div>
+
+        <!-- Pizzáink -->
+        <div v-if="activeSection === 'pizzaink'" id="menu" class="menuList row">
           <div v-for="pizza in pizzas" :key="pizza.id" class="item">
             <img class="previewpizza" :src="pizza.image" alt="Pizza" />
             <h4>{{ pizza.name }}</h4>
@@ -249,6 +297,7 @@ export default {
             <button @click="orderPizza(pizza)" id="pizzaHozzad">Hozzáadás</button>
           </div>
         </div>
+
       </div>
       
       <!-- Jobb oldal -->
