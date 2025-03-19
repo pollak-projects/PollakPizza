@@ -1,5 +1,5 @@
 <script>
-import { ref, onMounted, reactive, hydrate } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 
 const userData = ref({
@@ -35,6 +35,7 @@ export default {
   setup() {
     const pizzas = ref([]);
     const sizes = ref([])
+    const toppings = ref([])
     const orderedPizzas = ref([]);
     const orderFullPrice = 0;
     const activeSection = ref('pizzaink');
@@ -43,6 +44,15 @@ export default {
 
     // Dinamikusan kikapcsoljuk amikor az "Átvétel az étteremben" van kiválasztva.
     const isDisabled = computed(() => selectedOption.value === "Átvétel az étteremben");
+
+    const fetchToppings = async () => {
+      try {
+        const response = await axios.get("http://localhost:3061/alltoppings")
+        toppings.value = response.data
+      } catch (err) {
+        console.error("Error while loading pizzas or sizes:", error);
+      }
+    }
 
     const fetchPizzasAndSizes = async () => {
       try {
@@ -75,9 +85,10 @@ export default {
     onMounted(() => {
       getUserData();
       fetchPizzasAndSizes()
+      fetchToppings()
     });
 
-    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled };
+    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings };
   },
   
   methods:{
@@ -247,18 +258,11 @@ export default {
         <!-- Egyedi rendelés-->
         <div v-if="activeSection === 'egyedi'" class="row">
           <div class="costume">
-            <div>
-              <h3>Tészta vastagsága</h3>
-              <select>
-                <option value="vékony">Vékony</option>
-                <option value="vastag">Vastag</option>
-              </select>
-            </div>
           
             <div>
-              <h3>Szósz</h3>
+              <h3>Méret</h3>
               <select>
-                <option value="paradicsom">Paradicsom</option>
+                <option v-for="size in sizes" :value="size.id">{{  size.size }} cm</option>
               </select>
               <div class="kivalasztottSor">
                 <p>paradicsom</p>
@@ -269,14 +273,21 @@ export default {
             <div>
               <h3>Rátét</h3>
               <select>
-                <option value="sajt">Sajt</option>
-                <option value="krumpli">Krumpli</option>
+                <option v-for="top in toppings" :value="top.id">{{ top.name }}</option>
               </select>
               <div class="kivalasztottSor">
                 <p>Sajt</p>
                 <p>Krumpli</p>
                 <p class="ures"></p>
               </div>
+            </div>
+
+            <div>
+              <h3>Mennyiség</h3>
+              <select>
+                <option value="vékony">Vékony</option>
+                <option value="vastag">Vastag</option>
+              </select>
             </div>
           
             <div class="center">
