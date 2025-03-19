@@ -164,6 +164,7 @@
 
 .item select {
   -webkit-appearance: auto;
+  appearance: auto;
   color: #9B6600;
   border: 2px solid #9B6600;
   border-radius: 10px;

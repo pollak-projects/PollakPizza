@@ -1,5 +1,5 @@
 <script>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, hydrate } from "vue";
 import axios from "axios";
 
 const userData = ref({
@@ -43,23 +43,29 @@ export default {
 
     // Dinamikusan kikapcsoljuk amikor az "Átvétel az étteremben" van kiválasztva.
     const isDisabled = computed(() => selectedOption.value === "Átvétel az étteremben");
-    
-    const fetchPizzas = async () => {
+
+    const fetchPizzasAndSizes = async () => {
       try {
-        const response = await axios.get("http://localhost:3061/allpizzas");
-        pizzas.value = response.data;
+        const [pizzaResponse, sizeResponse] = await Promise.all([
+          axios.get("http://localhost:3061/allpizzas"),
+          axios.get("http://localhost:3061/allsizes"),
+        ]);
+      
+        pizzas.value = pizzaResponse.data; // Feltöltjük a "pizzas"-t
+        sizes.value = sizeResponse.data; // Feltöltjük a "sizes"-t
+      
+        setDefaultPrices(); // Futtatjuk miután mindkettő betöltött.
       } catch (error) {
-        console.error("Hiba a pizzák betöltésekor:", error);
+        console.error("Error while loading pizzas or sizes:", error);
       }
     };
 
-    const fetchSizes = async () => {
-      try {
-        const response = await axios.get("http://localhost:3061/allsizes")
-        sizes.value = response.data
-      } catch (err) {
-        console.error("Hiba a méretek lekérdezése során: ", err)
-      }
+    const setDefaultPrices = () => {
+      pizzas.value.forEach((pizza) => {
+        pizza.selectedSize = sizes.value[0].id; // Default to the first size's ID
+        const defaultMultiplier = sizes.value[0].multiPrice; // Get the multiplier for the first size
+        pizza.calculatedPrice = pizza.price * defaultMultiplier; // Calculate price
+      });
     }
 
     const setActiveSection = (section) => {
@@ -68,11 +74,10 @@ export default {
 
     onMounted(() => {
       getUserData();
-      fetchPizzas();
-      fetchSizes();
+      fetchPizzasAndSizes()
     });
 
-    return { pizzas, fetchPizzas, orderedPizzas, orderFullPrice, sizes, fetchSizes, setActiveSection, activeSection, selectedOption, isDisabled };
+    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled };
   },
   
   methods:{
@@ -293,7 +298,6 @@ export default {
               v-model="pizza.selectedSize" 
               @change="updatePrice(pizza)"
             >
-              <option value="Válassz méretet" disabled selected>Válassz méretet</option>
               <option v-for="size in sizes" :value="size.id">
                 {{ size.size }} cm
               </option>
@@ -314,7 +318,7 @@ export default {
             <option value="Átvétel az étteremben">Átvétel az étteremben</option>
           </select>
 
-          <input placeholder="Adja meg a kiszállítási címet" class="iconWaypoint" id="address" :class="{ disabled: isDisabled }" v-model="address">
+          <input placeholder="Adja meg a kiszállítási címet" class="iconWaypoint" id="address" :class="{ disabled: isDisabled }">
         </div>
 
         <div class="checkout">
