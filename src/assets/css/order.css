@@ -11,11 +11,6 @@
   background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgba(255,225,168,1) 100%);
 }
 
-.disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
 .enabled {
   pointer-events: all;
   cursor: pointer;
@@ -151,6 +146,23 @@
 
 .item:hover {
   transform: scale(1.01);
+}
+
+.item select {
+  -webkit-appearance: auto;
+  color: #9B6600;
+  border: 2px solid #9B6600;
+  border-radius: 10px;
+  padding: 0px 2px 0px 2px;
+}
+
+.item select:focus-visible {
+  outline: none;
+}
+
+.item option {
+  color: #9B6600;
+  background-color: rgba(247, 173, 69, 0.4);
 }
 
 .ar {
@@ -363,7 +375,7 @@
 
 .fizetesGomb {
   border: 0;
-  background-color: #F7AD45;
+  background: #F7AD45;
   width: 250px;
   height: 50px;
   border-radius: 75px;
@@ -372,6 +384,12 @@
   font-size: 18px;
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: #a77838;
 }
 
 .container {
@@ -582,6 +600,14 @@
 
   .item h4 {
     font-size: 12px;
+  }
+
+  .item select {
+    color: black;
+  }
+
+  .item option {
+    color: black;
   }
 
   .ar {

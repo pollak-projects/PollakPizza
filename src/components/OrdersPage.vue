@@ -72,11 +72,11 @@ const showNoOrders = () => {
 
   if (noOrdersDiv.classList.contains("hidden")) {
     noOrdersDiv.classList.remove("hidden")
-    noOrdersArrow.src = "src/assets/image/arrow-downLight.png"
+    noOrdersArrow.src = "src/assets/image/arrow-down.png"
   }
   else {
     noOrdersDiv.classList.add("hidden")
-    noOrdersArrow.src = "src/assets/image/arrowLight.png"
+    noOrdersArrow.src = "src/assets/image/arrow.png"
   }
 };
 
@@ -86,11 +86,11 @@ const showFinishedOrders = () => {
 
   if (finishedOrdersDiv.classList.contains("hidden")) {
     finishedOrdersDiv.classList.remove("hidden")
-    finishedOrdersArrow.src = "src/assets/image/arrow-downLight.png"
+    finishedOrdersArrow.src = "src/assets/image/arrow-down.png"
   }
   else {
     finishedOrdersDiv.classList.add("hidden")
-    finishedOrdersArrow.src = "src/assets/image/arrowLight.png"
+    finishedOrdersArrow.src = "src/assets/image/arrow.png"
   }
 };
 
@@ -100,6 +100,8 @@ onMounted(() => {
 </script>
 
 <template>
+
+  <body>
   <div class="orders-page">
     <h1>Rendelések</h1>
     <div v-if="isLoading">Betöltés...</div>
@@ -108,7 +110,7 @@ onMounted(() => {
       <h2>Nem kész rendelések</h2>
 
       <div class="center">
-        <img src="../assets/image/arrowLight.png" alt="" @click="showNoOrders()" id="noOrdersArrow">
+        <img src="../assets/image/arrow.png" alt="" @click="showNoOrders()" id="noOrdersArrow">
       </div>
 
       <div class="hidden" id="noOrdersDiv">
@@ -147,7 +149,7 @@ onMounted(() => {
       <h2>Kész rendelések</h2>
 
       <div class="center">
-        <img src="../assets/image/arrowLight.png" alt="" @click="showFinishedOrders()" id="finishedOrdersArrow">
+        <img src="../assets/image/arrow.png" alt="" @click="showFinishedOrders()" id="finishedOrdersArrow">
       </div>
 
       <div class="hidden" id="finishedOrdersDiv">
@@ -188,6 +190,7 @@ onMounted(() => {
     </div>
     <div v-if="showNotification" class="notification-popup">{{ notification }}</div>
   </div>
+  </body>
 </template>
 
 <style scoped src="../assets/css/orders.css"></style>
