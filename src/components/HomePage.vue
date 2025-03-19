@@ -80,7 +80,7 @@ const goToMenu = () => {
           <p>
             <strong>{{ pizza.price }} Ft</strong>
           </p>
-          <button>Rendelj most!</button>
+          <button @click="goToOrder">Rendelj most!</button>
         </div>
       </div>
     </section>
