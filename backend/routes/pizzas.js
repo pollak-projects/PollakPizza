@@ -210,7 +210,7 @@ router.get('/allToppings', async (req, res) => {
   const connection = await db.getConnection();
 
   try {
-    const query = 'SELECT id, name FROM toppings';
+    const query = 'SELECT id, name, bonusPrice FROM toppings';
     const [results] = await db.query(query);
     res.json(results);
   } catch (error) {

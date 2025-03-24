@@ -1,6 +1,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { id } from "vuetify/locale";
 
 const userData = ref({
   name: '',
@@ -36,8 +37,10 @@ export default {
     const pizzas = ref([]);
     const sizes = ref([])
     const toppings = ref([])
+    const selectedToppings = ref([])
     const orderedPizzas = ref([]);
     const orderFullPrice = 0;
+    const costumePizzaPrice = 0;
     const activeSection = ref('pizzaink');
     // Alapértéknek adjuk a "Kiszállítás"-t
     const selectedOption = ref("Kiszállítás"); // Alapérték
@@ -88,7 +91,7 @@ export default {
       fetchToppings()
     });
 
-    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings };
+    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings, selectedToppings, costumePizzaPrice };
   },
   
   methods:{
@@ -102,38 +105,104 @@ export default {
         pizza.calculatedPrice = pizza.price * selectedSize.multiPrice;
       }
     },
+    addTopping() {
+      const selectedTop = document.getElementById('costumeSelectedToppings').value;
+      if (selectedTop == "noToppingSelected") {
+        alert("Kérlek válassz rátétet!");
+        return;
+      }
+    
+      const topping = this.toppings.find(p => p.id === Number(selectedTop));
+      if (!topping) {
+        alert("Hiba történt a rátét árának megtalálása során.");
+        return;
+      }
+    
+      const alreadySelected = this.selectedToppings.some(p => p.id === selectedTop);
+      if (alreadySelected) {
+        alert("Ez a rátét már hozzá lett adva!");
+        return;
+      }
+    
+      console.log(topping.name, topping.bonusPrice);
+    
+      this.selectedToppings.push({ id: selectedTop, name: topping.name, price: Number(topping.bonusPrice) });
+    },
+    removeTopping(index) {
+      this.selectedToppings.splice(index, 1)
+    },
     orderPizza(pizza) {
-      /*CODE */
-      const pizzaSize = document.getElementById(pizza.name)
-      
-      if (!pizzaSize || !pizzaSize.value) {
-        alert('Válassz méretet!')
-        return
+      if (this.activeSection == 'pizzaink') {
+        /*CODE */
+        const pizzaSize = document.getElementById(pizza.name)
+
+        if (!pizzaSize || !pizzaSize.value) {
+          alert('Válassz méretet!')
+          return
+        }
+        /*TEXT CHANGE*/
+        if (this.orderedPizzas.length <= 0) {
+          document.getElementById('nincsRendelesSzoveg').remove()
+        }
+
+        /*CODE*/
+        const pizzaSizeValue = pizzaSize.value
+        const pizzasSize = this.sizes.find(s => s.id == pizzaSizeValue);
+        const pizzaSizePrice = pizzasSize.multiPrice
+
+        const pizzaSizeText = pizzaSize.options[pizzaSize.selectedIndex].text
+        const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name && p.size === pizzaSizeValue);
+
+        console.log("price"+pizzaSizePrice)
+        console.log("sizevalue:"+pizzaSizeValue)
+
+        if (pizzIndex !== -1) {
+          this.orderedPizzas[pizzIndex].count += 1;
+          this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice)
+        } else {
+          this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price * pizzaSizePrice, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice});
+          this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice)
+          document.getElementById('fizetes').classList.remove('disabled')
+          document.getElementById('fizetes').classList.add('enabled')
+        }
       }
-      /*TEXT CHANGE*/
-      if (this.orderedPizzas.length <= 0) {
-        document.getElementById('nincsRendelesSzoveg').remove()
-      }
 
-      /*CODE*/
-      const pizzaSizeValue = pizzaSize.value
-      const pizzasSize = this.sizes.find(s => s.id == pizzaSizeValue);
-      const pizzaSizePrice = pizzasSize.multiPrice
+      if (this.activeSection == 'egyedi') {
+        const size = document.getElementById("costumeSelectedSize").value;
+        const amount = document.getElementById("costumeSelectedAmount").value;
 
-      const pizzaSizeText = pizzaSize.options[pizzaSize.selectedIndex].text
-      const pizzIndex = this.orderedPizzas.findIndex(p => p.name === pizza.name && p.size === pizzaSizeValue);
-      
-      console.log("price"+pizzaSizePrice)
-      console.log("sizevalue:"+pizzaSizeValue)
+        if (size == "noSizeSelected") {
+          alert("Válassz a pizzádnak méretet!")
+          return
+        }
 
-      if (pizzIndex !== -1) {
-        this.orderedPizzas[pizzIndex].count += 1;
-        this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice)
-      } else {
-        this.orderedPizzas.push({ id: pizza.id, count: 1, name: pizza.name, price: pizza.price * pizzaSizePrice, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice});
-        this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice)
-        document.getElementById('fizetes').classList.remove('disabled')
-        document.getElementById('fizetes').classList.add('enabled')
+        if (this.selectedToppings.length == 0) {
+          alert("Válassz ki rátéteket!")
+          return
+        }
+
+        if (!amount) {
+          alert("Válassz mennyiséget!")
+          return
+        }
+
+        /*TEXT CHANGE*/
+        if (this.orderedPizzas.length <= 0) {
+          document.getElementById('nincsRendelesSzoveg').remove()
+        }
+
+        let toppingsPrice = 0;
+        this.selectedToppings.forEach(topping => {
+          toppingsPrice += Number(topping.price)
+        });
+        const pizzasSize = this.sizes.find(s => s.id == size);
+        const pizzaSizePrice = pizzasSize.multiPrice
+
+        console.log("Kiválasztott rátétek listája:" + this.selectedToppings)
+        //id: pizza.id, count: 1, name: pizza.name, price: pizza.price * pizzaSizePrice, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice
+        console.log("id:" + 0, "count:" + amount, "name:"+ "Egyedi pizza", "price:" + Number(1000 * pizzaSizePrice + toppingsPrice), "sizeId:" + size, "sizeText:" + pizzasSize.size, "sizePrice:" + pizzaSizePrice)
+        this.orderedPizzas.push({ id: 0, count: Number(amount), name: "Egyedi pizza", price: Number(1000 * pizzaSizePrice + toppingsPrice), size: size, sizeText: pizzasSize.size, sizePrice: pizzaSizePrice})
+        this.orderFullPrice += Number(1000 * pizzaSizePrice + toppingsPrice)
       }
     },
 
@@ -181,9 +250,7 @@ export default {
         return
       }
 
-      const userID = userData.value.id;
       let address = "legszuperebb étterem helye"; // étterem címe
-      const userPhone = userData.value.phonenumber;
       const addressEmpty = document.getElementById("address");
 
       // Only overwrite if addressEmpty exists and its value is not empty
@@ -198,12 +265,12 @@ export default {
           axios.post(
             'http://localhost:3061/orders/add',
             {
-              userId: userID,
+              userId: userData.value.id,
               pizzaId: pizza.id,
               pizzaNum: pizza.count,
               sizeId: sizeID,
               address: address,
-              userPhone: userPhone,
+              userPhone: userData.value.phonenumber,
               finalPrice: this.orderFullPrice
             },
             {
@@ -261,37 +328,32 @@ export default {
           
             <div>
               <h3>Méret</h3>
-              <select>
+              <select id="costumeSelectedSize">
+                <option value="noSizeSelected" selected disabled>Válassz méretet!</option>
                 <option v-for="size in sizes" :value="size.id">{{  size.size }} cm</option>
               </select>
-              <div class="kivalasztottSor">
-                <p>paradicsom</p>
-                <p class="ures"></p>
-              </div>
             </div>
           
             <div>
               <h3>Rátét</h3>
-              <select>
+              <select id="costumeSelectedToppings">
+                <option value="noToppingSelected" selected disabled>Válassz rátétet!</option>
                 <option v-for="top in toppings" :value="top.id">{{ top.name }}</option>
               </select>
               <div class="kivalasztottSor">
-                <p>Sajt</p>
-                <p>Krumpli</p>
-                <p class="ures"></p>
+                <p v-for="(top, index) in selectedToppings" :key="top.id" @click="removeTopping(index)">{{ top.name }}{{ top.id }}</p>
+                <p class="ures" @click="addTopping()">+</p>
               </div>
             </div>
 
             <div>
               <h3>Mennyiség</h3>
-              <select>
-                <option value="vékony">Vékony</option>
-                <option value="vastag">Vastag</option>
-              </select>
+              <input id="costumeSelectedAmount" type="number" min="1" max="8" placeholder="1" value="1">
             </div>
           
+            <h1>{{ costumePizzaPrice }} Ft</h1>
             <div class="center">
-              <button>Hozzáadás</button>
+              <button @click="orderPizza()">Hozzáadás</button>
             </div>
           </div>
 
