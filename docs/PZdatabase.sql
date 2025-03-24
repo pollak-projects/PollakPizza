@@ -8,7 +8,7 @@ CREATE TABLE pizzas (
 CREATE TABLE size (
     id INT AUTO_INCREMENT PRIMARY KEY,
     size INT,
-    multiPrice Decimal(10,0)
+    multiPrice Decimal(10,2)
 );
 
 CREATE TABLE toppings (
@@ -80,3 +80,8 @@ INSERT INTO pizzaToppings (pizzaId, toppingId) VALUES
 (3, 1), -- Hawaii + Sajt
 (3, 3), -- Hawaii + Ananász
 (3, 4); -- Hawaii + Sonka
+
+INSERT INTO size (size, multiPrice) VALUES
+(32, 1),
+(36, 1.5),
+(42, 2);
