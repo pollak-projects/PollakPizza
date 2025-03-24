@@ -10,6 +10,7 @@ router.get('/allsizes', (req, res) => {
 
     db.query(query)
     .then(results => {
+      console.log(results[0])
       res.json(results[0]);
     })
     .catch(err => {

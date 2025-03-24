@@ -550,6 +550,30 @@
   margin-top: 10px;
 }
 
+.costume h1 {
+  color: #9B6600;
+  display: flex;
+  justify-content: center;
+}
+
+.costume input {
+  width: 550px;
+  height: 50px;
+  border-radius: 75px;
+  background-color: #FFD8A0;
+  border: none;
+  color: #9B6600;
+  margin-left: 30px;
+  font-size: 24px;
+  font-weight: 700;
+  padding-left: 20px;
+}
+
+.costume input:focus-visible{
+  outline: none;
+}
+
+
 .costume select {
   /*STYLE*/
   width: 550px;
@@ -562,13 +586,21 @@
   font-size: 24px;
   font-weight: 700;
   padding-left: 20px;
+  transition: ease 0.1s;
   /*ARROW*/
   appearance: none;
   background-image: url("https://cdn-icons-png.flaticon.com/512/32/32213.png");
   background-repeat: no-repeat;
   background-position: right 0.7rem top 50%;
   background-size: 1rem auto;
-  
+}
+
+.costume select:focus-visible {
+  outline: none;
+}
+
+.costume select:hover {
+  border: #684400 2px solid;
 }
 
 .costume button {
@@ -581,21 +613,36 @@
   font-size: 24px;
   font-weight: 700;
   margin-top: 60px;
+  transition: ease 0.1s;
+}
+
+.costume button:hover {
+  transform: scale(1.01);
 }
 
 .costume p {
-  width: 50px;
+  min-width: 10px;
   height: 25px;
   background: #F7AD45;
   color: #9B6600;
-  font-size: 8px;
+  font-size: 12px;
   border-radius: 75px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 10px;
   margin-top: 5px;
+  padding: 0px 10px 0px 10px;
   font-weight: 700;
+  transition: ease 0.1s;
+}
+
+.costume p:hover {
+  background-color: #754c00;
+  color: #E5A242;
+  text-decoration: line-through;
+  font-size: 15px;
+  cursor: pointer;
 }
 
 .center {
@@ -616,6 +663,13 @@
 .costume p.ures {
   background-color: rgba(247,173,69,0.5);
   border-radius: 75px;
+  font-size: 20px;
+}
+
+.costume p.ures:hover {
+  background-color: rgb(247, 173, 69);
+  color: #9B6600;
+  cursor: pointer;
 }
 
 /*RESPONSIVE*/
