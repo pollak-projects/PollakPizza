@@ -341,7 +341,7 @@ export default {
                 <option v-for="top in toppings" :value="top.id">{{ top.name }}</option>
               </select>
               <div class="kivalasztottSor">
-                <p v-for="(top, index) in selectedToppings" :key="top.id" @click="removeTopping(index)">{{ top.name }}{{ top.id }}</p>
+                <p v-for="(top, index) in selectedToppings" :key="top.id" @click="removeTopping(index)">{{ top.name }}</p>
                 <p class="ures" @click="addTopping()">+</p>
               </div>
             </div>

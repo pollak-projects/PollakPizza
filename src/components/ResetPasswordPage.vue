@@ -41,6 +41,7 @@ const handleResetPassword = async () => {
           type="password"
           id="newPassword"
           v-model="newPassword"
+          minlength="8"
           placeholder="Új jelszó"
           required
         />

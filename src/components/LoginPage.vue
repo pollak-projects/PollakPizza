@@ -126,7 +126,6 @@ onUnmounted(() => {
                 v-model="registpassword"
                 placeholder="Jelszó"
                 minlength="8"
-                maxlength="30"
                 required
               />
             </div>

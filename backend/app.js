@@ -14,7 +14,7 @@ const orderRoutes = require('./routes/orders');
 const addPizzaRoute = require('./routes/addPizzas');
 const pizzasRoute = require('./routes/pizzas');
 const allSizesRoutes = require('./routes/allsizes')
-const allToppingsRoutes = require('./routes/alltoppings')
+
 
 const app = express();
 
@@ -35,7 +35,6 @@ app.use(profileRoutes);
 app.use(pizzaRoutes);
 app.use(allPizzaRoutes);
 app.use(allSizesRoutes)
-app.use(allToppingsRoutes)
 app.use('/admin', pizzasRoute);
 app.use(adminRoutes);
 app.use(orderRoutes); 
