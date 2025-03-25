@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { id } from "vuetify/locale";
+import { useToast } from 'vue-toastification';
 
 const userData = ref({
   name: '',
@@ -9,6 +10,10 @@ const userData = ref({
   address: '',
   phonenumber: ''
 });
+
+const isModalOpen = ref(false); 
+
+const toast = useToast(); 
 
 const getUserData = async () => {
   const token = localStorage.getItem('token');
@@ -91,7 +96,8 @@ export default {
       fetchToppings()
     });
 
-    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings, selectedToppings, costumePizzaPrice };
+    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings, selectedToppings, costumePizzaPrice, isModalOpen
+     };
   },
   
   methods:{
@@ -108,19 +114,19 @@ export default {
     addTopping() {
       const selectedTop = document.getElementById('costumeSelectedToppings').value;
       if (selectedTop == "noToppingSelected") {
-        alert("Kérlek válassz rátétet!");
+        toast.error("Kérlek válassz rátétet.");
         return;
       }
     
       const topping = this.toppings.find(p => p.id === Number(selectedTop));
       if (!topping) {
-        alert("Hiba történt a rátét árának megtalálása során.");
+        toast.error("Hiba történt a rátét árának megtalálása során.");
         return;
       }
     
       const alreadySelected = this.selectedToppings.some(p => p.id === selectedTop);
       if (alreadySelected) {
-        alert("Ez a rátét már hozzá lett adva!");
+        toast.error("Ez a rátét már hozzá lett adva!");
         return;
       }
     
@@ -137,7 +143,7 @@ export default {
         const pizzaSize = document.getElementById(pizza.name)
 
         if (!pizzaSize || !pizzaSize.value) {
-          alert('Válassz méretet!')
+          toast.error("Válassz rátétet.");
           return
         }
         /*TEXT CHANGE*/
@@ -172,17 +178,18 @@ export default {
         const amount = document.getElementById("costumeSelectedAmount").value;
 
         if (size == "noSizeSelected") {
-          alert("Válassz a pizzádnak méretet!")
+          toast.error("Válassz a pizzádnak méretet!");
           return
         }
 
         if (this.selectedToppings.length == 0) {
-          alert("Válassz ki rátéteket!")
+
+          toast.error("Válassz ki rátéteket!");
           return
         }
 
         if (!amount) {
-          alert("Válassz mennyiséget!")
+          toast.error("Válassz mennyiséget!");
           return
         }
 
@@ -246,7 +253,7 @@ export default {
     },
     submitOrder() {
       if (this.orderedPizzas.length <= 0) {
-        alert("adj vmit a kosarba")
+        toast.error("Adj valamit a kosárba!");
         return
       }
 
@@ -279,27 +286,21 @@ export default {
               }
             }
           );
-          console.log("userid:" + userID);
-          console.log("pizzaid:" + pizza.id);
-          console.log("pizzaNum:" + pizza.count);
-          console.log("sizeid:" + sizeID);
-          console.log("address:" + address);
-          console.log("userphone:" + userPhone);
-          console.log("finalprice:" + "Pizza ár:"+(pizza.price * pizza.count) + "Méret ár:"+(pizza.count * pizza.sizePrice));
-          console.log("-------------------------");
         } catch (err) {
           console.error('Error adding order:', err);
           
         }
       });
-      alert('Köszönjük a rendelésed!');
-      location.reload()
+      toast.success("Köszönjük a rendelésed!");
+      this.closeModal()
     },
     openModal() {
-      document.body.style.overflow = 'hidden'
+      isModalOpen.value = true;
+      document.body.style.overflow = 'hidden'; 
     },
     closeModal() {
-      document.body.style.overflow = 'auto'
+      isModalOpen.value = false; 
+      document.body.style.overflow = 'auto'; 
     },
   }
 };
@@ -441,7 +442,7 @@ export default {
             </div>
 
             <!-- MODAL -->
-            <div id="openModal" class="modal-window">
+            <div v-if="isModalOpen" id="openModal" class="modal-window">
               <div class="rendeles">
                 <h1>Rendelésed</h1>
                 <hr>

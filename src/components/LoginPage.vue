@@ -2,6 +2,7 @@
 import { onMounted, ref, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useToast } from 'vue-toastification'; // Import useToast
 
 const registemail = ref('');
 const registpassword = ref('');
@@ -13,25 +14,29 @@ const maxDate = new Date().toISOString().split("T")[0];
 const router = useRouter();
 const isLoading = ref(false);
 
+const toast = useToast(); // Initialize the toast function
+
 // Handle login logic here
 const handleLogin = async () => {
   try {
     isLoading.value = true;
-    const response = await axios.post('http://localhost:3061/login', {
+    const response = await axios.post("http://localhost:3061/login", {
       email: registemail.value,
       password: registpassword.value,
     });
-    localStorage.setItem('token', response.data.token);
-    router.push({ name: 'HomePage' });
+    localStorage.setItem("token", response.data.token);
+    router.push({ name: "HomePage" });
 
+    toast.success("Sikeres bejelentkezés!"); // Use toast.success instead of this.$toast.success
+    
     setTimeout(() => {
-      localStorage.removeItem('token');
-      alert('A token lejárt, kérjük jelentkezz be újra!');
-      router.push({ name: 'Login' });
-    }, 600000); // 600000 ms = 10 perc
+      localStorage.removeItem("token");
+      toast.info("A token lejárt, kérjük jelentkezz be újra!");
+      router.push({ name: "Login" });
+    }, 600000); // 600000 ms = 10 minutes
   } catch (error) {
-    console.error('Login error:', error);
-    alert(
+    console.error("Login error:", error);
+    toast.error(
       `Login failed: ${
         error.response ? error.response.data.message : error.message
       }`
@@ -56,14 +61,13 @@ const handleSignUp = async () => {
 
     // Ha sikerült a regisztráció, pl. egy üzenetet jeleníthetünk meg
     console.log('Regisztráció sikeres:', response.data);
-    alert('Sikeres regisztráció!');
+    toast.success("Sikeres regisztráció!"); // Use toast.success
 
     // Visszairányítjuk a felhasználót a bejelentkezéshez
     router.push({ name: 'Login' });
   } catch (error) {
     console.error('Regisztráció hiba:', error);
-    // Hiba esetén megjeleníthetünk egy üzenetet a felhasználónak
-    alert('Hiba történt a regisztráció során! Kérjük próbálja újra.');
+    toast.error("Hiba történt a regisztráció során! Kérjük próbálja újra."); // Use toast.error
   } finally {
     isLoading.value = false; // Set loading to false after operation
   }
