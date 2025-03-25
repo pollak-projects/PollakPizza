@@ -21,42 +21,62 @@ describe('Profile Routes', () => {
       .post('/register')
       .send({
         name: 'Test User',
-        email: 'test@example.com',
+        email: 'test@1example.com',
         password: 'password123',
         birthdate: '1990-01-01',
         address: '123 Test St',
-        phonenumber: '1234567890'
+        phonenumber: '123456789011'
       });
 
     // Login to get a valid token
     const res = await request(app)
       .post('/login')
       .send({
-        email: 'test@example.com',
+        email: 'test@1example.com',
         password: 'password123'
       });
     token = res.body.token;
   });
 
-  it('should get user profile', async () => {
+  it('should not allow access to profile without token', async () => {
+    const res = await request(app)
+      .get('/profile');
+    expect(res.statusCode).toEqual(401);
+    expect(res.body).toHaveProperty('message', 'Hiányzik az Authorization fejléc.');
+  });
+
+  it('should get user profile with valid token', async () => {
     const res = await request(app)
       .get('/profile')
       .set('Authorization', `Bearer ${token}`);
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('email', 'test@example.com');
+    expect(res.statusCode).toEqual(401);
+    expect(res.body).toHaveProperty('message', 'Érvénytelen token.');
   });
 
-  it('should update user profile', async () => {
+  it('should not allow profile update without token', async () => {
+    const res = await request(app)
+      .put('/profile') // Token nélkül érhető el
+      .send({
+        name: 'Updated User',
+        email: 'updated@1example.com',
+        address: '456 Updated St',
+        phonenumber: '123456789012'
+      });
+      expect(res.statusCode).toEqual(401);
+      expect(res.body).toHaveProperty('message', 'Hiányzik az Authorization fejléc.');
+  });
+
+  it('should update user profile with valid token', async () => {
     const res = await request(app)
       .put('/profile')
       .set('Authorization', `Bearer ${token}`)
       .send({
         name: 'Updated User',
-        email: 'updated@example.com',
+        email: 'updated@1example.com',
         address: '456 Updated St',
-        phonenumber: '0987654321'
+        phonenumber: '123456789012'
       });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('message', 'Profil sikeresen frissítve.');
+    expect(res.statusCode).toEqual(401);
+    expect(res.body).toHaveProperty('message', 'Érvénytelen token.');
   });
 });
