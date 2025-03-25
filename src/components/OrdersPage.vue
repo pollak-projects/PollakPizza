@@ -113,7 +113,7 @@ onMounted(() => {
         <img src="../assets/image/arrow.png" alt="" @click="showNoOrders()" id="noOrdersArrow">
       </div>
 
-      <div class="hidden" id="noOrdersDiv">
+      <div class="" id="noOrdersDiv">
         <table class="orders-table">
           <thead>
             <tr>
@@ -152,7 +152,7 @@ onMounted(() => {
         <img src="../assets/image/arrow.png" alt="" @click="showFinishedOrders()" id="finishedOrdersArrow">
       </div>
 
-      <div class="hidden" id="finishedOrdersDiv">
+      <div class="" id="finishedOrdersDiv">
         <table class="orders-table">
           <thead>
             <tr>
