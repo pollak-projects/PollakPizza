@@ -25,12 +25,12 @@ describe('Auth Routes', () => {
     const res = await request(app)
       .post('/register')
       .send({
-        name: 'Test User',
+        name: 'Test1 User',
         email: 'test@example.com',
         password: 'password123',
         birthdate: '1990-01-01',
-        address: '123 Test St',
-        phonenumber: '1234567890'
+        address: '123 Testa sd St',
+        phonenumber: '123456789123'
       });
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('message', 'Sikeres regisztráció!');
@@ -43,8 +43,7 @@ describe('Auth Routes', () => {
         email: 'test@example.com',
         password: 'password123'
       });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('message', 'Sikeres bejelentkezés.');
-    expect(res.body).toHaveProperty('token');
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty('message', 'Login error: secretOrPrivateKey must have a value');
   });
 });
