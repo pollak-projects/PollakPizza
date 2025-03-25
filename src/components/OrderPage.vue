@@ -43,7 +43,7 @@ export default {
     const sizes = ref([])
     const toppings = ref([])
     const selectedToppings = ref([])
-    const orderedPizzas = ref([]);
+    let orderedPizzas = ref([]);
     const orderFullPrice = 0;
     const costumePizzaPrice = 0;
     const activeSection = ref('pizzaink');
@@ -299,8 +299,23 @@ export default {
       document.body.style.overflow = 'hidden'; 
     },
     closeModal() {
+      this.orderedPizzas = [];
+      this.orderFullPrice = 0;
+      if (this.orderedPizzas.length < 1) {
+        //Létrehozzuk a megjelenő szöveget
+        const htmlElement = document.createElement('h4');
+        const htmlElementText = document.createTextNode("A rendelés megkezdéséhez adjon hozzá egy pizzát!");
+        htmlElement.appendChild(htmlElementText);
+        htmlElement.setAttribute('id', "nincsRendelesSzoveg")
+
+        //A diven belül megjelenítjük
+        const nincsRendelesSzovegDiv = document.getElementById("nincsRendelesSzovegDiv");
+        nincsRendelesSzovegDiv.appendChild(htmlElement);
+      }
       isModalOpen.value = false; 
       document.body.style.overflow = 'auto'; 
+      document.getElementById('fizetes').classList.remove('enabled')
+      document.getElementById('fizetes').classList.add('disabled')
     },
   }
 };
