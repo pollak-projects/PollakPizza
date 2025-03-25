@@ -859,6 +859,40 @@
     height: 1.5625rem; /* 25px */
     font-size: 0.875rem; /* 14px */
   }
+
+  /*Egyedi pizza rendelés dizájn*/
+  .costume {
+    width: 200px;
+  }
+
+  .costume h3 {
+    font-size: 20px;
+  }
+
+  .costume select {
+    width: 80%;
+    margin-left: 20px;
+    font-size: 14px;
+  }
+
+  .costume input {
+    width: 80%;
+    margin-left: 20px;
+    font-size: 14px;
+    text-align: center;
+    padding: 0;
+  }
+
+  .costume p {
+    margin: 0;
+    margin-top: 10px;
+    font-size: 10px;
+  }
+
+  .costume button {
+    width: 80%;
+    font-size: 16px;
+  }
 }
 
 /*MODAL STYLE*/

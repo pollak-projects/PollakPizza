@@ -67,4 +67,38 @@ router.post('/orders/add', async (req, res) => {
   }
 })
 
+router.post('/orders/addCostume', async (req, res) => {
+  const { userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice, toppings } = req.body;
+  const connection = await db.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    const insertPizzaQuery = 'INSERT INTO orders (userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    const result = await connection.query(insertPizzaQuery, [userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice]);
+    const orderId = result[0].insertId
+
+    const insertToppingPromises = toppings.map(async (topping) => {
+      const findToppingIdQuery = 'SELECT id FROM toppings WHERE name = ?';
+      const [toppingResult] = await connection.query(findToppingIdQuery, [topping]);
+
+      if (!toppingResult[0]) {
+        throw new Error(`Topping not found: ${topping}`);
+      }
+
+      const insertToppingQuery = 'INSERT INTO ordertops (orderId, toppingId) VALUES (?, ?)';
+      await connection.query(insertToppingQuery, [orderId, toppingResult[0].id]);
+    });
+
+    await Promise.all(insertToppingPromises);
+
+    await connection.commit();
+    res.status(200).json({ message: 'Order added successfully' });
+  } catch (error) {
+    console.error('Error adding order:', error);
+    await connection.rollback();
+    res.status(500).json({ error: error.message });
+  }
+})
+
 module.exports = router;
