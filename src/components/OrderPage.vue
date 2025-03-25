@@ -85,26 +85,53 @@ export default {
       activeSection.value = section;
     };
 
+    const addPizza = async (pizzaName, pizzaPrice, toppingsName) => {
+    try {
+        const response = await axios.post('http://localhost:3061/admin/addPizza', {
+            name: pizzaName,
+            price: pizzaPrice,
+            image: null,
+            toppings: toppingsName
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+
+        // Return the response data so it can be used by the caller
+        return response.data;
+        } catch (error) {
+            console.error("Failed to add pizza:", error);
+            throw error; // Re-throw the error to handle it in the calling code
+        }
+    };
+
     onMounted(() => {
       getUserData();
       fetchPizzasAndSizes()
       fetchToppings()
     });
 
-    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings, selectedToppings, costumePizzaPrice };
+    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings, selectedToppings, costumePizzaPrice, addPizza };
   },
-  
+  computed: {
+    filteredPizzas() {
+      return this.pizzas.filter(pizza => !pizza.name.includes('pizzája'));
+    }
+  },
   methods:{
     scrollToMenu() {
       const menuSection = document.getElementById("menu");
       menuSection.scrollIntoView({ behavior: "smooth" });
     },
+    
     updatePrice(pizza) {
       const selectedSize = this.sizes.find(size => size.id === pizza.selectedSize);
       if (selectedSize) {
         pizza.calculatedPrice = pizza.price * selectedSize.multiPrice;
       }
     },
+
     addTopping() {
       const selectedTop = document.getElementById('costumeSelectedToppings').value;
       if (selectedTop == "noToppingSelected") {
@@ -123,15 +150,16 @@ export default {
         alert("Ez a rátét már hozzá lett adva!");
         return;
       }
-    
-      console.log(topping.name, topping.bonusPrice);
-    
+
       this.selectedToppings.push({ id: selectedTop, name: topping.name, price: Number(topping.bonusPrice) });
     },
+
     removeTopping(index) {
       this.selectedToppings.splice(index, 1)
     },
+
     orderPizza(pizza) {
+      //SIMA PIZZA RENDELÉS
       if (this.activeSection == 'pizzaink') {
         /*CODE */
         const pizzaSize = document.getElementById(pizza.name)
@@ -167,6 +195,7 @@ export default {
         }
       }
 
+      //EGYEDI PIZZA RENDELÉS
       if (this.activeSection == 'egyedi') {
         const size = document.getElementById("costumeSelectedSize").value;
         const amount = document.getElementById("costumeSelectedAmount").value;
@@ -185,7 +214,6 @@ export default {
           alert("Válassz mennyiséget!")
           return
         }
-
         /*TEXT CHANGE*/
         if (this.orderedPizzas.length <= 0) {
           document.getElementById('nincsRendelesSzoveg').remove()
@@ -197,12 +225,70 @@ export default {
         });
         const pizzasSize = this.sizes.find(s => s.id == size);
         const pizzaSizePrice = pizzasSize.multiPrice
+        const costumePizzaPrice = Number(1000 * pizzaSizePrice + toppingsPrice) * amount
+        const costumePizzaName = userData.value.name + " pizzája"
 
-        console.log("Kiválasztott rátétek listája:" + this.selectedToppings)
-        //id: pizza.id, count: 1, name: pizza.name, price: pizza.price * pizzaSizePrice, size: pizzaSizeValue, sizeText: pizzaSizeText, sizePrice: pizzaSizePrice
-        console.log("id:" + 0, "count:" + amount, "name:"+ "Egyedi pizza", "price:" + Number(1000 * pizzaSizePrice + toppingsPrice), "sizeId:" + size, "sizeText:" + pizzasSize.size, "sizePrice:" + pizzaSizePrice)
-        this.orderedPizzas.push({ id: 0, count: Number(amount), name: "Egyedi pizza", price: Number(1000 * pizzaSizePrice + toppingsPrice), size: size, sizeText: pizzasSize.size, sizePrice: pizzaSizePrice})
-        this.orderFullPrice += Number(1000 * pizzaSizePrice + toppingsPrice)
+        //Toppingsok megnézése
+        let toppingsArrays = this.selectedToppings.map(topping => topping.name)
+        console.log("Kiválasztott rátétek listája: " + toppingsArrays.join(", "));
+
+        //Létrehozzuk a pizzát
+        console.log(costumePizzaName, costumePizzaPrice, toppingsArrays);
+
+        //Megnézzük, hogy létezik-e már olyan pizza aminek a mérete és a rátéte ugyanaz
+        const existingPizzaInDatabase = this.pizzas.find(pizza =>
+          JSON.stringify(pizza.toppings) === JSON.stringify(toppingsArrays) && pizza.size === size // Összehasonlítjuk a méretet és rátétet
+        );
+
+        if (existingPizzaInDatabase) {
+          //Logoljuk és kihagyjuk
+          console.log("Pizza already exists in the database with ID:", existingPizzaInDatabase.id);
+        } else {
+          //Létrehozzuk a pizzát, hiszen nem létezik
+          this.addPizza(costumePizzaName, costumePizzaPrice, toppingsArrays).then(response => {
+            const pizzaId = response.pizzaId;
+            
+            // Megnézzük, hogy létezik-e már olyan megrendelt pizza aminek a mérete és a rátéte ugyanaz
+            const existingPizzaInOrder = this.orderedPizzas.find(pizza =>
+              JSON.stringify(pizza.toppings) === JSON.stringify(toppingsArrays) && pizza.size === size // Összehasonlítjuk a méretet és rátétet
+            );
+            
+            if (existingPizzaInOrder) {
+              // Frissitjük az árakat
+                existingPizzaInOrder.count += Number(amount);
+                this.orderFullPrice += costumePizzaPrice; // Hozzáadjuk az árat
+            } else {
+              console.log(
+                "id:" + pizzaId, 
+                "count:" + amount, 
+                "name:" + costumePizzaName, 
+                "price:" + costumePizzaPrice, 
+                "sizeId:" + size, 
+                "sizeText:" + pizzasSize.size, 
+                "sizePrice:" + pizzaSizePrice
+              );
+                
+              this.orderedPizzas.push({ 
+                id: pizzaId, 
+                count: Number(amount), 
+                name: costumePizzaName, 
+                price: costumePizzaPrice / amount, 
+                size: size, 
+                sizeText: pizzasSize.size, 
+                sizePrice: pizzaSizePrice,
+                toppings: toppingsArrays // Elmentjuk, hogy tudjunk összehasonlítani
+              });
+                  
+              this.orderFullPrice += costumePizzaPrice; // Hozzáadjuk a pizza árát
+            }
+          }).catch(error => {
+            console.error("Error adding pizza:", error);
+          });
+        }
+
+        //TEXT TÖRLÉSE
+        document.getElementById('fizetes').classList.remove('disabled')
+        document.getElementById('fizetes').classList.add('enabled')
       }
     },
 
@@ -244,6 +330,7 @@ export default {
         nincsRendelesSzovegDiv.appendChild(htmlElement);
       }
     },
+
     submitOrder() {
       if (this.orderedPizzas.length <= 0) {
         alert("adj vmit a kosarba")
@@ -279,12 +366,12 @@ export default {
               }
             }
           );
-          console.log("userid:" + userID);
+          console.log("userid:" + userData.value.id);
           console.log("pizzaid:" + pizza.id);
           console.log("pizzaNum:" + pizza.count);
           console.log("sizeid:" + sizeID);
           console.log("address:" + address);
-          console.log("userphone:" + userPhone);
+          console.log("userphone:" + userData.value.phonenumber);
           console.log("finalprice:" + "Pizza ár:"+(pizza.price * pizza.count) + "Méret ár:"+(pizza.count * pizza.sizePrice));
           console.log("-------------------------");
         } catch (err) {
@@ -293,11 +380,13 @@ export default {
         }
       });
       alert('Köszönjük a rendelésed!');
-      location.reload()
+      //location.reload()
     },
+
     openModal() {
       document.body.style.overflow = 'hidden'
     },
+
     closeModal() {
       document.body.style.overflow = 'auto'
     },
@@ -361,7 +450,11 @@ export default {
 
         <!-- Pizzáink -->
         <div v-if="activeSection === 'pizzaink'" id="menu" class="menuList row">
-          <div v-for="pizza in pizzas" :key="pizza.id" class="item">
+          <div 
+            v-for="pizza in filteredPizzas" 
+            :key="pizza.id" 
+            class="item"
+          >
             <img class="previewpizza" :src="pizza.image" alt="Pizza" />
             <h4>{{ pizza.name }}</h4>
             <p class="ratet">{{ pizza.toppings }}</p>

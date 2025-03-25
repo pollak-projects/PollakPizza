@@ -28,7 +28,10 @@ router.post('/addPizza', async (req, res) => {
       await Promise.all(insertToppingPromises);
   
       await connection.commit();
-      res.status(200).json({ message: 'Pizza added successfully' });
+      res.status(200).json({ 
+        message: 'Pizza added successfully',
+        pizzaId: pizzaId
+      });
     } catch (error) {
       console.error('Error adding pizza:', error);
       await connection.rollback();
