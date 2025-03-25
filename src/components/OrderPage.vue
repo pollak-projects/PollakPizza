@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { id } from "vuetify/locale";
+import { useToast } from 'vue-toastification';
 
 const userData = ref({
   name: '',
@@ -9,6 +10,10 @@ const userData = ref({
   address: '',
   phonenumber: ''
 });
+
+const isModalOpen = ref(false); 
+
+const toast = useToast(); 
 
 const getUserData = async () => {
   const token = localStorage.getItem('token');
@@ -38,7 +43,7 @@ export default {
     const sizes = ref([])
     const toppings = ref([])
     const selectedToppings = ref([])
-    const orderedPizzas = ref([]);
+    let orderedPizzas = ref([]);
     const orderFullPrice = 0;
     const costumePizzaPrice = 0;
     const activeSection = ref('pizzaink');
@@ -112,7 +117,8 @@ export default {
       fetchToppings()
     });
 
-    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings, selectedToppings, costumePizzaPrice, addPizza };
+    return { pizzas, fetchPizzasAndSizes, orderedPizzas, orderFullPrice, sizes, setActiveSection, activeSection, selectedOption, isDisabled, fetchToppings, toppings, selectedToppings, costumePizzaPrice, isModalOpen
+    , addPizza };
   },
   computed: {
     filteredPizzas() {
@@ -135,19 +141,19 @@ export default {
     addTopping() {
       const selectedTop = document.getElementById('costumeSelectedToppings').value;
       if (selectedTop == "noToppingSelected") {
-        alert("Kérlek válassz rátétet!");
+        toast.error("Kérlek válassz rátétet.");
         return;
       }
     
       const topping = this.toppings.find(p => p.id === Number(selectedTop));
       if (!topping) {
-        alert("Hiba történt a rátét árának megtalálása során.");
+        toast.error("Hiba történt a rátét árának megtalálása során.");
         return;
       }
     
       const alreadySelected = this.selectedToppings.some(p => p.id === selectedTop);
       if (alreadySelected) {
-        alert("Ez a rátét már hozzá lett adva!");
+        toast.error("Ez a rátét már hozzá lett adva!");
         return;
       }
 
@@ -165,7 +171,7 @@ export default {
         const pizzaSize = document.getElementById(pizza.name)
 
         if (!pizzaSize || !pizzaSize.value) {
-          alert('Válassz méretet!')
+          toast.error("Válassz rátétet.");
           return
         }
         /*TEXT CHANGE*/
@@ -201,17 +207,18 @@ export default {
         const amount = document.getElementById("costumeSelectedAmount").value;
 
         if (size == "noSizeSelected") {
-          alert("Válassz a pizzádnak méretet!")
+          toast.error("Válassz a pizzádnak méretet!");
           return
         }
 
         if (this.selectedToppings.length == 0) {
-          alert("Válassz ki rátéteket!")
+
+          toast.error("Válassz ki rátéteket!");
           return
         }
 
         if (!amount) {
-          alert("Válassz mennyiséget!")
+          toast.error("Válassz mennyiséget!");
           return
         }
         /*TEXT CHANGE*/
@@ -333,7 +340,7 @@ export default {
 
     submitOrder() {
       if (this.orderedPizzas.length <= 0) {
-        alert("adj vmit a kosarba")
+        toast.error("Adj valamit a kosárba!");
         return
       }
 
@@ -366,12 +373,12 @@ export default {
               }
             }
           );
-          console.log("userid:" + userData.value.id);
+          console.log("userid:" + userID);
           console.log("pizzaid:" + pizza.id);
           console.log("pizzaNum:" + pizza.count);
           console.log("sizeid:" + sizeID);
           console.log("address:" + address);
-          console.log("userphone:" + userData.value.phonenumber);
+          console.log("userphone:" + userPhone);
           console.log("finalprice:" + "Pizza ár:"+(pizza.price * pizza.count) + "Méret ár:"+(pizza.count * pizza.sizePrice));
           console.log("-------------------------");
         } catch (err) {
@@ -380,15 +387,32 @@ export default {
         }
       });
       alert('Köszönjük a rendelésed!');
-      //location.reload()
+      location.reload()
     },
 
     openModal() {
-      document.body.style.overflow = 'hidden'
+      isModalOpen.value = true;
+      document.body.style.overflow = 'hidden'; 
     },
 
     closeModal() {
-      document.body.style.overflow = 'auto'
+      this.orderedPizzas = [];
+      this.orderFullPrice = 0;
+      if (this.orderedPizzas.length < 1) {
+        //Létrehozzuk a megjelenő szöveget
+        const htmlElement = document.createElement('h4');
+        const htmlElementText = document.createTextNode("A rendelés megkezdéséhez adjon hozzá egy pizzát!");
+        htmlElement.appendChild(htmlElementText);
+        htmlElement.setAttribute('id', "nincsRendelesSzoveg")
+
+        //A diven belül megjelenítjük
+        const nincsRendelesSzovegDiv = document.getElementById("nincsRendelesSzovegDiv");
+        nincsRendelesSzovegDiv.appendChild(htmlElement);
+      }
+      isModalOpen.value = false; 
+      document.body.style.overflow = 'auto'; 
+      document.getElementById('fizetes').classList.remove('enabled')
+      document.getElementById('fizetes').classList.add('disabled')
     },
   }
 };
@@ -534,7 +558,7 @@ export default {
             </div>
 
             <!-- MODAL -->
-            <div id="openModal" class="modal-window">
+            <div v-if="isModalOpen" id="openModal" class="modal-window">
               <div class="rendeles">
                 <h1>Rendelésed</h1>
                 <hr>

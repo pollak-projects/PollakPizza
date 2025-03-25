@@ -22,7 +22,7 @@ describe('Pizza Routes', () => {
 
   it('should get a list of pizzas', async () => {
     const res = await request(app)
-      .get('/pizzas');
+      .get('/allpizzas');
     expect(res.statusCode).toEqual(200);
     expect(res.body).toBeInstanceOf(Array);
   });
