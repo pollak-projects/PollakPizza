@@ -593,7 +593,7 @@ export default {
                 v-model="amount"
               />
             </div>
-
+            <!-- fixed -->
             <h1>{{ costumePizzaPrice }} Ft</h1>
             <div class="center">
               <button @click="orderPizza()">Hozzáadás</button>
