@@ -371,44 +371,49 @@ onMounted(() => {
           </tbody>
         </table>
         <br />
+        <!-- ÚJ PIZZA HOZZÁADÁSA-->
         <button @click="showAddPizzaModal = true">Új pizza hozzáadása</button>
         <div v-if="showAddPizzaModal" class="model">
           <div class="model-content">
-            <br />
             <h2>Új pizza hozzáadása</h2>
-            <label for="name">Név:</label>
-            <input id="name" v-model="pizzaName" />
-            <br />
-            <label for="price">Ár:</label>
-            <input id="price" v-model="pizzaPrice" />
-            <br />
-            <label for="image">Kép név(jpg kiterjesztés):</label>
-            <input id="image" v-model="pizzaImage" />
-            <br />
-            <br />
-            <label for="toppings"><strong>Feltétek:</strong></label>
-            <br />
-            <br />
-            <div class="checkbox-container">
-              <div
-                v-for="topping in toppings"
-                :key="topping.id"
-                class="checkbox-wrapper-18"
-              >
-                <label :for="`topping-${topping.id}`">{{ topping.name }}</label>
-                <div class="round">
-                  <input
-                    type="checkbox"
-                    :id="`topping-${topping.id}`"
-                    :value="topping.id"
-                    v-model="selectedToppings"
-                  />
-                  <label :for="`topping-${topping.id}`"></label>
+            <div class="row">
+              <div style="width: 50%;">
+                <div class="pizzaAddInputs">
+                  <label for="name" style="flex: 1;">Név:</label>
+                  <input id="name" v-model="pizzaName" style="flex: 2;" />
+                </div>
+                <div class="pizzaAddInputs">
+                  <label for="price" style="flex: 1;">Ár:</label>
+                  <input id="price" v-model="pizzaPrice" type="number" style="flex: 2;" />
+                </div>
+                <div class="pizzaAddInputs">
+                  <label for="image" style="flex: 1;">Kép név(jpg kiterjesztés):</label>
+                  <input id="image" v-model="pizzaImage" style="flex: 2;" />
                 </div>
               </div>
-            </div>
 
-            <br />
+              <div style="width: 50%;">
+              <label for="toppings"><strong>Feltétek:</strong></label>
+              <div class="checkbox-container">
+                <div
+                  v-for="topping in toppings"
+                  :key="topping.id"
+                  class="checkbox-wrapper-18"
+                >
+                  <label :for="`topping-${topping.id}`">{{ topping.name }}</label>
+                  <div class="round">
+                    <input
+                      type="checkbox"
+                      :id="`topping-${topping.id}`"
+                      :value="topping.id"
+                      v-model="selectedToppings"
+                    />
+                    <label :for="`topping-${topping.id}`"></label>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
             <button @click="addPizza">Pizza hozzáadása</button>
             <button @click="showAddPizzaModal = false">Mégse</button>
           </div>
