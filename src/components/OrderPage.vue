@@ -412,7 +412,7 @@ export default {
               "http://localhost:3061/orders/addCostume",
               {
                 userId: userData.value.id,
-                pizzaId: 1,
+                pizzaId: 0,
                 pizzaNum: pizza.count,
                 sizeId: pizza.size,
                 address: address,

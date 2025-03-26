@@ -14,6 +14,7 @@ const orderRoutes = require('./routes/orders');
 const addPizzaRoute = require('./routes/addPizzas');
 const pizzasRoute = require('./routes/pizzas');
 const allSizesRoutes = require('./routes/allsizes')
+const customPizzas = require('./routes/customPizzas')
 
 
 const app = express();
@@ -31,6 +32,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 app.use(authRoutes);
+app.use(customPizzas);
 app.use(profileRoutes);
 app.use(pizzaRoutes);
 app.use(allPizzaRoutes);
