@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS `pollakpizza` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
+USE `pollakpizza`;
+
+
 CREATE TABLE pizzas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
@@ -62,16 +66,26 @@ CREATE TABLE pizzaToppings (
 
 -- Alapértelmezett pizzák és toppingok beszúrása
 INSERT INTO pizzas (id, name, price, image) VALUES
-(0, 'Egyedi Pizza', 1000, 'src/assets/image/margareta.jpg'),
-(1, 'Margherita', 1000, 'src/assets/image/margareta.jpg'),
-(2, 'Pepperoni', 1200, 'src/assets/image/pepi.jpg'),
-(3, 'Hawaii', 1300, 'src/assets/image/hawaii.jpg');
+(0, 'Egyedi Pizza', 1000, 'src/assets/image/pizzas.jpg'),
+(1, 'Margherita', 1000, 'src/assets/image/pizzas.jpg'),
+(2, 'Pepperoni', 1200, 'src/assets/image/pizzas.jpg'),
+(3, 'Hawaii', 1300, 'src/assets/image/pizzas.jpg'),
+(4, 'Kukoricás', 1300, 'src/assets/image/pizzas.jpg'),
+(5, 'Sonkás', 1300, 'src/assets/image/pizzas.jpg'),
+(6, 'Kolbászos', 1300, 'src/assets/image/pizzas.jpg'),
+(7, 'Baconos', 1300, 'src/assets/image/pizzas.jpg'),
+(8, 'Sonkás-Gombás', 1300, 'src/assets/image/pizzas.jpg');
 
 INSERT INTO toppings (name, bonusPrice) VALUES
 ('Sajt', 200),
 ('Pepperoni', 300),
 ('Ananász', 250),
-('Sonka', 300);
+('Sonka', 300),
+('Kukorica', 250),
+('Kolbász', 250),
+('Baconos', 250),
+('Gomba', 250),
+('Mozzarella', 250);
 
 -- Pizzák és toppingok összekapcsolása
 INSERT INTO pizzaToppings (pizzaId, toppingId) VALUES
@@ -79,10 +93,22 @@ INSERT INTO pizzaToppings (pizzaId, toppingId) VALUES
 (2, 1), -- Pepperoni + Sajt
 (2, 2), -- Pepperoni + Pepperoni
 (3, 1), -- Hawaii + Sajt
-(3, 3), -- Hawaii + Ananász
-(3, 4); -- Hawaii + Sonka
+(3, 3), 
+(3, 4),
+(4, 1), 
+(4, 5), 
+(5, 1), 
+(5, 4), 
+(6, 1), 
+(6, 6),
+(7, 1),
+(7, 7),
+(8, 1),
+(8, 4),
+(8, 8);
 
 INSERT INTO size (size, multiPrice) VALUES
 (32, 1),
 (36, 1.5),
-(42, 2);
+(42, 2),
+(60, 2.5);

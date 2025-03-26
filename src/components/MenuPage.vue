@@ -86,7 +86,7 @@ const goToOrder = () => {
             <h2>Pollak Pizza Étlap</h2>
             <p>Ezen az oldalon megtalálják kinálatunkat!</p>
           </div>
-          <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
+          <img class="frontimg" src="../assets/image/pizzaimg.png" alt="Pizza Img" />
         </div>
       </section>
 

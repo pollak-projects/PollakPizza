@@ -6,8 +6,8 @@
   padding-left: 7dvw;
   align-items: left;
   background: rgb(255,241,216);
-  background: radial-gradient(circle, rgba(255,241,216,1) 0%, rgb(233, 188, 125) 100%);
-  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
+  background: radial-gradient(circle, rgb(252, 227, 185) 0%, rgb(255, 231, 152) 100%);
+  box-shadow: 0 3px 3px rgba(255, 231, 152, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
   margin-bottom: 3dvw;
 }
 .hero img {
@@ -49,7 +49,6 @@
   border-radius: 10px;
   box-shadow: 0 12px 14px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   float: left;
-
   margin-left: 3dvw;
   padding: 1.5dvw;
 }
@@ -58,6 +57,10 @@
   font-size: 24px;
   margin-bottom: 20px;
   color: #333;
+}
+.menuflex input{
+  border:black 1px solid;
+  border-radius: 10px;
 }
 
 .searchbtn{
@@ -216,7 +219,7 @@
     background-color: #fff;
   }
   
-  img {
+  .frontimg {
     max-height: 150px;
     border-radius: 30px;
     border: grey solid 2px;
@@ -282,12 +285,11 @@
       padding-right: 5vw;
     }
   }
-  
   .pizza-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 90%; 
+    width: 100%; 
     border: 1px solid #d9983d;
     border-radius: 10px;
     font-weight: bold;
@@ -305,8 +307,10 @@
   }
   
   .pizza-card img {
-    width: 100%;
-    height: auto; 
+    width: 11dvw;
+    height: 9dvw; 
+    border-radius: 20px;
+    margin-bottom: 0.7dvw;
   }
   
   .pizza-card h3 {
