@@ -60,7 +60,7 @@ export default {
         const response = await axios.get("http://localhost:3061/alltoppings");
         toppings.value = response.data;
       } catch (err) {
-        console.error("Error while loading pizzas or sizes:", error);
+        console.error("Error while loading pizzas or sizes:", err);
       }
     };
 
