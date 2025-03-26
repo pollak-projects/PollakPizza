@@ -368,7 +368,7 @@ export default {
               name: costumePizzaName,
               price: costumePizzaPrice / amount,
               size: size,
-              sizeText: pizzasSize.size,
+              sizeText: pizzasSize.size + " cm",
               sizePrice: pizzaSizePrice,
               toppings: toppingsArrays, // Elmentjuk, hogy tudjunk összehasonlítani
             });
