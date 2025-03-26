@@ -44,7 +44,7 @@ export default {
     const toppings = ref([]);
     const selectedToppings = ref([]);
     const selectedSize = ref("noSizeSelected");
-    const amount = ref(1);
+    const amount = ref(0);
     let orderedPizzas = ref([]);
     const orderFullPrice = 0;
     const costumePizzaPrice = 0;
@@ -92,6 +92,9 @@ export default {
 
     const setActiveSection = (section) => {
       activeSection.value = section;
+      selectedToppings.value.length = 0
+      amount.value = 0
+      selectedSize.value = "noSizeSelected"
     };
 
     const addPizza = async (pizzaName, pizzaPrice, toppingsName) => {
@@ -161,6 +164,42 @@ export default {
 
       return ((basePrice * sizePrice) + toppingsPrice) * this.amount;
     },
+  },
+  watch: {
+    selectedSize(newValue) {
+      const toppingsDropdown = document.getElementById('costumeSelectedToppings');
+      const ures = document.getElementById('ures')
+      if (newValue) {
+        toppingsDropdown?.classList.remove('disabled');
+        ures?.classList.remove('disabled')
+      } else {
+        toppingsDropdown?.classList.add('disabled');
+        ures?.classList.add('disabled')
+      }
+    },
+
+    selectedToppings: {
+      handler(newValue) {
+        const amountInput = document.getElementById('costumeSelectedAmount');
+        if (newValue.length > 0) {
+          amountInput?.classList.remove('disabled');
+          this.amount = 1
+        } else {
+          amountInput?.classList.add('disabled');
+          this.amount = 0
+        }
+      },
+      deep: true
+    },
+
+    amount(newValue) {
+      const orderButton = document.getElementById('addPizza')
+      if (newValue >= 1) {
+        orderButton?.classList.remove('disabled');
+      } else {
+        orderButton?.classList.add('disabled');
+      }
+    }
   },
   methods: {
     scrollToMenu() {
@@ -561,7 +600,7 @@ export default {
 
             <div>
               <h3>Rátét</h3>
-              <select id="costumeSelectedToppings">
+              <select id="costumeSelectedToppings" class="disabled">
                 <option value="noToppingSelected" selected disabled>
                   Válassz rátétet!
                 </option>
@@ -577,13 +616,14 @@ export default {
                 >
                   {{ top.name }}
                 </p>
-                <p class="ures" @click="addTopping()">+</p>
+                <p id="ures" class="ures disabled" @click="addTopping()">+</p>
               </div>
             </div>
 
             <div>
               <h3>Mennyiség</h3>
               <input
+                class="disabled"
                 id="costumeSelectedAmount"
                 type="number"
                 min="1"
@@ -596,7 +636,7 @@ export default {
 
             <h1>{{ costumePizzaPrice }} Ft</h1>
             <div class="center">
-              <button @click="orderPizza()">Hozzáadás</button>
+              <button id="addPizza" @click="orderPizza()" class="disabled">Hozzáadás</button>
             </div>
           </div>
         </div>
