@@ -1,28 +1,29 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
 const orders = ref([]);
 const isLoading = ref(false);
-const message = ref('');
-const notification = ref(''); // Értesítési üzenet
-const showNotification = ref(false); // Értesítési popup láthatósága
+const message = ref("");
+const notification = ref("");
+const showNotification = ref(false);
+const customPizzas = ref([]);
 
-const router = useRouter(); // Router használata
+const router = useRouter();
 
 const fetchOrders = async () => {
   try {
     isLoading.value = true;
-    const response = await axios.get('http://localhost:3061/orders', {
+    const response = await axios.get("http://localhost:3061/orders", {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     orders.value = response.data;
   } catch (error) {
-    console.error('Hiba a rendelési adatok betöltésekor:', error);
-    message.value = 'Hiba történt a rendelési adatok betöltésekor.';
+    console.error("Hiba a rendelési adatok betöltésekor:", error);
+    message.value = "Hiba történt a rendelési adatok betöltésekor.";
   } finally {
     isLoading.value = false;
   }
@@ -30,16 +31,21 @@ const fetchOrders = async () => {
 
 const updateOrderStatus = async (orderId) => {
   try {
-    await axios.put(`http://localhost:3061/orders/${orderId}`, { status: 'Kész' }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-    fetchOrders(); // Frissítjük a rendelési adatokat
-    showNotificationMessage('Rendelés sikeresen frissítve.');
+    await axios.put(
+      `http://localhost:3061/orders/${orderId}`,
+      { status: "Kész" },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    fetchOrders();
+    fetchCustomPizzas();
+    showNotificationMessage("Rendelés sikeresen frissítve.");
   } catch (error) {
-    console.error('Hiba a rendelés frissítésekor:', error);
-    message.value = 'Hiba történt a rendelés frissítésekor.';
+    console.error("Hiba a rendelés frissítésekor:", error);
+    message.value = "Hiba történt a rendelés frissítésekor.";
   }
 };
 
@@ -47,14 +53,32 @@ const deleteOrder = async (orderId) => {
   try {
     await axios.delete(`http://localhost:3061/orders/${orderId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    fetchOrders(); // Frissítjük a rendelési adatokat
-    showNotificationMessage('Rendelés sikeresen törölve.');
+    fetchOrders();
+    fetchCustomPizzas();
+    showNotificationMessage("Rendelés sikeresen törölve.");
   } catch (error) {
-    console.error('Hiba a rendelés törlésekor:', error);
-    message.value = 'Hiba történt a rendelés törlésekor.';
+    console.error("Hiba a rendelés törlésekor:", error);
+    message.value = "Hiba történt a rendelés törlésekor.";
+  }
+};
+
+const fetchCustomPizzas = async () => {
+  try {
+    isLoading.value = true;
+    const response = await axios.get("http://localhost:3061/customPizzas", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    customPizzas.value = response.data; // Assuming an API route for fetching custom pizzas
+  } catch (error) {
+    console.error("Hiba az egyedi pizzák betöltésekor:", error);
+    message.value = "Hiba történt az egyedi pizzák betöltésekor.";
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -66,54 +90,22 @@ const showNotificationMessage = (msg) => {
   }, 3000);
 };
 
-const showNoOrders = () => {
-  const noOrdersDiv = document.getElementById("noOrdersDiv")
-  const noOrdersArrow = document.getElementById("noOrdersArrow")
-
-  if (noOrdersDiv.classList.contains("hidden")) {
-    noOrdersDiv.classList.remove("hidden")
-    noOrdersArrow.src = "src/assets/image/arrow-down.png"
-  }
-  else {
-    noOrdersDiv.classList.add("hidden")
-    noOrdersArrow.src = "src/assets/image/arrow.png"
-  }
-};
-
-const showFinishedOrders = () => {
-  const finishedOrdersDiv = document.getElementById("finishedOrdersDiv")
-  const finishedOrdersArrow = document.getElementById("finishedOrdersArrow")
-
-  if (finishedOrdersDiv.classList.contains("hidden")) {
-    finishedOrdersDiv.classList.remove("hidden")
-    finishedOrdersArrow.src = "src/assets/image/arrow-down.png"
-  }
-  else {
-    finishedOrdersDiv.classList.add("hidden")
-    finishedOrdersArrow.src = "src/assets/image/arrow.png"
-  }
-};
-
 onMounted(() => {
   fetchOrders();
+  fetchCustomPizzas();
 });
 </script>
 
 <template>
-
   <body>
-  <div class="orders-page">
-    <h1>Rendelések</h1>
-    <div v-if="isLoading">Betöltés...</div>
-    <div v-if="message">{{ message }}</div>
-    <div v-if="!isLoading && !message">
-      <h2>Nem kész rendelések</h2>
+    <div class="orders-page">
+      <h1>Rendelések</h1>
+      <div v-if="isLoading">Betöltés...</div>
+      <div v-if="message">{{ message }}</div>
 
-      <div class="center">
-        <img src="../assets/image/arrow.png" alt="" @click="showNoOrders()" id="noOrdersArrow">
-      </div>
-
-      <div class="" id="noOrdersDiv">
+      <!-- Regular Pizza Orders -->
+      <h2>Pizza Rendelések</h2>
+      <div v-if="!isLoading && orders.length > 0">
         <table class="orders-table">
           <thead>
             <tr>
@@ -129,7 +121,10 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="order in orders.filter(o => o.status !== 'Kész')" :key="order.id">
+            <tr
+              v-for="order in orders.filter((o) => o.status !== 'Kész')"
+              :key="order.id"
+            >
               <td>{{ order.id }}</td>
               <td>{{ order.userName }}</td>
               <td>{{ order.pizzaName }}</td>
@@ -145,14 +140,54 @@ onMounted(() => {
           </tbody>
         </table>
       </div>
-
-      <h2>Kész rendelések</h2>
-
-      <div class="center">
-        <img src="../assets/image/arrow.png" alt="" @click="showFinishedOrders()" id="finishedOrdersArrow">
+      <div v-else>
+        <p>Nincsenek pizza rendelések.</p>
       </div>
 
-      <div class="" id="finishedOrdersDiv">
+      <!-- Custom Pizza Orders -->
+      <h2>Egyedi Pizza Rendelések</h2>
+      <div v-if="!isLoading && customPizzas.length > 0">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Rendelés ID</th>
+              <th>Felhasználó</th>
+              <th>Méret</th>
+              <th>Feltétek</th>
+              <th>Cím</th>
+              <th>Telefonszám</th>
+              <th>Ár</th>
+              <th>Státusz</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="pizza in customPizzas.filter((p) => p.status !== 'Kész')"
+              :key="pizza.orderId"
+            >
+              <td>{{ pizza.orderId }}</td>
+              <td>{{ pizza.userName }}</td>
+              <td>{{ pizza.size }}</td>
+              <td>{{ pizza.toppings }}</td>
+              <td>{{ pizza.address }}</td>
+              <td>{{ pizza.userPhone }}</td>
+              <td>{{ pizza.finalPrice }} Ft</td>
+              <td>{{ pizza.status }}</td>
+              <td>
+                <button @click="updateOrderStatus(pizza.orderId)">Kész</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-else>
+        <p>Nincsenek egyedi pizza rendelések.</p>
+      </div>
+
+      <!-- Completed Orders -->
+      <h2>Kész Rendelések</h2>
+      <div v-if="!isLoading && orders.filter((o) => o.status === 'Kész').length > 0">
         <table class="orders-table">
           <thead>
             <tr>
@@ -168,7 +203,10 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="order in orders.filter(o => o.status === 'Kész')" :key="order.id">
+            <tr
+              v-for="order in orders.filter((o) => o.status === 'Kész')"
+              :key="order.id"
+            >
               <td>{{ order.id }}</td>
               <td>{{ order.userName }}</td>
               <td>{{ order.pizzaName }}</td>
@@ -184,13 +222,19 @@ onMounted(() => {
           </tbody>
         </table>
       </div>
+      <div v-else>
+        <p>Nincsenek kész rendelések.</p>
+      </div>
+
+      <div class="backToHomePage">
+        <button @click="router.push('/')">Vissza a kezdőlapra</button>
+      </div>
+      <div v-if="showNotification" class="notification-popup">
+        {{ notification }}
+      </div>
     </div>
-    <div class="backToHomePage">
-      <button @click="router.push('/')">Vissza a kezdőlapra</button>
-    </div>
-    <div v-if="showNotification" class="notification-popup">{{ notification }}</div>
-  </div>
   </body>
 </template>
+
 
 <style scoped src="../assets/css/orders.css"></style>

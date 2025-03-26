@@ -61,10 +61,11 @@ CREATE TABLE pizzaToppings (
 );
 
 -- Alapértelmezett pizzák és toppingok beszúrása
-INSERT INTO pizzas (name, price, image) VALUES
-('Margherita', 1000, 'src/assets/image/margareta.jpg'),
-('Pepperoni', 1200, 'src/assets/image/pepi.jpg'),
-('Hawaii', 1300, 'src/assets/image/hawaii.jpg');
+INSERT INTO pizzas (id, name, price, image) VALUES
+(0, 'Egyedi Pizza', 1000, 'src/assets/image/margareta.jpg'),
+(1, 'Margherita', 1000, 'src/assets/image/margareta.jpg'),
+(2, 'Pepperoni', 1200, 'src/assets/image/pepi.jpg'),
+(3, 'Hawaii', 1300, 'src/assets/image/hawaii.jpg');
 
 INSERT INTO toppings (name, bonusPrice) VALUES
 ('Sajt', 200),

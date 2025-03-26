@@ -43,6 +43,8 @@ export default {
     const sizes = ref([]);
     const toppings = ref([]);
     const selectedToppings = ref([]);
+    const selectedSize = ref("noSizeSelected");
+    const amount = ref(0);
     let orderedPizzas = ref([]);
     const orderFullPrice = 0;
     const costumePizzaPrice = 0;
@@ -60,7 +62,7 @@ export default {
         const response = await axios.get("http://localhost:3061/alltoppings");
         toppings.value = response.data;
       } catch (err) {
-        console.error("Error while loading pizzas or sizes:", error);
+        console.error("Error while loading pizzas or sizes:", err);
       }
     };
 
@@ -90,6 +92,9 @@ export default {
 
     const setActiveSection = (section) => {
       activeSection.value = section;
+      selectedToppings.value.length = 0
+      amount.value = 0
+      selectedSize.value = "noSizeSelected"
     };
 
     const addPizza = async (pizzaName, pizzaPrice, toppingsName) => {
@@ -139,12 +144,62 @@ export default {
       costumePizzaPrice,
       isModalOpen,
       addPizza,
+      selectedSize,
+      amount
     };
   },
   computed: {
     filteredPizzas() {
       return this.pizzas.filter((pizza) => !pizza.name.includes("pizzája"));
     },
+    costumePizzaPrice() {
+      if (!this.pizzas.length) {
+        this.costumePizzaPrice = 0;
+        return;
+      }
+    
+      const basePrice = this.pizzas[0]?.price || 0;
+      const sizePrice = Number(this.sizes.find(size => size.id === this.selectedSize)?.multiPrice || 0);
+      const toppingsPrice = this.selectedToppings.reduce((total, topping) => total + (topping.price || 0), 0);
+
+      return ((basePrice * sizePrice) + toppingsPrice) * this.amount;
+    },
+  },
+  watch: {
+    selectedSize(newValue) {
+      const toppingsDropdown = document.getElementById('costumeSelectedToppings');
+      const ures = document.getElementById('ures')
+      if (newValue) {
+        toppingsDropdown?.classList.remove('disabled');
+        ures?.classList.remove('disabled')
+      } else {
+        toppingsDropdown?.classList.add('disabled');
+        ures?.classList.add('disabled')
+      }
+    },
+
+    selectedToppings: {
+      handler(newValue) {
+        const amountInput = document.getElementById('costumeSelectedAmount');
+        if (newValue.length > 0) {
+          amountInput?.classList.remove('disabled');
+          this.amount = 1
+        } else {
+          amountInput?.classList.add('disabled');
+          this.amount = 0
+        }
+      },
+      deep: true
+    },
+
+    amount(newValue) {
+      const orderButton = document.getElementById('addPizza')
+      if (newValue >= 1) {
+        orderButton?.classList.remove('disabled');
+      } else {
+        orderButton?.classList.add('disabled');
+      }
+    }
   },
   methods: {
     scrollToMenu() {
@@ -270,22 +325,16 @@ export default {
         this.selectedToppings.forEach((topping) => {
           toppingsPrice += Number(topping.price);
         });
+
         const pizzasSize = this.sizes.find((s) => s.id == size);
         const pizzaSizePrice = pizzasSize.multiPrice;
-        const costumePizzaPrice =
-          Number(1000 * pizzaSizePrice + toppingsPrice) * amount;
+        const costumePizzaPrice = Number(1000 * pizzaSizePrice + toppingsPrice) * amount;
         const costumePizzaName = "Egyedi pizza";
 
         //Toppingsok megnézése
         let toppingsArrays = this.selectedToppings.map(
           (topping) => topping.name
         );
-        console.log(
-          "Kiválasztott rátétek listája: " + toppingsArrays.join(", ")
-        );
-
-        // Létrehozzuk a pizzát
-        console.log(costumePizzaName, costumePizzaPrice, toppingsArrays);
 
         // Megnézzük, hogy létezik-e már olyan pizza aminek a mérete és a rátéte ugyanaz
         const existingPizzaInDatabase = this.pizzas.find(
@@ -313,16 +362,6 @@ export default {
             existingPizzaInOrder.count += Number(amount);
             this.orderFullPrice += costumePizzaPrice; // Hozzáadjuk az árat
           } else {
-            console.log(
-              "id:" + pizzaId,
-              "count:" + amount,
-              "name:" + costumePizzaName,
-              "price:" + costumePizzaPrice,
-              "sizeId:" + size,
-              "sizeText:" + pizzasSize.size,
-              "sizePrice:" + pizzaSizePrice
-            );
-
             this.orderedPizzas.push({
               id: pizzaId,
               count: Number(amount),
@@ -400,22 +439,19 @@ export default {
       let address = "legszuperebb étterem helye"; // étterem címe
       const addressEmpty = document.getElementById("address");
 
-      // Only overwrite if addressEmpty exists and its value is not empty
       if (addressEmpty && addressEmpty.value.trim() !== "") {
         address = addressEmpty.value;
       }
 
       // Itt lehetne API hívást tenni rendelés küldéséhez
       this.orderedPizzas.forEach((pizza) => {
-        const sizeID = pizza.size;
-
         if (pizza.name == "Egyedi pizza") {
           try {
             axios.post(
               "http://localhost:3061/orders/addCostume",
               {
                 userId: userData.value.id,
-                pizzaId: 1,
+                pizzaId: 0,
                 pizzaNum: pizza.count,
                 sizeId: pizza.size,
                 address: address,
@@ -552,7 +588,7 @@ export default {
           <div class="costume">
             <div>
               <h3>Méret</h3>
-              <select id="costumeSelectedSize">
+              <select id="costumeSelectedSize" v-model="selectedSize">
                 <option value="noSizeSelected" selected disabled>
                   Válassz méretet!
                 </option>
@@ -564,7 +600,7 @@ export default {
 
             <div>
               <h3>Rátét</h3>
-              <select id="costumeSelectedToppings">
+              <select id="costumeSelectedToppings" class="disabled">
                 <option value="noToppingSelected" selected disabled>
                   Válassz rátétet!
                 </option>
@@ -580,25 +616,27 @@ export default {
                 >
                   {{ top.name }}
                 </p>
-                <p class="ures" @click="addTopping()">+</p>
+                <p id="ures" class="ures disabled" @click="addTopping()">+</p>
               </div>
             </div>
 
             <div>
               <h3>Mennyiség</h3>
               <input
+                class="disabled"
                 id="costumeSelectedAmount"
                 type="number"
                 min="1"
                 max="8"
                 placeholder="1"
                 value="1"
+                v-model="amount"
               />
             </div>
-
+            <!-- fixed -->
             <h1>{{ costumePizzaPrice }} Ft</h1>
             <div class="center">
-              <button @click="orderPizza()">Hozzáadás</button>
+              <button id="addPizza" @click="orderPizza()" class="disabled">Hozzáadás</button>
             </div>
           </div>
         </div>

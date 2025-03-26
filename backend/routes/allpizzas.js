@@ -8,6 +8,7 @@ router.get('/allpizzas', (req, res) => {
     FROM pizzas p
     LEFT JOIN pizzaToppings pt ON p.id = pt.pizzaId
     LEFT JOIN toppings t ON pt.toppingId = t.id
+    WHERE p.id >= 1
     GROUP BY p.id, p.name, p.price, p.image
     ORDER BY RAND()
     LIMIT 6
@@ -18,9 +19,8 @@ router.get('/allpizzas', (req, res) => {
       return res.status(500).json({ error: 'Hiba a pizzák lekérdezése során.' });
     }
     res.json(results);
-    console.log(results)
+    console.log(results);
   });
 });
-
 
 module.exports = router;

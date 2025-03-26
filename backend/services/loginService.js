@@ -12,7 +12,6 @@ exports.login = async (email, password) => {
       const isMatch = await bcrypt.compare(password, results[0].password);
       if (isMatch) {
         const payload = { email: results[0].email, id: results[0].id, admin: results[0].admin };
-        // Create JWT
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
         return token;
       } else {

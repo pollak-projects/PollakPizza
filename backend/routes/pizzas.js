@@ -11,12 +11,12 @@ router.get('/allPizzas', async (req, res) => {
   // Case: Both selectedtops and searchedpizza are null
   if (!selectedtops && !searchedpizza) {
     query = `
-      SELECT p.id, p.name, p.price, p.image, GROUP_CONCAT(t.name SEPARATOR ', ') AS toppings
-      FROM pizzas p
-      LEFT JOIN pizzaToppings pt ON p.id = pt.pizzaId
-      LEFT JOIN toppings t ON pt.toppingId = t.id
-      GROUP BY p.id, p.name, p.price, p.image
-      ORDER BY p.id;
+    SELECT p.id, p.name, p.price, p.image, GROUP_CONCAT(t.name SEPARATOR ', ') AS toppings
+    FROM pizzas p
+    LEFT JOIN pizzaToppings pt ON p.id = pt.pizzaId
+    LEFT JOIN toppings t ON pt.toppingId = t.id
+    WHERE p.id >= 1
+    GROUP BY p.id, p.name, p.price, p.image
     `;
     try {
       const [results] = await db.query(query);
