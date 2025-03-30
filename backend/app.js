@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ const addPizzaRoute = require('./routes/addPizzas');
 const pizzasRoute = require('./routes/pizzas');
 const allSizesRoutes = require('./routes/allsizes')
 const customPizzas = require('./routes/customPizzas')
+const resetPasswordRoutes = require('./routes/resetPassword');
 
 
 const app = express();
@@ -29,6 +31,11 @@ app.use(cors({
   optionsSuccessStatus: 204
 }));
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../src/components'));
+app.use(express.static(path.join(__dirname, '../src/components')));
+app.use(express.static(path.join(__dirname, '../src/assets')));
+
 app.use(bodyParser.json());
 
 app.use(authRoutes);
@@ -41,6 +48,7 @@ app.use('/admin', pizzasRoute);
 app.use(adminRoutes);
 app.use(orderRoutes); 
 app.use('/admin', addPizzaRoute);
+app.use(resetPasswordRoutes);
 
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
