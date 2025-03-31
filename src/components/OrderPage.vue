@@ -48,6 +48,7 @@ export default {
     let orderedPizzas = ref([]);
     const orderFullPrice = 0;
     const costumePizzaPrice = 0;
+    const activePayment = ref("default");
     const activeSection = ref("pizzaink");
     // Alapértéknek adjuk a "Kiszállítás"-t
     const selectedOption = ref("Kiszállítás"); // Alapérték
@@ -97,6 +98,15 @@ export default {
       selectedSize.value = "noSizeSelected"
     };
 
+    const setActivePayment = (payment) => {
+      activePayment.value = payment
+      const paymentMethodSelectDiv = document.getElementById('selectPaymentMethod')
+      const backModal = document.getElementById('backModal')
+
+      backModal.classList.remove('hidden')
+      paymentMethodSelectDiv.classList.add('hidden')
+    }
+
     const addPizza = async (pizzaName, pizzaPrice, toppingsName) => {
       try {
         const response = await axios.post(
@@ -145,7 +155,9 @@ export default {
       isModalOpen,
       addPizza,
       selectedSize,
-      amount
+      amount,
+      activePayment,
+      setActivePayment
     };
   },
   computed: {
@@ -524,12 +536,19 @@ export default {
       this.orderedPizzas = [];
       this.orderFullPrice = 0;
       this.closeModal();
-      //location.reload()
+      location.reload()
     },
 
     openModal() {
       isModalOpen.value = true;
       document.body.style.overflow = "hidden";
+    },
+
+    backModal() {
+      const backModal = document.getElementById('backModal')
+
+      backModal.classList.add('hidden')
+      this.activePayment = 'default'
     },
 
     closeModal() {
@@ -552,6 +571,7 @@ export default {
       }
       isModalOpen.value = false;
       document.body.style.overflow = "auto";
+      this.activePayment = 'default'
     },
   },
 };
@@ -599,10 +619,10 @@ export default {
             </div>
 
             <div>
-              <h3>Rátét</h3>
+              <h3>Feltétek</h3>
               <select id="costumeSelectedToppings" class="disabled">
                 <option value="noToppingSelected" selected disabled>
-                  Válassz rátétet!
+                  Válassz feltétet!
                 </option>
                 <option v-for="top in toppings" :value="top.id">
                   {{ top.name }}
@@ -779,7 +799,8 @@ export default {
                   </div>
                 </div>
               </div>
-              <div>
+
+              <div class="modal">
                 <a
                   href="#"
                   title="Close"
@@ -788,41 +809,63 @@ export default {
                   >Bezárás</a
                 >
 
-                <h1>Fizetés</h1>
+                <a
+                  title="Back"
+                  id="backModal"
+                  class="modal-back hidden"
+                  @click="backModal()"
+                  >«Vissza</a
+                >
 
-                <p>NE ADD MEG A KÁRTYA ADATAID</p>
-
-                <div class="cardDeatils">
-                  <label>Kártyaszám</label>
-                  <br />
-                  <input
-                    type="number"
-                    placeholder="0123 4567 8910"
-                    maxlength="14"
-                    min="0"
-                  />
-                  <br />
-                  <label>Kártyahordozó</label>
-                  <br />
-                  <input type="text" placeholder="Michael Jackson" />
-                  <br />
-                  <label>Lejárati év</label>
-                  <br />
-                  <select name="lejaratHonap" id="">
-                    <option value="1">1</option>
-                  </select>
-                  <select name="lejaratEv" id="">
-                    <option value="2016">2016</option>
-                  </select>
-                  <br />
-                  <label>CVC</label>
-                  <br />
-                  <input type="number" placeholder="696" maxlength="3" />
+                <div class="selectPaymentMethod" id="selectPaymentMethod" v-if="activePayment === 'default'">
+                  <h1>Válassz fizetési módot</h1>
+                  <div class="buttons">
+                    <button @click="setActivePayment('cash')">Készpénz</button>
+                    <button @click="setActivePayment('card')">Bankkártya</button>
+                  </div>
                 </div>
-                <div class="fizetes">
-                  <button class="fizetesGomb" @click="submitOrder()">
-                    Fizetés
-                  </button>
+
+                <div class="inCashPayment" v-if="activePayment === 'card'">
+                  <h4>Készpénzel a futtárnak vagy az étteremnél kasszánál való átvételnél történik.</h4>
+                  <button @click="">Rendelés leadása</button>
+                </div>
+
+                <div class="cardPayment" v-if="activePayment === 'cash'">
+                  <h1>Fizetés</h1>
+                  <p>ADD MEG A KÁRTYA ADATAID</p>
+
+                  <div class="cardDeatils">
+                    <label>Kártyaszám</label>
+                    <br />
+                    <input
+                      type="number"
+                      placeholder="0123 4567 8910"
+                      maxlength="14"
+                      min="0"
+                    />
+                    <br />
+                    <label>Kártyahordozó</label>
+                    <br />
+                    <input type="text" placeholder="Michael Jackson" />
+                    <br />
+                    <label>Lejárati év</label>
+                    <br />
+                    <select name="lejaratHonap" id="">
+                      <option value="1">1</option>
+                    </select>
+                    <select name="lejaratEv" id="">
+                      <option value="2016">2016</option>
+                    </select>
+                    <br />
+                    <label>CVC</label>
+                    <br />
+                    <input type="number" placeholder="696" maxlength="3" />
+                  </div>
+                  <div class="fizetes">
+                    <button class="fizetesGomb" @click="submitOrder()">
+                      Fizetés
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

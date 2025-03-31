@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 .hidden {
   opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  margin: 0;
 }
 
 .delivery .disabled {
@@ -680,6 +684,19 @@
   cursor: pointer;
 }
 
+.cardPayment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inCashPayment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /*RESPONSIVE*/
 /* Mobile devices (up to 768px) */
 @media (max-width: 768px) {
@@ -904,6 +921,16 @@
 }
 
 /*MODAL STYLE*/
+
+.modal {
+  height: auto;
+  width: 400px;
+}
+
+.modal h1 {
+  display: flex;
+  justify-content: center;
+}
 .modal-window {
   position: fixed;
   background-color: rgba(255, 255, 255, 0.25);
@@ -922,11 +949,12 @@
     pointer-events: auto;
   }
   & > div {
+    width: auto;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 2em;
+    padding: 4em;
     background-color: #FCC77C;
     border-radius: 25px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -938,6 +966,12 @@
     font-size: 150%;
     margin: 0 0 15px;
     font-weight: 800;
+  }
+  h4 {
+    margin-top: 20px;
+  }
+  a {
+    cursor: pointer;
   }
   p {
     color: #56390067;
@@ -971,7 +1005,9 @@
   }
 
   .rendeles {
-    left: 68%;
+    border: #684400 2px solid;
+    padding: 10px;
+    left: 81%;
     background-color: #FCC77C;
   }
 
@@ -983,6 +1019,23 @@
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  button {
+    margin-top: 20px;
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    &:hover {
+      background-color: #E5A242;
+      transition: ease 0.2s;
+      transform: scale(1.02);
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-evenly;
   }
 }
 
@@ -999,5 +1052,23 @@
   text-decoration: none;
   &:hover {
     color: black;
+    transform: scale(1.05);
+  }
+}
+
+.modal-back{
+  color: #684400;
+  font-weight: 800;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: center;
+  width: 70px;
+  text-decoration: none;
+  &:hover {
+    color: black;
+    transform: scale(1.05);
   }
 }
