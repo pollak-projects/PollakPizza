@@ -4,6 +4,7 @@
   background-color: #ffb64f;
   border-radius: 50px;
   padding: 30px;
+  height: auto;
 }
 
 .model-content h2 {
@@ -33,7 +34,7 @@
 
 .checkbox-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the column width */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjust the column width */
   grid-auto-rows: min-content; /* Automatically adjust row height */
   gap: 20px; /* Space between items */
 }
@@ -54,9 +55,15 @@
 }
 /*táblák mutatása*/
 
+.leftSide {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .row {
   display: flex;
-  height: 200px;
+  height: auto;
 }
 
 body {

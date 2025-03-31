@@ -377,7 +377,7 @@ onMounted(() => {
           <div class="model-content">
             <h2>Új pizza hozzáadása</h2>
             <div class="row">
-              <div style="width: 50%;">
+              <div class="leftSide">
                 <div class="pizzaAddInputs">
                   <label for="name" style="flex: 1;">Név:</label>
                   <input id="name" v-model="pizzaName" style="flex: 2;" />
@@ -392,7 +392,7 @@ onMounted(() => {
                 </div>
               </div>
 
-              <div style="width: 50%;">
+              <div class="leftSide">
               <label for="toppings"><strong>Feltétek:</strong></label>
               <div class="checkbox-container">
                 <div
