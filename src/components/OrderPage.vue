@@ -826,7 +826,7 @@ export default {
                 </div>
 
                 <div class="inCashPayment" v-if="activePayment === 'card'">
-                  <h4>Készpénzel a futtárnál vagy az étteremben a kasszánál történik.</h4>
+                  <h4>Készpénzel a futtárnál vagy az étteremnél a kasszánál történik.</h4>
                   <button @click="">Rendelés leadása</button>
                 </div>
 

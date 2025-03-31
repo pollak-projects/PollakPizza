@@ -697,6 +697,160 @@
   align-items: center;
 }
 
+/*MODAL STYLE*/
+
+.modal {
+  height: auto;
+  width: 400px;
+}
+
+.modal h1 {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-window {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.25);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  &:target {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  & > div {
+    width: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 4em;
+    background-color: #FCC77C;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  header {
+    font-weight: bold;
+  }
+  h1 {
+    font-size: 150%;
+    margin: 0 0 15px;
+    font-weight: 800;
+  }
+  h4 {
+    margin-top: 20px;
+  }
+  a {
+    cursor: pointer;
+  }
+  p {
+    color: #56390067;
+    font-size: 69%;
+    margin-bottom: 20px;
+  }
+  input, select {
+    border: #684400 solid 2px;
+    background-color: #f7ad4575;
+    color: #684400;
+    border-radius: 25px;
+    width: auto;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  input:focus-visible {
+    outline: none;
+  }
+
+  select:focus-visible {
+    outline: none;
+  }
+
+  input::placeholder, select::placeholder {
+    color: #68440075;
+  }
+  .cardDetails {
+    width: 100%;
+  }
+
+  .rendeles {
+    border: #684400 2px solid;
+    padding: 10px;
+    margin-left: 370px;
+    background-color: #FCC77C;
+  }
+
+  .osszeg {
+    margin: 5px 40px 0px 10px;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  button {
+    margin-top: 20px;
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    &:hover {
+      background-color: #E5A242;
+      transition: ease 0.2s;
+      transform: scale(1.02);
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-evenly;
+  }
+}
+
+.modal-close {
+  color: #684400;
+  font-weight: 800;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+  &:hover {
+    color: black;
+    transform: scale(1.05);
+  }
+}
+
+.modal-back{
+  color: #684400;
+  font-weight: 800;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: center;
+  width: 70px;
+  text-decoration: none;
+  &:hover {
+    color: black;
+    transform: scale(1.05);
+  }
+}
+
 /*RESPONSIVE*/
 /* Mobile devices (up to 768px) */
 @media (max-width: 768px) {
@@ -755,7 +909,7 @@
 
   .item {
     width: 150px; /* 200px */
-    height: 200px; /* 300px */
+    height: 210px; /* 300px */
     border-radius: 25px;
   }
 
@@ -776,7 +930,9 @@
   }
 
   .item select {
-    color: black;
+    height: 15px;
+    width: 60px;
+    font-size: 9px;
   }
 
   .item option {
@@ -785,10 +941,12 @@
 
   .ar {
     font-size: 10px;
+    margin-top: 0;
   }
 
   .ratet {
     font-size: 10px;
+    margin-bottom: 0;
   }
 
   .targy h4 {
@@ -918,157 +1076,17 @@
     width: 80%;
     font-size: 16px;
   }
-}
 
-/*MODAL STYLE*/
-
-.modal {
-  height: auto;
-  width: 400px;
-}
-
-.modal h1 {
-  display: flex;
-  justify-content: center;
-}
-.modal-window {
-  position: fixed;
-  background-color: rgba(255, 255, 255, 0.25);
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s;
-  &:target {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  & > div {
-    width: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 4em;
-    background-color: #FCC77C;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-  header {
-    font-weight: bold;
+  .modal-window {
+    & > div {
+      padding: 2em;
+    }
   }
   h1 {
-    font-size: 150%;
-    margin: 0 0 15px;
-    font-weight: 800;
-  }
-  h4 {
-    margin-top: 20px;
-  }
-  a {
-    cursor: pointer;
-  }
-  p {
-    color: #56390067;
-    font-size: 69%;
-    margin-bottom: 20px;
-  }
-  input, select {
-    border: #684400 solid 2px;
-    background-color: #f7ad4575;
-    color: #684400;
-    border-radius: 25px;
-    width: auto;
-    margin-bottom: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  input:focus-visible {
-    outline: none;
-  }
-
-  select:focus-visible {
-    outline: none;
-  }
-
-  input::placeholder, select::placeholder {
-    color: #68440075;
-  }
-  .cardDetails {
-    width: 100%;
+    font-size: 16px;
   }
 
   .rendeles {
-    border: #684400 2px solid;
-    padding: 10px;
-    left: 81%;
-    background-color: #FCC77C;
-  }
-
-  .osszeg {
-    margin: 5px 40px 0px 10px;
-  }
-
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  button {
-    margin-top: 20px;
-    width: auto;
-    padding-left: 20px;
-    padding-right: 20px;
-    &:hover {
-      background-color: #E5A242;
-      transition: ease 0.2s;
-      transform: scale(1.02);
-    }
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-evenly;
-  }
-}
-
-.modal-close {
-  color: #684400;
-  font-weight: 800;
-  line-height: 50px;
-  font-size: 80%;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 70px;
-  text-decoration: none;
-  &:hover {
-    color: black;
-    transform: scale(1.05);
-  }
-}
-
-.modal-back{
-  color: #684400;
-  font-weight: 800;
-  line-height: 50px;
-  font-size: 80%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  text-align: center;
-  width: 70px;
-  text-decoration: none;
-  &:hover {
-    color: black;
-    transform: scale(1.05);
+    margin-left: 0;
   }
 }
