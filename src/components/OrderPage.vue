@@ -796,9 +796,10 @@ export default {
                   <label>Kártyaszám</label>
                   <br />
                   <input
-                    type="text"
+                    type="number"
                     placeholder="0123 4567 8910"
                     maxlength="14"
+                    min="0"
                   />
                   <br />
                   <label>Kártyahordozó</label>
@@ -816,7 +817,7 @@ export default {
                   <br />
                   <label>CVC</label>
                   <br />
-                  <input type="text" placeholder="696" maxlength="3" />
+                  <input type="number" placeholder="696" maxlength="3" />
                 </div>
                 <div class="fizetes">
                   <button class="fizetesGomb" @click="submitOrder()">
