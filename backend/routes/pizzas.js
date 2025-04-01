@@ -119,7 +119,7 @@ LEFT JOIN
 LEFT JOIN 
     toppings t ON pt.toppingId = t.id
 WHERE 
-    LOWER(p.name) LIKE LOWER(?)
+    LOWER(p.name) LIKE LOWER(?) AND p.id >= 1
 GROUP BY 
     p.id, p.name, p.price, p.image;
 
@@ -129,7 +129,6 @@ GROUP BY
   
     try {
       const [results] = await db.query(query, params);
-      console.log(results)
       return res.json(results); 
     } catch (err) {
       console.error("Error fetching pizzas:", err);
