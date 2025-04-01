@@ -508,6 +508,8 @@ export default {
       toast.success("Köszönjük a rendelésed!");
       this.orderedPizzas = [];
       this.orderFullPrice = 0;
+      this.selectedOption = "Kiszállítás"
+      document.getElementById('address').value = ""
       this.closeModal();
     },
 

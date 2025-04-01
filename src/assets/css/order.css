@@ -735,7 +735,6 @@
     pointer-events: auto;
   }
   & > div {
-    width: auto;
     position: absolute;
     top: 50%;
     left: 50%;
