@@ -536,12 +536,15 @@ export default {
       this.orderedPizzas = [];
       this.orderFullPrice = 0;
       this.closeModal();
-      location.reload()
     },
 
     openModal() {
       isModalOpen.value = true;
       document.body.style.overflow = "hidden";
+      const addressInput = document.getElementById('address')
+      if (this.selectedOption === "Kiszállítás" & addressInput.value == "") {
+        addressInput.value = userData.value.address
+      }
     },
 
     backModal() {
@@ -820,14 +823,14 @@ export default {
                 <div class="selectPaymentMethod" id="selectPaymentMethod" v-if="activePayment === 'default'">
                   <h1>Válassz fizetési módot</h1>
                   <div class="buttons">
-                    <button @click="setActivePayment('cash')">Készpénz</button>
-                    <button @click="setActivePayment('card')">Bankkártya</button>
+                    <button @click="setActivePayment('cash')">Bankkártya</button>
+                    <button @click="setActivePayment('card')">Készpénz</button>
                   </div>
                 </div>
 
                 <div class="inCashPayment" v-if="activePayment === 'card'">
-                  <h4>Készpénzel a futtárnál vagy az étteremnél a kasszánál történik.</h4>
-                  <button @click="">Rendelés leadása</button>
+                  <h4>Készpénzel fizetés a futtárnál vagy az étteremben a kasszánál történik.</h4>
+                  <button @click="submitOrder()">Rendelés leadása</button>
                 </div>
 
                 <div class="cardPayment" v-if="activePayment === 'cash'">
