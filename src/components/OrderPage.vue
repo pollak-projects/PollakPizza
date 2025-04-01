@@ -96,6 +96,8 @@ export default {
       selectedToppings.value.length = 0
       amount.value = 0
       selectedSize.value = "noSizeSelected"
+      const menuSection = document.getElementById("title");
+      menuSection.scrollIntoView({ behavior: "smooth" });
     };
 
     const setActivePayment = (payment) => {
@@ -214,11 +216,6 @@ export default {
     }
   },
   methods: {
-    scrollToMenu() {
-      const menuSection = document.getElementById("menu");
-      menuSection.scrollIntoView({ behavior: "smooth" });
-    },
-
     updatePrice(pizza) {
       const selectedSize = this.sizes.find(
         (size) => size.id === pizza.selectedSize
@@ -557,7 +554,7 @@ export default {
 
 <template>
   <div class="app">
-    <div class="title">
+    <div class="title" id="title">
       <h1>Rendelés</h1>
     </div>
 
