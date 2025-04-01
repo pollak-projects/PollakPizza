@@ -9,7 +9,12 @@
   .pl {
     padding-left: 2dvw;
     font-weight: bold;
-    padding-right: 3dvw;
+    padding-right: 0.5dvw;
+    cursor: pointer;
+  }
+
+  .flex p {
+    cursor: pointer;
   }
   
   .flex {
