@@ -457,7 +457,10 @@ export default {
 
       // Itt lehetne API hívást tenni rendelés küldéséhez
       this.orderedPizzas.forEach((pizza) => {
+        let costumePizzaPrice = 0;
+        let regularPizzaPrice = 0;
         if (pizza.name == "Egyedi pizza") {
+          costumePizzaPrice += pizza.price
           try {
             axios.post(
               "http://localhost:3061/orders/addCostume",
@@ -468,7 +471,7 @@ export default {
                 sizeId: pizza.size,
                 address: address,
                 userPhone: userData.value.phonenumber,
-                finalPrice: this.orderFullPrice,
+                finalPrice: costumePizzaPrice,
                 toppings: pizza.toppings,
               },
               {
@@ -477,24 +480,11 @@ export default {
                 },
               }
             );
-            console.log("userid:" + userData.value.id);
-            console.log("pizzaid:" + pizza.id);
-            console.log("pizzaNum:" + pizza.count);
-            console.log("sizeid:" + pizza.size);
-            console.log("address:" + address);
-            console.log("userphone:" + userData.value.phonenumber);
-            console.log(
-              "finalprice:" +
-                "Pizza ár:" +
-                pizza.price * pizza.count +
-                "Méret ár:" +
-                pizza.count * pizza.sizePrice
-            );
-            console.log("-------------------------");
           } catch (err) {
             console.error("Error adding order:", err);
           }
         } else {
+          regularPizzaPrice += pizza.price
           try {
             axios.post(
               "http://localhost:3061/orders/add",
@@ -505,7 +495,7 @@ export default {
                 sizeId: pizza.size,
                 address: address,
                 userPhone: userData.value.phonenumber,
-                finalPrice: this.orderFullPrice,
+                finalPrice: regularPizzaPrice,
               },
               {
                 headers: {
@@ -513,20 +503,6 @@ export default {
                 },
               }
             );
-            console.log("userid:" + userData.value.id);
-            console.log("pizzaid:" + pizza.id);
-            console.log("pizzaNum:" + pizza.count);
-            console.log("sizeid:" + pizza.size);
-            console.log("address:" + address);
-            console.log("userphone:" + userData.value.phonenumber);
-            console.log(
-              "finalprice:" +
-                "Pizza ár:" +
-                pizza.price * pizza.count +
-                "Méret ár:" +
-                pizza.count * pizza.sizePrice
-            );
-            console.log("-------------------------");
           } catch (err) {
             console.error("Error adding order:", err);
           }
