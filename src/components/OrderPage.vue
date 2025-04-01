@@ -287,9 +287,6 @@ export default {
           (p) => p.name === pizza.name && p.size === pizzaSizeValue
         );
 
-        console.log("price" + pizzaSizePrice);
-        console.log("sizevalue:" + pizzaSizeValue);
-
         if (pizzIndex !== -1) {
           this.orderedPizzas[pizzIndex].count += 1;
           this.orderFullPrice += Number(pizza.price) * Number(pizzaSizePrice);

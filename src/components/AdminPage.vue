@@ -393,7 +393,7 @@ onMounted(() => {
               </div>
 
               <div class="leftSide">
-              <label for="toppings"><strong>Feltétek:</strong></label>
+              <h3 for="toppings"><strong>Feltétek:</strong></h3>
               <div class="checkbox-container">
                 <div
                   v-for="topping in toppings"

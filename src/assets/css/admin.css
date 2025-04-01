@@ -45,6 +45,11 @@
   align-items: flex-start; /* Left-align the content */
 }
 
+.checkbox-wrapper-18:hover {
+  transition: ease 0.1s;
+  transform: scale(1.05);
+}
+
 /*táblák mutatása*/
 .hidden {
   display: none;
@@ -160,6 +165,11 @@ select {
 .admin-page h1 {
   text-align: center;
   margin-bottom: 20px;
+}
+
+.admin-page h3 {
+  text-align: left;
+  margin-bottom: 5px;
 }
 
 .admin-page::-webkit-scrollbar {
