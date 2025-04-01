@@ -1055,7 +1055,11 @@
 
   /*Egyedi pizza rendelés dizájn*/
   .costume {
-    width: 200px;
+    width: 300px;
+    height: auto;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .costume h3 {
@@ -1064,12 +1068,14 @@
 
   .costume select {
     width: 80%;
+    height: 40px;
     margin-left: 20px;
     font-size: 14px;
   }
 
   .costume input {
     width: 80%;
+    height: 40px;
     margin-left: 20px;
     font-size: 14px;
     text-align: center;
@@ -1085,6 +1091,7 @@
   .costume button {
     width: 80%;
     font-size: 16px;
+    height: 40px;
   }
 
   .modal-window {
