@@ -28,8 +28,8 @@ const goToProfile = () => {
 };
 
 // Navigate to cart page
-const goToCart = () => {
-  router.push("/cart");
+const goToHome = () => {
+  router.push("/");
 };
 
 // Navigate to admin page
@@ -60,8 +60,8 @@ const toggleMobileMenu = () => {
   <nav class="navbar">
     <div class="logo">
       <div class="flex">
-        <p class="pl">POLLAK</p>
-        <p>PIZZA</p>
+        <p class="pl" @click="goToHome()">POLLAK</p>
+        <p @click="goToHome()">PIZZA</p>
       </div>
     </div>
     <div class="nav-links" :class="{ 'nav-active': isMobileMenuOpen }">
