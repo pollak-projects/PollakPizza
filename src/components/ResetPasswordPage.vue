@@ -2,15 +2,21 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
 
 const route = useRoute();
 const router = useRouter();
 const newPassword = ref("");
+const newPasswordcheck = ref("");
 const isLoading = ref(false);
 const message = ref("");
+const toast = useToast();
 
 const handleResetPassword = async () => {
-  try {
+  console.log(newPassword, newPasswordcheck)
+  if(newPassword.value == newPasswordcheck.value)
+  {
+    try {
     isLoading.value = true;
     const response = await axios.post(
       `http://localhost:3061/reset-password/${route.params.token}`,
@@ -28,6 +34,10 @@ const handleResetPassword = async () => {
   } finally {
     isLoading.value = false;
   }
+  }else{
+    toast.error("A két jelszó nem egyezik!")
+  }
+
 };
 </script>
 
@@ -45,11 +55,20 @@ const handleResetPassword = async () => {
           placeholder="Új jelszó"
           required
         />
+        <label for="newPasswordcheck">Jelszó Ismét</label>
+        <input
+          type="password"
+          id="newPasswordcheck"
+          v-model="newPasswordcheck"
+          minlength="8"
+          placeholder="Jelszó ismét"
+          required
+        />
         <button type="submit" class="submit-button" :disabled="isLoading">
           Jelszó Visszaállítása
         </button>
       </form>
-      <div v-if="message" class="message">{{ message }}</div>
+      <div v-if="message" class="message" style="color: black;">{{ message }}</div>
     </div>
   </body>
 </template>

@@ -112,6 +112,7 @@ const goToOrder = () => {
               </li>
             </ul>
           </div>
+          <div class="breaker">
           <div v-for="topping in toppings" :key="topping.id">
             <div>
               <div class="checkbox-wrapper-18">
@@ -135,6 +136,7 @@ const goToOrder = () => {
               </div>
             </div>
           </div>
+        </div>
           <button
             class="searchbtn"
             @click="fetchPizzas(selectedToppings, searchQuery)"

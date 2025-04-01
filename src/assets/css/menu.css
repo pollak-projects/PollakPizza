@@ -456,4 +456,8 @@
 .text-content p{
   font-size: 2dvh;
 }
+.breaker{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+}
   }
