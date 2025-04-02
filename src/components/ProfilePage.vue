@@ -1,4 +1,3 @@
-<!-- eslint-disable no-unused-vars -->
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
@@ -11,6 +10,7 @@ const userData = ref({
   phonenumber: ''
 });
 const originalUserData = ref({});
+const userOrders = ref([]); // Felhasználó rendelései
 const errorMessage = ref('');
 const router = useRouter();
 const isEditing = ref(false);
@@ -26,7 +26,7 @@ const getUserData = async () => {
         },
       });
       userData.value = response.data;
-      originalUserData.value = { ...response.data }; // Mentjük az eredeti adatokat
+      originalUserData.value = { ...response.data };
     } catch (error) {
       console.error('Error fetching profile:', error);
       errorMessage.value = 'Hiba történt az adatok lekérése során.';
@@ -42,6 +42,24 @@ const getUserData = async () => {
   }
 };
 
+const getUserOrders = async () => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    try {
+      const response = await axios.get('http://localhost:3061/user-orders', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      userOrders.value = response.data;
+    } catch (error) {
+      console.error('Error fetching user orders:', error);
+      errorMessage.value = 'Hiba történt a rendelések lekérése során.';
+    }
+  }
+};
+
 const updateUserData = async () => {
   const token = localStorage.getItem('token');
 
@@ -52,30 +70,29 @@ const updateUserData = async () => {
 
   if (token) {
     try {
-      const response = await axios.put('http://localhost:3061/profile', userData.value, {
+      await axios.put('http://localhost:3061/profile', userData.value, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       });
-      // Sikeres frissítés után újra lekérjük az adatokat
-      await getUserData();  // Újra lekérjük a legfrissebb adatokat
+      await getUserData();
       isEditing.value = false;
-      errorMessage.value = '';  // Töröljük az esetleges hibát
+      errorMessage.value = '';
     } catch (error) {
       console.error('Error updating profile:', error);
       errorMessage.value = 'Hiba történt az adatok frissítése során. Próbáld újra!';
-      
     }
   }
 };
 
 const cancelEdit = () => {
-  userData.value = { ...originalUserData.value }; // Visszaállítjuk az eredeti adatokat
+  userData.value = { ...originalUserData.value };
   isEditing.value = false;
 };
 
 onMounted(() => {
   getUserData();
+  getUserOrders(); // Rendelések lekérése
 });
 </script>
 
@@ -112,6 +129,19 @@ onMounted(() => {
         <button type="submit" class="save-button">Mentés</button>
         <button type="button" class="cancel-button" @click="cancelEdit">Mégse</button>
       </form>
+    </div>
+    <!-- Rendelések mindig láthatóak -->
+    <div v-if="userOrders.length > 0" class="orders-container">
+      <h2>Rendeléseid</h2>
+      <ul>
+        <li v-for="order in userOrders" :key="order.id">
+          <p><strong>Pizza:</strong> {{ order.pizzaName }}</p>
+          <p><strong>Méret:</strong> {{ order.size }}</p>
+          <p><strong>Darabszám:</strong> {{ order.pizzaNum }}</p>
+          <p><strong>Ár:</strong> {{ order.finalPrice }} Ft</p>
+          <p><strong>Státusz:</strong> {{ order.status }}</p>
+        </li>
+      </ul>
     </div>
     <div v-if="errorMessage" class="error-message">
       <p>{{ errorMessage }}</p>

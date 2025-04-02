@@ -17,6 +17,7 @@ const pizzasRoute = require('./routes/pizzas');
 const allSizesRoutes = require('./routes/allsizes')
 const customPizzas = require('./routes/customPizzas')
 const resetPasswordRoutes = require('./routes/resetPassword');
+const userOrder = require('./routes/user-orders');
 
 
 const app = express();
@@ -49,6 +50,7 @@ app.use(adminRoutes);
 app.use(orderRoutes); 
 app.use('/admin', addPizzaRoute);
 app.use(resetPasswordRoutes);
+app.use(userOrder);
 
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
