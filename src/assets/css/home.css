@@ -120,6 +120,7 @@
     height: 100%;
     object-fit: cover;
     z-index: 0;
+    box-shadow: 10px 5px 5px red;
   }
   
   .textvideo .text-content {
@@ -139,9 +140,24 @@
     word-wrap: break-word;
   }
   .specialfont {
-    background: linear-gradient(to right, #5f8d37, #bb3e00);
+    background: linear-gradient(to right, #bb3e00, #5f8d37);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 200% auto; /* Makes the gradient larger for smooth animation */
+    animation: gradientLoop 1s ease infinite; /* Apply animation */
+  }
+  
+  @keyframes gradientLoop {
+    0% {
+      background-position: 0% 50%; /* Start position: red-green */
+    }
+    50% {
+      background-position: 100% 50%; /* Middle position: green-red */
+    }
+    100% {
+      background-position: 0% 50%; /* End position: back to red-green */
+    }
   }
 
   .orderbtn {
@@ -150,6 +166,7 @@
     border-radius: 40px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     padding: 0.7dvw 3.3dvw;
+    transition: ease 0.2s;
   }
   body {
     margin: 0;
@@ -225,6 +242,12 @@
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     padding: 0.7dvw 3.3dvw;
     color: #f7ad45;
+    transition: ease 0.2s;
+  }
+  .menubtn:hover{
+    background-color: rgba(247, 173, 69, 0.25);
+    color: #ffaa32;
+    transform: scale(1.01);
   }
   .orderbtn {
     background-color: #f7ad45;
@@ -232,6 +255,11 @@
     border-radius: 40px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     padding: 0.7dvw 3.3dvw;
+  }
+  .orderbtn:hover{
+    border-color: #fda62c;
+    background-color: #fda62c;
+    transform: scale(1.01);
   }
   body {
     margin: 0;
@@ -242,7 +270,7 @@
   .hero {
     background-size: cover;
     background-position: center;
-    height: 30dvw;
+    height: 40dvw;
     display: flex;
     padding-left: 22dvw;
     align-items: center;
@@ -251,8 +279,8 @@
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
   .hero img {
-    height: 25dvw;
-    width: 25dvw;
+    height: 30dvw;
+    width: 30dvw;
     border-radius: 30px;
     padding-left: 3dvw;
   }
@@ -269,18 +297,18 @@
   }
   
   .hero p {
-    font-size: 1dvw;
+    font-size: 1.2dvw;
     margin-bottom: 2dvw;
     padding-left: 2.5dvw;
     color: #9b6600;
-    font-weight: bold;
+    font-weight: 500;
   }
   
   .hero button {
     font-size: 1dvw;
     cursor: pointer;
     margin: 0.2dvw;
-    font-weight: bold;
+    font-weight: 500;
     margin-left: 2dvw;
   }
 
