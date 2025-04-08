@@ -1,9 +1,21 @@
+a {
+  padding: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .profileimg {
     width: 3dvw;
     height: 3dvw;
     cursor: pointer;
     float: right;
     border-radius: 500%;
+  }
+
+  .right {
+    background-color: #FFF1D7;
+    border-radius: 50px;
+    color: #F7AD45 !important;
   }
   
   .pl {
@@ -15,16 +27,14 @@
 
   .flex p {
     cursor: pointer;
+    font-size: 30px;
+    color: #FFF1D7;
   }
   
   .flex {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .flex p {
-    font-size: 30px;
   }
   
   .navbar {
@@ -46,14 +56,13 @@
   
   .nav-links a,
   .nav-links .router-link-active {
-    color: white;
+    color: #FFF1D7;
     text-decoration: none;
   }
   
   .nav-links .active {
-    font-weight: bold;
-    color: #f1f1f1;
-    border-bottom: 2px solid #f1f1f1;
+    color: #FFF1D7;
+    border-bottom: 2px solid #FFF1D7;
   }
   
   .profile-container {
