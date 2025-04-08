@@ -514,7 +514,6 @@ export default {
 
     openModal() {
       isModalOpen.value = true;
-      document.body.style.overflow = "hidden";
       const addressInput = document.getElementById('address')
       if (this.selectedOption === "Kiszállítás" & addressInput.value == "") {
         addressInput.value = userData.value.address
@@ -740,114 +739,106 @@ export default {
               <a
                 class="fizetesGomb disabled"
                 id="fizetes"
-                href="#openModal"
+                href="#Fizetes"
                 @click="openModal()"
                 >Fizetés</a
               >
             </div>
-
-            <!-- MODAL -->
-            <div v-if="isModalOpen" id="openModal" class="modal-window">
-              <div class="rendeles">
-                <h1>Rendelésed</h1>
-                <hr />
-                <div class="orders row" id="orders">
-                  <div
-                    class="rendelesRow"
-                    v-for="pizza in orderedPizzas"
-                    :key="pizza.id"
-                  >
-                    <div class="targy half">
-                      <h4>
-                        <span id="darab">{{ pizza.count }}</span
-                        >x {{ pizza.name }}
-                      </h4>
-                    </div>
-                    <div class="szamol half">
-                      <h4>{{ pizza.price }} Ft</h4>
-                    </div>
-                  </div>
+          </div>
+        </SlideInFromRight>
+        <!-- MODAL -->
+        <div v-if="isModalOpen" id="Fizetes" class="modal-window">
+          <div class="rendeles">
+            <h1>Rendelésed</h1>
+            <hr />
+            <div class="orders row" id="orders">
+              <div
+                class="rendelesRow"
+                v-for="pizza in orderedPizzas"
+                :key="pizza.id"
+              >
+                <div class="targy half">
+                  <h4>
+                    <span id="darab">{{ pizza.count }}</span
+                    >x {{ pizza.name }}
+                  </h4>
                 </div>
-                <hr />
-                <div>
-                  <div class="osszeg">
-                    <h3>ÖSSZESEN:</h3>
-                    <h3>{{ orderFullPrice }} Ft</h3>
-                  </div>
-                </div>
-              </div>
-
-              <div class="modal">
-                <a
-                  href="#"
-                  title="Close"
-                  class="modal-close"
-                  @click="closeModal()"
-                  >Bezárás</a
-                >
-
-                <a
-                  title="Back"
-                  id="backModal"
-                  class="modal-back hidden"
-                  @click="backModal()"
-                  >«Vissza</a
-                >
-
-                <div class="selectPaymentMethod" id="selectPaymentMethod" v-if="activePayment === 'default'">
-                  <h1>Válassz fizetési módot</h1>
-                  <div class="buttons">
-                    <button @click="setActivePayment('cash')">Bankkártya</button>
-                    <button @click="setActivePayment('card')">Készpénz</button>
-                  </div>
-                </div>
-
-                <div class="inCashPayment" v-if="activePayment === 'card'">
-                  <h4>Készpénzel fizetés a futtárnál vagy az étteremben a kasszánál történik.</h4>
-                  <button @click="submitOrder()">Rendelés leadása</button>
-                </div>
-
-                <div class="cardPayment" v-if="activePayment === 'cash'">
-                  <h1>Fizetés</h1>
-                  <p>ADD MEG A KÁRTYA ADATAID</p>
-
-                  <div class="cardDeatils">
-                    <label>Kártyaszám</label>
-                    <br />
-                    <input
-                      type="number"
-                      placeholder="0123 4567 8910"
-                      maxlength="14"
-                      min="0"
-                    />
-                    <br />
-                    <label>Kártyahordozó</label>
-                    <br />
-                    <input type="text" placeholder="Michael Jackson" />
-                    <br />
-                    <label>Lejárati év</label>
-                    <br />
-                    <select name="lejaratHonap" id="">
-                      <option value="1">1</option>
-                    </select>
-                    <select name="lejaratEv" id="">
-                      <option value="2016">2016</option>
-                    </select>
-                    <br />
-                    <label>CVC</label>
-                    <br />
-                    <input type="number" placeholder="696" maxlength="3" />
-                  </div>
-                  <div class="fizetes">
-                    <button class="fizetesGomb" @click="submitOrder()">
-                      Fizetés
-                    </button>
-                  </div>
+                <div class="szamol half">
+                  <h4>{{ pizza.price }} Ft</h4>
                 </div>
               </div>
             </div>
+            <hr />
+            <div>
+              <div class="osszeg">
+                <h3>ÖSSZESEN:</h3>
+                <h3>{{ orderFullPrice }} Ft</h3>
+              </div>
+            </div>
           </div>
-        </SlideInFromRight>
+
+          <div class="modal">
+            <a
+              href="#"
+              title="Close"
+              class="modal-close"
+              @click="closeModal()"
+              >Bezárás</a>
+            <a
+              title="Back"
+              id="backModal"
+              class="modal-back hidden"
+              @click="backModal()"
+              >«Vissza</a>
+            <div class="selectPaymentMethod" id="selectPaymentMethod" v-if="activePayment === 'default'">
+              <h1>Válassz fizetési módot</h1>
+              <div class="buttons">
+                <button @click="setActivePayment('cash')">Bankkártya</button>
+                <button @click="setActivePayment('card')">Készpénz</button>
+              </div>
+            </div>
+            <div class="inCashPayment" v-if="activePayment === 'card'">
+              <h4>Készpénzel fizetés a futtárnál vagy az étteremben a kasszánál történik.</h4>
+              <button @click="submitOrder()">Rendelés leadása</button>
+            </div>
+            <div class="cardPayment" v-if="activePayment === 'cash'">
+              <h1>Fizetés</h1>
+              <p>ADD MEG A KÁRTYA ADATAID</p>
+              <div class="cardDeatils">
+                <label>Kártyaszám</label>
+                <br />
+                <input
+                  type="number"
+                  placeholder="0123 4567 8910"
+                  maxlength="14"
+                  min="0"
+                />
+                <br />
+                <label>Kártyahordozó</label>
+                <br />
+                <input type="text" placeholder="Michael Jackson" />
+                <br />
+                <label>Lejárati év</label>
+                <br />
+                <select name="lejaratHonap" id="">
+                  <option value="1">1</option>
+                </select>
+                <select name="lejaratEv" id="">
+                  <option value="2016">2016</option>
+                </select>
+                <br />
+                <label>CVC</label>
+                <br />
+                <input type="number" placeholder="696" maxlength="3" />
+              </div>
+              <div class="fizetes">
+                <button class="fizetesGomb" @click="submitOrder()">
+                  Fizetés
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

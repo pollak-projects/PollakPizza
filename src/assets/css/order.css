@@ -276,7 +276,7 @@
 .delivery select:hover {
   transform: scale(1.01);
   transition: ease 0.1s;
-  color: rgb(110, 74, 1);
+  color: #5e3d00;
 }
 
 .delivery select:focus {
@@ -719,6 +719,7 @@
 }
 
 .modal-window {
+  color: #684400;
   position: fixed;
   background-color: rgba(255, 255, 255, 0.25);
   top: 0;
@@ -808,6 +809,11 @@
   }
 
   button {
+    background-color: #F7AD45;
+    color: #684400;
+    border-radius: 25px;
+    padding: 10px;
+    font-weight: 800;
     margin-top: 20px;
     width: auto;
     padding-left: 20px;
@@ -822,6 +828,18 @@
   .buttons {
     display: flex;
     justify-content: space-evenly;
+  }
+
+  label{
+    font-weight: 800;
+    margin-right: 10px;
+  }
+
+  hr {
+    background-color: #684400;
+    height: 2px;
+    border: 0;
+    width: 100%;
   }
 }
 
