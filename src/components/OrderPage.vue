@@ -13,8 +13,6 @@ const userData = ref({
   phonenumber: "",
 });
 
-const isModalOpen = ref(false);
-
 const toast = useToast();
 
 const getUserData = async () => {
@@ -52,6 +50,8 @@ export default {
     const costumePizzaPrice = 0;
     const activePayment = ref("default");
     const activeSection = ref("pizzaink");
+    const isModalOpen = ref(false);
+    const activeModalSection = ref('choose');
     // Alapértéknek adjuk a "Kiszállítás"-t
     const selectedOption = ref("Kiszállítás"); // Alapérték
 
@@ -136,6 +136,40 @@ export default {
       }
     };
 
+    function openModal() {
+      isModalOpen.value = true; // Use .value to update the ref
+      activeModalSection.value = 'choose'; // Reset to the initial screen
+    }
+
+    function closeModal() {
+      if (this.orderedPizzas.length < 1) {
+         //Létrehozzuk a megjelenő szöveget
+         const htmlElement = document.createElement("h4");
+         const htmlElementText = document.createTextNode(
+           "A rendelés megkezdéséhez adjon hozzá egy pizzát!"
+         );
+         htmlElement.appendChild(htmlElementText);
+         htmlElement.setAttribute("id", "nincsRendelesSzoveg");
+ 
+         //A diven belül megjelenítjük
+         const nincsRendelesSzovegDiv = document.getElementById(
+           "nincsRendelesSzovegDiv"
+         );
+         nincsRendelesSzovegDiv.appendChild(htmlElement);
+         document.getElementById("fizetes").classList.remove("enabled");
+         document.getElementById("fizetes").classList.add("disabled");
+       }
+      isModalOpen.value = false; // Use .value to update the ref
+    }
+
+    function selectOption(option) {
+      activeModalSection.value = option; // Set the active section to the selected option
+    }
+
+    function goBackToChoose() {
+      activeModalSection.value = 'choose'; // Go back to the "choose" screen
+    }
+
     onMounted(() => {
       getUserData();
       fetchPizzasAndSizes();
@@ -161,7 +195,12 @@ export default {
       selectedSize,
       amount,
       activePayment,
-      setActivePayment
+      setActivePayment,
+      activeModalSection,
+      openModal,
+      closeModal,
+      selectOption,
+      goBackToChoose,
     };
   },
   computed: {
@@ -215,7 +254,7 @@ export default {
       } else {
         orderButton?.classList.add('disabled');
       }
-    }
+    },
   },
   methods: {
     updatePrice(pizza) {
@@ -511,44 +550,6 @@ export default {
       document.getElementById('address').value = ""
       this.closeModal();
     },
-
-    openModal() {
-      isModalOpen.value = true;
-      const addressInput = document.getElementById('address')
-      if (this.selectedOption === "Kiszállítás" & addressInput.value == "") {
-        addressInput.value = userData.value.address
-      }
-    },
-
-    backModal() {
-      const backModal = document.getElementById('backModal')
-
-      backModal.classList.add('hidden')
-      this.activePayment = 'default'
-    },
-
-    closeModal() {
-      if (this.orderedPizzas.length < 1) {
-        //Létrehozzuk a megjelenő szöveget
-        const htmlElement = document.createElement("h4");
-        const htmlElementText = document.createTextNode(
-          "A rendelés megkezdéséhez adjon hozzá egy pizzát!"
-        );
-        htmlElement.appendChild(htmlElementText);
-        htmlElement.setAttribute("id", "nincsRendelesSzoveg");
-
-        //A diven belül megjelenítjük
-        const nincsRendelesSzovegDiv = document.getElementById(
-          "nincsRendelesSzovegDiv"
-        );
-        nincsRendelesSzovegDiv.appendChild(htmlElement);
-        document.getElementById("fizetes").classList.remove("enabled");
-        document.getElementById("fizetes").classList.add("disabled");
-      }
-      isModalOpen.value = false;
-      document.body.style.overflow = "auto";
-      this.activePayment = 'default'
-    },
   },
 };
 </script>
@@ -739,7 +740,6 @@ export default {
               <a
                 class="fizetesGomb disabled"
                 id="fizetes"
-                href="#Fizetes"
                 @click="openModal()"
                 >Fizetés</a
               >
@@ -747,96 +747,68 @@ export default {
           </div>
         </SlideInFromRight>
         <!-- MODAL -->
-        <div v-if="isModalOpen" id="Fizetes" class="modal-window">
-          <div class="rendeles">
-            <h1>Rendelésed</h1>
-            <hr />
-            <div class="orders row" id="orders">
-              <div
-                class="rendelesRow"
-                v-for="pizza in orderedPizzas"
-                :key="pizza.id"
-              >
-                <div class="targy half">
-                  <h4>
-                    <span id="darab">{{ pizza.count }}</span
-                    >x {{ pizza.name }}
-                  </h4>
-                </div>
-                <div class="szamol half">
-                  <h4>{{ pizza.price }} Ft</h4>
-                </div>
+        <div v-if="isModalOpen" id="Fizetes" :class="['modal-window', { 'is-visible': isModalOpen }]">
+          <div class="modal-content">
+            <!-- Option Selection Screen -->
+            <div v-if="activeModalSection === 'choose'">
+              <h2>Válassz fizetési lehetőséget</h2>
+              <div class="modal-buttons">
+                <button @click="selectOption('option1')">Bankkártya</button>
+                <button @click="selectOption('option2')">Készpénz</button>
               </div>
             </div>
-            <hr />
-            <div>
-              <div class="osszeg">
-                <h3>ÖSSZESEN:</h3>
-                <h3>{{ orderFullPrice }} Ft</h3>
+          
+            <!-- Option 1 Content -->
+            <div v-if="activeModalSection === 'option1'" class="payment-form">
+              <h2>Bankkártyás fizetés</h2>
+              <div class="form-group">
+              <label for="cardNumber">Kártyaszám</label>
+              <input id="cardNumber" type="text" placeholder="Kártyaszám" />
+              </div>
+              <div class="form-group">
+              <label for="expiryDate">Lejárati dátum</label>
+              <div class="form-group-row">
+                <input id="expiryYear" type="text" placeholder="Év" />
+                <input id="expiryMonth" type="text" placeholder="Hónap" />
+              </div>
+              </div>
+              <div class="form-group">
+              <label for="securityCode">Biztonsági kód</label>
+              <input id="securityCode" type="text" placeholder="Biztonsági kód" />
+              </div>
+              <div class="form-group">
+              <label for="cardName">Név a kártyán</label>
+              <input id="cardName" type="text" placeholder="Név a kártyán" />
+              </div>
+              <div class="form-actions">
+              <button @click="submitOrder()" class="modal-finish">Fizetés</button>
+              <button @click="goBackToChoose" class="modal-back">Vissza</button>
               </div>
             </div>
-          </div>
-
-          <div class="modal">
-            <a
-              href="#"
-              title="Close"
-              class="modal-close"
-              @click="closeModal()"
-              >Bezárás</a>
-            <a
-              title="Back"
-              id="backModal"
-              class="modal-back hidden"
-              @click="backModal()"
-              >«Vissza</a>
-            <div class="selectPaymentMethod" id="selectPaymentMethod" v-if="activePayment === 'default'">
-              <h1>Válassz fizetési módot</h1>
-              <div class="buttons">
-                <button @click="setActivePayment('cash')">Bankkártya</button>
-                <button @click="setActivePayment('card')">Készpénz</button>
+          
+            <!-- Option 2 Content -->
+            <div v-if="activeModalSection === 'option2'" class="cash-payment">
+              <h2>Készpénzes fizetés</h2>
+              <div class="cash-payment-details">
+                <p v-if="selectedOption === 'Kiszállítás'">
+                  Köszönjük rendelését! A futár hamarosan útnak indul.<br />
+                  <strong>Fizetés:</strong> készpénzben a futárnál.<br />
+                  Kérjük, készítse elő a fizetendő összeget!
+                </p>
+                <p v-else-if="selectedOption === 'Átvétel az étteremben'">
+                  Köszönjük rendelését! Az ételt az étteremben veheti át.<br />
+                  <strong>Fizetés:</strong> készpénzben az átvételkor.<br />
+                  Várjuk Önt szeretettel!
+                </p>
+              </div>
+              <div class="form-actions">
+                <button class="modal-finish" @click="submitOrder()">Rendelés leadása</button>
+                <button class="modal-back" @click="goBackToChoose">Vissza</button>
               </div>
             </div>
-            <div class="inCashPayment" v-if="activePayment === 'card'">
-              <h4>Készpénzel fizetés a futtárnál vagy az étteremben a kasszánál történik.</h4>
-              <button @click="submitOrder()">Rendelés leadása</button>
-            </div>
-            <div class="cardPayment" v-if="activePayment === 'cash'">
-              <h1>Fizetés</h1>
-              <p>ADD MEG A KÁRTYA ADATAID</p>
-              <div class="cardDeatils">
-                <label>Kártyaszám</label>
-                <br />
-                <input
-                  type="number"
-                  placeholder="0123 4567 8910"
-                  maxlength="14"
-                  min="0"
-                />
-                <br />
-                <label>Kártyahordozó</label>
-                <br />
-                <input type="text" placeholder="Michael Jackson" />
-                <br />
-                <label>Lejárati év</label>
-                <br />
-                <select name="lejaratHonap" id="">
-                  <option value="1">1</option>
-                </select>
-                <select name="lejaratEv" id="">
-                  <option value="2016">2016</option>
-                </select>
-                <br />
-                <label>CVC</label>
-                <br />
-                <input type="number" placeholder="696" maxlength="3" />
-              </div>
-              <div class="fizetes">
-                <button class="fizetesGomb" @click="submitOrder()">
-                  Fizetés
-                </button>
-              </div>
-            </div>
+          
+            <!-- Close Button -->
+            <button class="modal-close" @click="closeModal">Bezárás</button>
           </div>
         </div>
       </div>

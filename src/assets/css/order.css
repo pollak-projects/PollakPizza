@@ -707,175 +707,99 @@
 }
 
 /*MODAL STYLE*/
-
-.modal {
-  height: auto;
-  width: 400px;
-}
-
-.modal h1 {
+.modal-window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.modal-window {
-  color: #684400;
-  position: fixed;
-  background-color: rgba(255, 255, 255, 0.25);
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s;
-  &:target {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  & > div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 4em;
-    background-color: #FCC77C;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-  header {
-    font-weight: bold;
-  }
-  h1 {
-    font-size: 150%;
-    margin: 0 0 15px;
-    font-weight: 800;
-  }
-  h4 {
-    margin-top: 20px;
-  }
-  a {
-    cursor: pointer;
-  }
-  p {
-    color: #56390067;
-    font-size: 69%;
-    margin-bottom: 20px;
-  }
-  input, select {
-    border: #684400 solid 2px;
-    background-color: #f7ad4575;
-    color: #684400;
-    border-radius: 25px;
-    width: auto;
-    margin-bottom: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
+.modal-content {
+  position: relative;
+  background: #FCC77C;
+  color: #9B6600;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-  input:focus-visible {
-    outline: none;
-  }
+.modal-content .form-group-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
 
-  select:focus-visible {
-    outline: none;
-  }
+.modal-content .form-group-row input{
+  width: 50%;
+}
 
-  input::placeholder, select::placeholder {
-    color: #68440075;
-  }
-  .cardDetails {
-    width: 100%;
-  }
+.modal-content input {
+  background-color: #F7AD45;
+  color: #5e3d00;
+  border-radius: 25px;
+  padding: 5px;
+  margin: 10px;
+}
 
-  .rendeles {
-    border: #684400 2px solid;
-    padding: 10px;
-    margin-left: 370px;
-    background-color: #FCC77C;
-  }
+.modal-content input:focus-visible {
+  outline: none;
+}
 
-  .osszeg {
-    margin: 5px 40px 0px 10px;
-  }
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
 
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  button {
-    background-color: #F7AD45;
-    color: #684400;
-    border-radius: 25px;
-    padding: 10px;
-    font-weight: 800;
-    margin-top: 20px;
-    width: auto;
-    padding-left: 20px;
-    padding-right: 20px;
-    &:hover {
-      background-color: #E5A242;
-      transition: ease 0.2s;
-      transform: scale(1.02);
-    }
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-evenly;
-  }
-
-  label{
-    font-weight: 800;
-    margin-right: 10px;
-  }
-
-  hr {
-    background-color: #684400;
-    height: 2px;
-    border: 0;
-    width: 100%;
-  }
+.modal-buttons button {
+  background-color: #F7AD45;
+  border-radius: 25px;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .modal-close {
-  color: #684400;
-  font-weight: 800;
-  line-height: 50px;
-  font-size: 80%;
   position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 70px;
-  text-decoration: none;
-  &:hover {
-    color: black;
-    transform: scale(1.05);
-  }
+  top: 10px;
+  right: 10px;
+  color: #754c00;
+  font-weight: 800;
+  z-index: 10;
 }
 
-.modal-back{
-  color: #684400;
-  font-weight: 800;
-  line-height: 50px;
-  font-size: 80%;
+.modal-back {
   position: absolute;
-  left: 0;
-  top: 0;
-  text-align: center;
-  width: 70px;
-  text-decoration: none;
-  &:hover {
-    color: black;
-    transform: scale(1.05);
-  }
+  top: 10px;
+  left: 10px;
+  color: #754c00;
+  font-weight: 800;
+  z-index: 10;
 }
+
+.modal-finish {
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 25px;
+  background-color: #F7AD45;
+  color: #FFF1D7;
+  font-weight: 800;
+}
+
+
+/*MODAL STYLE END*/
+
 
 /*RESPONSIVE*/
 /* Mobile devices (up to 768px) */
