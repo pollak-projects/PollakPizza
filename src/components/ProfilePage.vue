@@ -105,8 +105,8 @@ onMounted(() => {
         <p><strong>Email:</strong> {{ userData.email }}</p>
         <p><strong>Cím:</strong> {{ userData.address }}</p>
         <p><strong>Telefonszám:</strong> {{ userData.phonenumber }}</p>
+        <button class="edit-button" @click="isEditing = true">Szerkesztés</button>
       </div>
-      <button class="edit-button" @click="isEditing = true">Szerkesztés</button>
     </div>
     <div v-if="isEditing" class="edit-form-container">
       <form @submit.prevent="updateUserData" class="edit-form">
@@ -126,13 +126,15 @@ onMounted(() => {
           <label for="phonenumber">Telefonszám:</label>
           <input type="text" id="phonenumber" v-model="userData.phonenumber" />
         </div>
-        <button type="submit" class="save-button">Mentés</button>
-        <button type="button" class="cancel-button" @click="cancelEdit">Mégse</button>
+        <div class="row">
+          <button type="button" class="cancel-button" @click="cancelEdit">Mégse</button>
+          <button type="submit" class="save-button">Mentés</button>
+        </div>
       </form>
     </div>
     <!-- Rendelések mindig láthatóak -->
+    <h2>Rendeléseid</h2>
     <div v-if="userOrders.length > 0" class="orders-container">
-      <h2>Rendeléseid</h2>
       <ul>
         <li v-for="order in userOrders" :key="order.id">
           <p><strong>Pizza:</strong> {{ order.pizzaName }}</p>
