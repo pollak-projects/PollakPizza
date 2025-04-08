@@ -261,7 +261,6 @@ p {
   }
   
   .hero {
-    position: relative;
     background-size: cover;
     background-position: center;
     height: 40dvw;
