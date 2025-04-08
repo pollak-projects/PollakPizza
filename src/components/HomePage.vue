@@ -41,10 +41,10 @@ const goToMenu = () => {
 
 <template>
   <div class="home">
-    <section class="hero">
+    <section class="hero" :class="{ scrolled: isScrolled }">
       <div class="hero-content">
         <div class="text-content">
-          <h2>Pollak Pizza Home</h2>
+            <h2>Pollak Pizza Home</h2>
           <p>
             Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
             pizzák <span class="specialfont"> otthon(r)a. </span>
@@ -71,7 +71,9 @@ const goToMenu = () => {
     </section>
 
     <section id="menu" class="menu">
-      <h2>Étlapunk</h2>
+      <FadeIn>
+        <h2>Étlapunk</h2>
+      </FadeIn>
       <div class="pizza-list">
         <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
           <div class="card-top">
