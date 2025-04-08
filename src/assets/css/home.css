@@ -11,6 +11,11 @@ p {
   font-weight: 400;
 }
 
+.row {
+  display: flex;
+  gap: 20px;
+}
+
   .previewpizza {
     max-height: 185px;
     width: 100%;

@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import SlideInFromLeft from '@/components/SlideInFromLeft.vue';
+import SlideInFromRight from '@/components/SlideInFromRight.vue';
 
 const pizzas = ref([]);
 
@@ -41,18 +43,33 @@ const goToMenu = () => {
 
 <template>
   <div class="home">
-    <section class="hero" :class="{ scrolled: isScrolled }">
+    <section class="hero">
       <div class="hero-content">
         <div class="text-content">
+
+          <SlideInFromLeft>
             <h2>Pollak Pizza Home</h2>
-          <p>
-            Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
-            pizzák <span class="specialfont"> otthon(r)a. </span>
-          </p>
-          <button @click="goToOrder" class="orderbtn">Rendelés most</button>
-          <button @click="goToMenu" class="menubtn">Irány az étlap</button>
+          
+            <p>
+              Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
+              pizzák <span class="specialfont"> otthon(r)a. </span>
+            </p>
+          </SlideInFromLeft>
+
+          <div class="row">
+            <SlideInFromLeft>
+              <button @click="goToOrder" class="orderbtn">Rendelés most</button>
+            </SlideInFromLeft>
+          
+            <SlideInFromLeft delay="0.2s">
+              <button @click="goToMenu" class="menubtn">Irány az étlap</button>
+            </SlideInFromLeft>
+          </div>
+
         </div>
-        <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
+        <SlideInFromRight>
+          <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
+        </SlideInFromRight>
       </div>
     </section>
 
@@ -61,24 +78,31 @@ const goToMenu = () => {
         <source src="../assets/video/bgvideo.mp4" type="video/mp4" />
       </video>
       <div class="text-img">
-        <p>
-          A Pollak Pizza a legjobb alapanyagokkal és hagyományos receptúrával
-          készíti el ínycsiklandó pizzáit. Gyors rendelés, friss ízek, és gyors
-          kiszállítás – mindez azért, hogy a legjobb pizzát élvezhesd
-          otthonodban!
-        </p>
+        <SlideInFromLeft>
+          <p>
+            A Pollak Pizza a legjobb alapanyagokkal és hagyományos receptúrával
+            készíti el ínycsiklandó pizzáit. Gyors rendelés, friss ízek, és gyors
+            kiszállítás – mindez azért, hogy a legjobb pizzát élvezhesd
+            otthonodban!
+          </p>
+        </SlideInFromLeft>
       </div>
     </section>
 
     <section id="menu" class="menu">
-      <FadeIn>
+
+      <SlideInFromLeft>
         <h2>Étlapunk</h2>
-      </FadeIn>
+      </SlideInFromLeft>
+
       <div class="pizza-list">
-        <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
+
+        <SlideInFromLeft v-for="pizza in pizzas" :key="pizza.id" class="pizza-card" :delay="`${0.1 * pizzas.indexOf(pizza)}s`">
+
           <div class="card-top">
             <img class="previewpizza" :src="pizza.image" alt="Pizza" />
           </div>
+
           <div class="card-bottom">
             <h3>{{ pizza.name }}</h3>
             <p>{{ pizza.toppings }}</p>
@@ -87,16 +111,18 @@ const goToMenu = () => {
             </span>
             <button @click="goToOrder">Rendelj most!</button>
           </div>
-        </div>
+
+        </SlideInFromLeft>
+
       </div>
     </section>
   </div>
   <section class="getToOrder">
-    <div>
+    <SlideInFromLeft>
       <h1>Rendelés</h1>
       <p>A rendelésed megkezdéséhez, kattints a gombra!</p>
       <button @click="goToOrder">Rendelés megkezdése</button>
-    </div>
+    </SlideInFromLeft>
   </section>
 </template>
 

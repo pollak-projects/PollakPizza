@@ -3,6 +3,8 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { id } from "vuetify/locale";
 import { useToast } from "vue-toastification";
+import SlideInFromLeft from '@/components/SlideInFromLeft.vue';
+import SlideInFromRight from '@/components/SlideInFromRight.vue';
 
 const userData = ref({
   name: "",
@@ -580,7 +582,7 @@ export default {
       <div class="leftSide">
         <!-- Egyedi rendelés-->
         <div v-if="activeSection === 'egyedi'" class="row">
-          <div class="costume">
+          <SlideInFromLeft class="costume">
             <div>
               <h3>Méret</h3>
               <select id="costumeSelectedSize" v-model="selectedSize">
@@ -633,12 +635,12 @@ export default {
             <div class="center">
               <button id="addPizza" @click="orderPizza()" class="disabled">Hozzáadás</button>
             </div>
-          </div>
+          </SlideInFromLeft>
         </div>
 
         <!-- Pizzáink -->
         <div v-if="activeSection === 'pizzaink'" id="menu" class="menuList row">
-          <div v-for="pizza in filteredPizzas" :key="pizza.id" class="item">
+          <SlideInFromLeft :delay="`${0.1 * filteredPizzas.indexOf(pizza)}s`" v-for="pizza in filteredPizzas" :key="pizza.id" class="item">
             <img class="previewpizza" :src="pizza.image" alt="Pizza" />
             <h4>{{ pizza.name }}</h4>
             <p class="ratet">{{ pizza.toppings }}</p>
@@ -656,13 +658,13 @@ export default {
             <button @click="orderPizza(pizza)" id="pizzaHozzad">
               Hozzáadás
             </button>
-          </div>
+          </SlideInFromLeft>
         </div>
       </div>
 
       <!-- Jobb oldal -->
       <div class="rightSide">
-        <div class="delivery">
+        <SlideInFromRight class="delivery">
           <select
             name="atvetel"
             id="atvetel"
@@ -679,9 +681,9 @@ export default {
             id="address"
             :class="{ disabled: isDisabled }"
           />
-        </div>
+        </SlideInFromRight>
 
-        <div class="checkout">
+        <SlideInFromRight delay="0.1s" class="checkout">
           <div class="orderDetails">
             <h3>Rendelésed</h3>
             <hr />
@@ -845,7 +847,7 @@ export default {
               </div>
             </div>
           </div>
-        </div>
+        </SlideInFromRight>
       </div>
     </div>
   </div>
