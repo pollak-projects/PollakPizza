@@ -74,13 +74,17 @@ const goToMenu = () => {
       <h2>Étlapunk</h2>
       <div class="pizza-list">
         <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
-          <img class="previewpizza" :src="pizza.image" alt="Pizza" />
-          <h3>{{ pizza.name }}</h3>
-          <p>{{ pizza.toppings }}</p>
-          <p>
-            <strong>{{ pizza.price }} Ft</strong>
-          </p>
-          <button @click="goToOrder">Rendelj most!</button>
+          <div class="card-top">
+            <img class="previewpizza" :src="pizza.image" alt="Pizza" />
+          </div>
+          <div class="card-bottom">
+            <h3>{{ pizza.name }}</h3>
+            <p>{{ pizza.toppings }}</p>
+            <span>
+              <strong>{{ pizza.price }} Ft</strong>
+            </span>
+            <button @click="goToOrder">Rendelj most!</button>
+          </div>
         </div>
       </div>
     </section>
@@ -88,9 +92,7 @@ const goToMenu = () => {
   <section class="getToOrder">
     <div>
       <h1>Rendelés</h1>
-      <br />
       <p>A rendelésed megkezdéséhez, kattints a gombra!</p>
-      <br />
       <button @click="goToOrder">Rendelés megkezdése</button>
     </div>
   </section>
