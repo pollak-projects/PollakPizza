@@ -16,6 +16,7 @@
   cursor: default;
   background-color: #a77838;
   color: rgb(199, 179, 148);
+  transition: ease 0.5s;
 }
 
 .fizetes .disabled {
@@ -23,6 +24,7 @@
   cursor: default;
   background-color: #a77838;
   color: rgb(199, 179, 148);
+  transition: ease 0.5s;
 }
 
 .costume .disabled {
@@ -30,6 +32,7 @@
   cursor: default;
   background-color: #a77838;
   color: rgb(199, 179, 148);
+  transition: ease 0.5s;
 }
 
 .app {
@@ -239,7 +242,7 @@
   text-overflow: ellipsis;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: ease 0.5s;
 }
 
 .delivery input::placeholder {
