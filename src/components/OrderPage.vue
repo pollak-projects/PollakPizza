@@ -583,7 +583,7 @@ export default {
         <!-- Egyedi rendelés-->
         <div v-if="activeSection === 'egyedi'" class="row">
           <SlideInFromLeft class="costume">
-            <div>
+            <div class="form">
               <h3>Méret</h3>
               <select id="costumeSelectedSize" v-model="selectedSize">
                 <option value="noSizeSelected" selected disabled>
@@ -595,7 +595,7 @@ export default {
               </select>
             </div>
 
-            <div>
+            <div class="form">
               <h3>Feltétek</h3>
               <select id="costumeSelectedToppings" class="disabled">
                 <option value="noToppingSelected" selected disabled>
@@ -617,7 +617,7 @@ export default {
               </div>
             </div>
 
-            <div>
+            <div class="form">
               <h3>Mennyiség</h3>
               <input
                 class="disabled"

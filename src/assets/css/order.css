@@ -553,7 +553,8 @@
   margin-bottom: 5px;
 }
 
-.costume[data-v-b4d62984] {
+.costume {
+  width: 32dvw;
   display: flex;
   background-color: #FCC77C;
   height: 569px;
@@ -583,7 +584,7 @@
 }
 
 .costume input {
-  width: 45dvw;
+  width: 27dvw;
   max-width: 550px;
   height: 50px;
   border-radius: 75px;
@@ -593,16 +594,20 @@
   font-size: 24px;
   font-weight: 700;
   padding-left: 20px;
+  margin-left: 20px;
 }
 
 .costume input:focus-visible{
   outline: none;
 }
 
+.form {
+  width: 100%;
+}
 
 .costume select {
   /*STYLE*/
-  width: 45dvw;
+  width: 26dvw;
   max-width: 550px;
   height: 50px;
   border-radius: 75px;
@@ -673,7 +678,6 @@
 }
 
 .center {
-  margin: auto;
   display: flex;
   justify-content: center;
 }
@@ -684,6 +688,7 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  margin-left: 20px;
 }
 
 .costume p.ures {
@@ -829,11 +834,28 @@
     padding: 30px 0px 30px 0;
   }
 
+  .costume {
+    width: 70dvw;
+  }
   .costume select {
     margin: auto;
+    width: 100%;
+  }
+
+  .costume input {
+    margin: 0;
+    width: 100%;
+  }
+
+  .costume button {
+    width: 200px;
   }
 
   .menuList {
     height: 810px;
+  }
+
+  .kivalasztottSor {
+    margin: 0;
   }
 }
