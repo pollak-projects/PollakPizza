@@ -19,11 +19,12 @@
       <div class="footer-section social">
         <p>Ha a pizzánk levettek a lábadról, akkor kövess be minket:</p>
         <div class="icons">
-          <img src="../assets/image/facebook.png" alt="Facebook" class="icon" />
+          <img src="../assets/image/facebook.png" alt="Facebook" class="icon" draggable="false"/>
           <img
             src="../assets/image/instagram.png"
             alt="Instagram"
             class="icon"
+            draggable="false"
           />
         </div>
       </div>

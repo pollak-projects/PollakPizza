@@ -68,7 +68,7 @@ const goToMenu = () => {
 
         </div>
         <SlideInFromRight>
-          <img src="../assets/image/pizzaimg.png" alt="Pizza Img" />
+          <img src="../assets/image/pizzaimg.png" alt="Pizza Img" draggable="false"/>
         </SlideInFromRight>
       </div>
     </section>
@@ -100,7 +100,7 @@ const goToMenu = () => {
         <SlideInFromLeft v-for="pizza in pizzas" :key="pizza.id" class="pizza-card" :delay="`${0.1 * pizzas.indexOf(pizza)}s`">
 
           <div class="card-top">
-            <img class="previewpizza" :src="pizza.image" alt="Pizza" />
+            <img class="previewpizza" :src="pizza.image" alt="Pizza" draggable="false"/>
           </div>
 
           <div class="card-bottom">

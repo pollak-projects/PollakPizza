@@ -70,7 +70,7 @@ const toggleMobileMenu = () => {
       <router-link to="/order" :class="{ active: route.path === '/order' }" class="right">Rendelés</router-link>
     </div>
     <div class="profile-container" @click="toggleDropdown">
-      <img src="../assets/image/usericon.png" alt="user img" class="profileimg" />
+      <img src="../assets/image/usericon.png" alt="user img" class="profileimg" draggable="false"/>
       <div v-if="isDropdownVisible" class="dropdown-menu">
         <p @click="goToProfile">Profil</p>
         <p v-if="isAdmin" @click="goToAdmin">Admin</p> <!-- Admin link -->

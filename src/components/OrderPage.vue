@@ -640,7 +640,7 @@ export default {
 
         <!-- Pizzáink -->
         <div v-if="activeSection === 'pizzaink'" id="menu" class="menuList row">
-          <SlideInFromLeft :delay="`${0.1 * filteredPizzas.indexOf(pizza)}s`" v-for="pizza in filteredPizzas" :key="pizza.id" class="item">
+          <SlideInFromLeft :delay="`${0.1 * filteredPizzas.indexOf(pizza)}s`" v-for="pizza in filteredPizzas" :key="pizza.id" class="item" draggable="false">
             <img class="previewpizza" :src="pizza.image" alt="Pizza" />
             <h4>{{ pizza.name }}</h4>
             <p class="ratet">{{ pizza.toppings }}</p>

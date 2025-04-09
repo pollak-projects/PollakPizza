@@ -285,6 +285,7 @@ onMounted(() => {
           alt=""
           @click="showUsers()"
           id="usersArrow"
+          draggable="false"
         />
       </div>
       <div class="users hidden" id="usersDiv">
@@ -327,6 +328,7 @@ onMounted(() => {
           alt=""
           @click="showPizzas()"
           id="pizzasArrow"
+          draggable="false"
         />
       </div>
       <div class="pizzas hidden" id="pizzasDiv">

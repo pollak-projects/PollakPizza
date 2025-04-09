@@ -86,7 +86,7 @@ const goToOrder = () => {
             <h2>Pollak Pizza Étlap</h2>
             <p>Ezen az oldalon megtalálják kinálatunkat!</p>
           </div>
-          <img class="frontimg" src="../assets/image/pizzaimg.png" alt="Pizza Img" />
+          <img class="frontimg" src="../assets/image/pizzaimg.png" alt="Pizza Img" draggable="false"/>
         </div>
       </section>
 
@@ -146,7 +146,7 @@ const goToOrder = () => {
         </div>
         <div class="pizza-list">
           <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
-            <img class="previewpizza" :src="pizza.image" alt="Pizza" />
+            <img class="previewpizza" :src="pizza.image" alt="Pizza" draggable="false"/>
             <h3>{{ pizza.name }}</h3>
             <p>{{ pizza.toppings }}</p>
             <p>

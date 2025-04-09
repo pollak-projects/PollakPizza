@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import SlideInFromRight from './SlideInFromRight.vue';
+import SlideInFromLeft from './SlideInFromLeft.vue';
 
 const userData = ref({
   name: '',
@@ -98,16 +100,16 @@ onMounted(() => {
 
 <template>
   <div class="profile-container">
-    <h1 class="profile-title">Profil adatok</h1>
-    <div v-if="userData && !isEditing">
+    <SlideInFromLeft v-if="userData && !isEditing">
       <div class="profile-data">
+        <h1 class="profile-title">Profil adatok</h1>
         <p><strong>Felhasználónév:</strong> {{ userData.name }}</p>
         <p><strong>Email:</strong> {{ userData.email }}</p>
         <p><strong>Cím:</strong> {{ userData.address }}</p>
         <p><strong>Telefonszám:</strong> {{ userData.phonenumber }}</p>
         <button class="edit-button" @click="isEditing = true">Szerkesztés</button>
       </div>
-    </div>
+    </SlideInFromLeft>
     <div v-if="isEditing" class="edit-form-container">
       <form @submit.prevent="updateUserData" class="edit-form">
         <div>
@@ -128,13 +130,13 @@ onMounted(() => {
         </div>
         <div class="row">
           <button type="button" class="cancel-button" @click="cancelEdit">Mégse</button>
-          <button type="submit" class="save-button">Mentés</button>
+          <button type="submit" class="save-button" @click="updateUserData">Mentés</button>
         </div>
       </form>
     </div>
     <!-- Rendelések mindig láthatóak -->
-    <h2>Rendeléseid</h2>
-    <div v-if="userOrders.length > 0" class="orders-container">
+    <SlideInFromRight v-if="userOrders.length > 0" class="orders-container" delay="0.6s">
+      <h1 class="order-title">Rendeléseid</h1>
       <ul>
         <li v-for="order in userOrders" :key="order.id">
           <p><strong>Pizza:</strong> {{ order.pizzaName }}</p>
@@ -144,7 +146,7 @@ onMounted(() => {
           <p><strong>Státusz:</strong> {{ order.status }}</p>
         </li>
       </ul>
-    </div>
+    </SlideInFromRight>
     <div v-if="errorMessage" class="error-message">
       <p>{{ errorMessage }}</p>
     </div>
