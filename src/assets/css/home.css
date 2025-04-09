@@ -16,6 +16,10 @@ p {
   gap: 20px;
 }
 
+section {
+  min-height: 100vh;
+}
+
   .previewpizza {
     max-height: 185px;
     width: 100%;
@@ -178,12 +182,21 @@ p {
     word-wrap: break-word;
   }
   .specialfont {
-    background: linear-gradient(to right, #bb3e00, #5f8d37);
+    background: linear-gradient(to right, #bb3e00, #5f8d37, #bb3e00);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    background-size: 100% auto;
+    background-size: 200% auto;
     animation: moveGradient 4s linear infinite;
+  }
+
+  @keyframes moveGradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
   }
   
   body {
@@ -303,11 +316,11 @@ p {
   }
   
   .hero p {
-    font-size: 1.2dvw;
+    font-size: 1dvw;
+    letter-spacing: 1.5px;
     margin-bottom: 2dvw;
-    padding-left: 2.5dvw;
     color: #9b6600;
-    font-weight: 500;
+    font-weight: 400;
   }
   
   .hero button {

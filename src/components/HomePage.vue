@@ -51,8 +51,8 @@ const goToMenu = () => {
             <h2>Pollak Pizza Home</h2>
           
             <p>
-              Vékony tésztás pizzák, vastag tésztás pizzák, egyedi <br />
-              pizzák <span class="specialfont"> otthon(r)a. </span>
+              <span class="specialfont">Egyedi vagy klasszikus pizzák</span> – frissen, házhoz vagy elvitelre. <br>
+              Álmaid pizzája vagy a jól bevált kedvenc – a sütőnkből egyenesen hozzád.
             </p>
           </SlideInFromLeft>
 
