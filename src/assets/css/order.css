@@ -556,7 +556,8 @@
 .costume {
   background-color: #FCC77C;
   height: 569px;
-  width: 604px;
+  width: 55dvw;
+  max-width: 604px;
   border-radius: 50px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -578,7 +579,8 @@
 }
 
 .costume input {
-  width: 550px;
+  width: 45dvw;
+  max-width: 550px;
   height: 50px;
   border-radius: 75px;
   background-color: #FFD8A0;
@@ -597,7 +599,8 @@
 
 .costume select {
   /*STYLE*/
-  width: 550px;
+  width: 45dvw;
+  max-width: 550px;
   height: 50px;
   border-radius: 75px;
   background-color: #FFD8A0;
@@ -797,262 +800,7 @@
   font-weight: 800;
 }
 
-
 /*MODAL STYLE END*/
 
 
 /*RESPONSIVE*/
-/* Mobile devices (up to 768px) */
-@media (max-width: 768px) {
-  .app {
-    width: auto;
-    height: auto;
-  }
-
-  .container {
-    width: auto;
-    padding: 0px 10px 0px 10px;
-  }
-
-  .leftSide::-webkit-scrollbar {
-    width: 6px;
-}
-
-  .row {
-    justify-content: center;
-  }
-
-  .leftSide {
-    width: 60%;
-    height: 640px;
-  }
-
-  .rightSide {
-    width: 40%;
-  }
-  .title h1 {
-    font-size: 40px;
-  }
-
-  .menu {
-    width: 250px; /* 410px */
-    height: 50px;
-  }
-
-  .menubar {
-    width: 250px; /* 410px */
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .menubar li {
-    height: 30px;
-    width: 90px;
-    font-size: 12px;
-    display: flex;
-    white-space: pre;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .item {
-    width: 40%; /* 200px */
-    height: 0%; /* 300px */
-    border-radius: 25px;
-    padding-bottom: 10px;
-  }
-
-  .item img {
-    width: 100%; /* 200px */
-    height: 75px; /* 100px */
-    border-radius: 25px 25px 0px 0px;
-  }
-
-  .item button {
-    width: 65%; /* 100px */
-    height: 30px; /* 40px */
-    font-size: 12px;
-  }
-
-  .item h4 {
-    font-size: 12px;
-  }
-
-  .item select {
-    height: 15px;
-    width: 40%;
-    font-size: 9px;
-  }
-
-  .item option {
-    color: black;
-  }
-
-  .ar {
-    font-size: 10px;
-    margin-top: 0;
-  }
-
-  .ratet {
-    font-size: 10px;
-    margin-bottom: 0;
-  }
-
-  .targy h4 {
-    font-size: 0.625rem; /* 10px */
-  }
-
-  .szamol {
-    padding-right: 0;
-  }
-
-  .szamol h4 {
-    font-size: 0.625rem; /* 10px */
-  }
-
-  .szamolGombok {
-    width: 2.5rem; /* 40px */
-    height: 1.25rem; /* 20px */
-  }
-
-  .orderDetails button {
-    width: 15px;
-    height: 10px;
-    font-size: 11px;
-  }
-
-  .delivery {
-    height: 20%; /* 105px */
-    width: 80%; 
-    border-radius: 1.5625rem; /* 25px */
-  }
-
-  .delivery select {
-    height: 3.125rem; /* 50px */
-    width: 80%; /* 130px */
-    font-size: 12px;
-  }
-
-  .delivery input {
-    height: 3.125rem; /* 50px */
-    width: 80%; /* 130px */
-    font-size: 12px;
-  }
-
-  .iconCar {
-    background-size: 14px;
-    padding-left: 30px;
-  }
-
-  .iconWaypoint {
-    background-size: 14px;
-    padding-left: 30px;
-  }
-
-  .checkout {
-    width: 80%; 
-    height: 12.5rem; /* 200px */
-    border-radius: 1.5625rem; /* 25px */
-  }
-
-  .orderDetails h3 {
-    margin: auto;
-    margin-top: 0.625rem; /* 10px */
-    margin-bottom: 0.625rem; /* 10px */
-  }
-
-  .orders {
-    width: auto;
-    height: 3.125rem; /* 50px */
-  }
-
-  .nincsRendelesSzoveg {
-    font-size: 12px; /* 10px */
-  }
-
-  .szallitas {
-    margin: 0 0.625rem; /* 10px */
-    font-size: 0.625rem; /* 10px */
-  }
-
-  .osszeg {
-    margin: 0 0.625rem; /* 10px */
-    font-size: 0.625rem; /* 10px */
-  }
-
-  .total button {
-    width: 6.25rem; /* 100px */
-    height: 1.5625rem; /* 25px */
-    font-size: 0.875rem; /* 14px */
-  }
-
-  .fizetesGomb {
-    width: 6.25rem; /* 100px */
-    height: 1.5625rem; /* 25px */
-    font-size: 0.875rem; /* 14px */
-    width: 50%;
-  }
-
-  /*Egyedi pizza rendelés dizájn*/
-  .costume {
-    width: 300px;
-    height: auto;
-    padding-bottom: 15px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .costume h3 {
-    font-size: 20px;
-  }
-
-  .costume select {
-    width: 80%;
-    height: 40px;
-    margin-left: 20px;
-    font-size: 14px;
-  }
-
-  .costume input {
-    width: 80%;
-    height: 40px;
-    margin-left: 20px;
-    font-size: 14px;
-    text-align: center;
-    padding: 0;
-  }
-
-  .costume p {
-    margin: 0;
-    margin-top: 10px;
-    font-size: 10px;
-  }
-
-  .costume button {
-    width: 80%;
-    font-size: 16px;
-    height: 40px;
-  }
-
-  .modal-window {
-    & > div {
-      padding: 2em;
-    }
-  }
-  h1 {
-    font-size: 16px;
-  }
-
-  .rendeles {
-    margin-left: 0;
-  }
-}
-
-@media (min-width: 769px) {
-  .app {
-    width: auto;
-    height: auto;
-  }
-}
