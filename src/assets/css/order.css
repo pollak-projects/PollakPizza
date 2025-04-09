@@ -160,7 +160,7 @@
   width: 150px;
   height: 50px;
   border-radius: 75px;
-  color: #FFF1D7;
+  color: #5e3d00;
   font-weight: 800;
   font-size: 20px;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -426,6 +426,7 @@
   display: flex;
   justify-content: center;
   margin: auto;
+  padding-bottom: 10px;
 }
 
 .row {
@@ -552,13 +553,17 @@
   margin-bottom: 5px;
 }
 
-.costume {
+.costume[data-v-b4d62984] {
+  display: flex;
   background-color: #FCC77C;
   height: 569px;
-  width: 55dvw;
   max-width: 604px;
   border-radius: 50px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .costume h3 {
@@ -585,7 +590,6 @@
   background-color: #FFD8A0;
   border: none;
   color: #9B6600;
-  margin-left: 30px;
   font-size: 24px;
   font-weight: 700;
   padding-left: 20px;
@@ -680,7 +684,6 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  padding-left: 25px;
 }
 
 .costume p.ures {
@@ -817,9 +820,20 @@
   .container {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
   .leftSide {
     width: fit-content;
+    height: fit-content;
+    padding: 30px 0px 30px 0;
+  }
+
+  .costume select {
+    margin: auto;
+  }
+
+  .menuList {
+    height: 810px;
   }
 }
