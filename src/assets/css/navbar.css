@@ -13,6 +13,7 @@ a {
   }
 
   .right {
+    width: fit-content;
     background-color: #FFF1D7;
     border-radius: 50px;
     color: #F7AD45 !important;
@@ -48,6 +49,7 @@ a {
   }
   
   .nav-links {
+    z-index: 999;
     display: flex;
     gap: 15px;
     padding-left: 38%;
@@ -70,6 +72,7 @@ a {
   }
   
   .dropdown-menu {
+    z-index: 999;
     position: absolute;
     top: 40px;
     right: 0;
