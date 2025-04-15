@@ -12,9 +12,6 @@
         <p>Szerda - Vasárnap | 11:11 - 22:22</p>
       </div>
 
-      <div class="copyright-text">
-        <p class="text-sm">Copyright &copy; Vizsgaremek 2024</p>
-      </div>
 
       <div class="footer-section social">
         <p>Ha a pizzánk levettek a lábadról, akkor kövess be minket:</p>

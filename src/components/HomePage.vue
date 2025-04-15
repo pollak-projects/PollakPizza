@@ -126,7 +126,4 @@ const goToMenu = () => {
   </section>
 </template>
 
-
-
-
 <style scoped src="../assets/css/home.css"></style>
