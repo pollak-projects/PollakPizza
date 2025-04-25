@@ -69,8 +69,8 @@ router.post('/orders/add', async (req, res) => {
   try {
     await connection.beginTransaction();
 
-    const insertPizzaQuery = 'INSERT INTO orders (userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    await connection.query(insertPizzaQuery, [userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice]);
+    const insertPizzaQuery = 'INSERT INTO orders (userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    await connection.query(insertPizzaQuery, [userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice, "Készítés alatt"]);
 
     await connection.commit();
     res.status(200).json({ message: 'Order added successfully' });
@@ -88,8 +88,8 @@ router.post('/orders/addCostume', async (req, res) => {
   try {
     await connection.beginTransaction();
 
-    const insertPizzaQuery = 'INSERT INTO orders (userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    const result = await connection.query(insertPizzaQuery, [userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice]);
+    const insertPizzaQuery = 'INSERT INTO orders (userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const result = await connection.query(insertPizzaQuery, [userId, pizzaId, pizzaNum, sizeId, address, userPhone, finalPrice, "Készítés alatt"]);
     const orderId = result[0].insertId
 
     const insertToppingPromises = toppings.map(async (topping) => {
