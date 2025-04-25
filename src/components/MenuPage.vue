@@ -72,9 +72,6 @@ export default {
     };
   },
 };
-const goToOrder = () => {
-  router.push("/order");
-};
 </script>
 
 <template>
@@ -154,7 +151,9 @@ const goToOrder = () => {
             </p>
             <button @click="$router.push('/order')">Rendelj most!</button>
           </div>
-          <div v-if="pizzas.length === 0">Nincs ilyen pizzánk.</div>
+          <div v-if="pizzas.length === 0" class="no-results">
+            Nincs ilyen pizzánk.
+          </div>
         </div>
       </section>
     </div>
