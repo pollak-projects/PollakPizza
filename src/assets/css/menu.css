@@ -232,6 +232,9 @@ header nav ul li.active::after {
 
 .home {
   padding-bottom: 5dvw;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
 }
 
 .hero {
@@ -259,7 +262,7 @@ header nav ul li.active::after {
 .menu {
   text-align: center;
   color: black;
-}
+  }
 
 .menu h2 {
   font-size: 36px;
@@ -274,6 +277,7 @@ header nav ul li.active::after {
   justify-content: center;
   padding-left: 20dvw;
   padding-right: 20dvw;
+ 
 }
 
 @media (max-width: 1024px) {
@@ -287,6 +291,8 @@ header nav ul li.active::after {
     grid-template-columns: repeat(1, 1fr);
     padding-left: 5vw;
     padding-right: 5vw;
+    flex-direction: column;
+    align-items: center;
   }
 }
 .pizza-card {
@@ -464,4 +470,12 @@ header nav ul li.active::after {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+
+.no-results {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+  margin-top: 20px;
 }
