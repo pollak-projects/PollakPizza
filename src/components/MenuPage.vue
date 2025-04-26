@@ -1,5 +1,5 @@
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 
 export default {
@@ -56,6 +56,11 @@ export default {
       }
     };
 
+    // Watch for changes in searchQuery or selectedToppings
+    watch([searchQuery, selectedToppings], () => {
+      fetchPizzas(selectedToppings.value);
+    });
+
     onMounted(() => {
       fetchPizzas(); // Fetch all pizzas on mount
       fetchToppings();
@@ -104,42 +109,34 @@ export default {
               placeholder="Keresés pizza névvel"
             />
             <ul>
-              <li v-for="pizza in filteredPizzas" :key="pizza.id">
-                {{ pizza.name }}
-              </li>
+
             </ul>
           </div>
           <div class="breaker">
-          <div v-for="topping in toppings" :key="topping.id">
-            <div>
-              <div class="checkbox-wrapper-18">
-                <div class="round">
-                  <input
-                    type="checkbox"
-                    :id="`topping-${topping.id}`"
-                    :value="topping.id"
-                    v-model="selectedToppings"
-                  />
-                  <label
-                    class="labeltab"
-                    :for="`topping-${topping.id}`"
-                  ></label>
-                </div>
-                <div class="topping-container">
-                  <label :for="`topping-${topping.id}`">{{
-                    topping.name
-                  }}</label>
+            <div v-for="topping in toppings" :key="topping.id">
+              <div>
+                <div class="checkbox-wrapper-18">
+                  <div class="round">
+                    <input
+                      type="checkbox"
+                      :id="`topping-${topping.id}`"
+                      :value="topping.id"
+                      v-model="selectedToppings"
+                    />
+                    <label
+                      class="labeltab"
+                      :for="`topping-${topping.id}`"
+                    ></label>
+                  </div>
+                  <div class="topping-container">
+                    <label :for="`topping-${topping.id}`">{{
+                      topping.name
+                    }}</label>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-          <button
-            class="searchbtn"
-            @click="fetchPizzas(selectedToppings, searchQuery)"
-          >
-            Keresés
-          </button>
         </div>
         <div class="pizza-list">
           <div v-for="pizza in pizzas" :key="pizza.id" class="pizza-card">
