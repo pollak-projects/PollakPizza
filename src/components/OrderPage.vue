@@ -1,10 +1,8 @@
 <script>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { id } from "vuetify/locale";
 import { useToast } from "vue-toastification";
-import SlideInFromLeft from '@/components/SlideInFromLeft.vue';
-import SlideInFromRight from '@/components/SlideInFromRight.vue';
+
 
 const userData = ref({
   name: "",
@@ -483,19 +481,26 @@ export default {
         return;
       }
 
-      let address = "legszuperebb étterem helye"; // étterem címe
-      const addressEmpty = document.getElementById("address");
+      // Determine the address
+      let address = "legszuperebb étterem helye"; // Default to the restaurant address
+      const addressInput = document.getElementById("address");
 
-      if (addressEmpty && addressEmpty.value.trim() !== "") {
-        address = addressEmpty.value;
+      if (this.selectedOption === "Kiszállítás") {
+        // If the user selects delivery
+        if (addressInput && addressInput.value.trim() !== "") {
+          address = addressInput.value.trim(); // Use the input address if provided
+        } else {
+          address = userData.value.address; // Use the registered address if input is empty
+        }
       }
 
-      // Itt lehetne API hívást tenni rendelés küldéséhez
+      // Submit the order
       this.orderedPizzas.forEach((pizza) => {
         let costumePizzaPrice = 0;
         let regularPizzaPrice = 0;
-        if (pizza.name == "Egyedi pizza") {
-          costumePizzaPrice += pizza.price
+
+        if (pizza.name === "Egyedi pizza") {
+          costumePizzaPrice += pizza.price;
           try {
             axios.post(
               "http://localhost:3061/orders/addCostume",
@@ -519,7 +524,7 @@ export default {
             console.error("Error adding order:", err);
           }
         } else {
-          regularPizzaPrice += pizza.price
+          regularPizzaPrice += pizza.price;
           try {
             axios.post(
               "http://localhost:3061/orders/add",
@@ -543,11 +548,13 @@ export default {
           }
         }
       });
+
+      // Reset the order state
       toast.success("Köszönjük a rendelésed!");
       this.orderedPizzas = [];
       this.orderFullPrice = 0;
-      this.selectedOption = "Kiszállítás"
-      document.getElementById('address').value = ""
+      this.selectedOption = "Kiszállítás";
+      if (addressInput) addressInput.value = "";
       this.closeModal();
     },
   },
