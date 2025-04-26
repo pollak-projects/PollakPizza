@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
@@ -268,6 +268,13 @@ onMounted(() => {
   fetchPizzas();
   fetchToppings(); // Fetch the toppings
 });
+
+const usersWithDefaultAdmin = computed(() =>
+  users.value.map((user) => ({
+    ...user,
+    admin: user.admin ?? 0, // Default to 0 if admin is null or undefined
+  }))
+);
 </script>
 
 <template>
@@ -300,7 +307,7 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in users" :key="user.id">
+            <tr v-for="user in usersWithDefaultAdmin" :key="user.id">
               <td>{{ user.id }}</td>
               <td><input v-model="user.name" /></td>
               <td><input v-model="user.email" /></td>
